@@ -23,7 +23,7 @@ export default class App extends React.Component {
               <Tracker
                 selector={
                   <Anchor type="select">
-                    <Toolbox />
+                    <Toolbox type="select" />
                   </Anchor>
                 }
                 hoveror={<Anchor type="hover" />}

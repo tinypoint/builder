@@ -90,6 +90,13 @@ class Controller extends React.Component<Props> {
     });
   };
 
+  onMouseLeave = () => {
+    (window as any).store.dispatch({
+      type: "CHANGE_VALUE",
+      payload: [{ key: "hover", value: "" }],
+    });
+  }
+
   onDragStart = (e: MouseEvent) => {
     e.preventDefault();
   };
@@ -167,6 +174,8 @@ class Controller extends React.Component<Props> {
     document.body.addEventListener("mouseup", this.onMouseUp);
 
     document.body.addEventListener("mouseover", this.onMouseOver);
+    
+    document.body.addEventListener("mouseleave", this.onMouseLeave);
 
     document.body.addEventListener("dblclick", this.onDoubleClick);
   }
@@ -194,6 +203,8 @@ class Controller extends React.Component<Props> {
     document.body.removeEventListener("mouseup", this.onMouseUp);
 
     document.body.removeEventListener("mouseover", this.onMouseOver);
+
+    document.body.removeEventListener("mouseleave", this.onMouseLeave);
 
     document.body.removeEventListener("dblclick", this.onDoubleClick);
   }

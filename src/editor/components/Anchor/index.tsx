@@ -37,7 +37,7 @@ class Anchor extends React.Component<Props> {
     const { type, children } = this.props;
     return (
       <div data-builder-anchor={type} className="anchor">
-        {dots}
+        {type === 'select' && (dots)}
         {children}
       </div>
     );

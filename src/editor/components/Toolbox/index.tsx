@@ -1,7 +1,11 @@
 import React from "react";
 import "./index.css";
 
-class Toolbox extends React.Component {
+interface Props {
+  type: "select" | "hover";
+}
+
+class Toolbox extends React.Component<Props> {
   render() {
     return (
       <div className="toolbox">

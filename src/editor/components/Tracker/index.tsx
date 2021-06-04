@@ -59,17 +59,6 @@ class Tracker extends React.Component<Props> {
     return (
       <div className="tracker-layer" data-builder-tracker>
         <div
-          className="tracker-box select"
-          style={{
-            display: select.visible ? "block" : "none",
-            transform: `translate3d(${select.x}px,${select.y}px,0px)`,
-            width: select.width,
-            height: select.height,
-          }}
-        >
-          {selector}
-        </div>
-        <div
           className="tracker-box hover"
           style={{
             display: hover.visible ? "block" : "none",
@@ -79,6 +68,17 @@ class Tracker extends React.Component<Props> {
           }}
         >
           {hoveror}
+        </div>
+        <div
+          className="tracker-box select"
+          style={{
+            display: select.visible ? "block" : "none",
+            transform: `translate3d(${select.x}px,${select.y}px,0px)`,
+            width: select.width,
+            height: select.height,
+          }}
+        >
+          {selector}
         </div>
       </div>
     );
