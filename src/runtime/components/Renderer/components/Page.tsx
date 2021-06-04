@@ -7,7 +7,7 @@ class Page extends React.Component<IContainerProps> {
 
   render() {
     return (
-      <div id={this.props.id} data-builder-type="page">
+      <div id={this.props.id} data-builder-type="page" data-builder-block>
         {this.props.children}
       </div>
     );

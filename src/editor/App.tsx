@@ -7,6 +7,7 @@ import Anchor from "./components/Anchor";
 import Toolbox from "./components/Toolbox";
 import store from "./store";
 import "./style.css";
+import Shop from "./components/Shop";
 
 (window as any).store = store;
 
@@ -16,7 +17,10 @@ export default class App extends React.Component {
       <Provider store={store}>
         <div className="content">
           <Controller>
-            <div className="divice">
+            <div
+              className="divice"
+              style={{ position: "absolute", top: 80, left: 300 }}
+            >
               <div className="webview">
                 <Runtime />
               </div>
@@ -30,6 +34,7 @@ export default class App extends React.Component {
               />
             </div>
           </Controller>
+          <Shop />
         </div>
         <div className="header"></div>
       </Provider>

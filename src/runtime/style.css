@@ -2,6 +2,7 @@ html {
   background-color: #fff;
   cursor: pointer;
   user-select: none;
+  overflow-x: hidden;
 }
 
 html::-webkit-scrollbar {

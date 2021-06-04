@@ -6,6 +6,7 @@
   height: 96px;
   background-color: blueviolet;
   pointer-events: all;
+  cursor: pointer;
 }
 
 .toolbox-item {
@@ -17,6 +18,12 @@
   font-weight: bold;
   box-sizing: border-box;
   border-bottom: 1px solid #fff;
+}
+
+.toolbox-item:active {
+  transition: transform 0.3 linear;
+  transform: scale(0.8);
+  transform-origin: center center;
 }
 
 .toolbox-item:last-child {

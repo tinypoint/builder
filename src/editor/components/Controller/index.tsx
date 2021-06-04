@@ -1,8 +1,9 @@
 import React from "react";
+import "./index.css";
 
 class Controller extends React.Component {
   render() {
-    return <div>{this.props.children}</div>;
+    return <div className="controller">{this.props.children}</div>;
   }
 }
 

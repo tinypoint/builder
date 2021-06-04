@@ -21,8 +21,7 @@ body {
 }
 
 .divice {
-  width: 375px;
-  height: 667px;
+  position: absolute;
   box-sizing: content-box;
   border: 5px solid #333;
   border-radius: 25px;
@@ -34,7 +33,7 @@ body {
 }
 
 .webview {
-  height: 100%;
+  /* height: 100%; */
   background-color: #fff;
   overflow-y: auto;
 }

@@ -1,4 +1,4 @@
 .image {
   position: relative;
-  width: 200px;
+  display: block;
 }

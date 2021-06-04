@@ -1,10 +1,11 @@
 import React from "react";
 import { Schema, State } from "../../../editor/store";
-import "./index.css";
 import Container from "./components/Container";
 import Page from "./components/Page";
 import Button from "./components/Button";
 import Image from "./components/Image";
+import Text from "./components/Text";
+import Scroller from "./components/Scroller";
 import { connect } from "react-redux";
 
 interface Props {
@@ -16,6 +17,8 @@ const MAPS: any = {
   page: Page,
   button: Button,
   img: Image,
+  text: Text,
+  scroller: Scroller,
 };
 
 class Renderer extends React.Component<Props> {
