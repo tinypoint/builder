@@ -1,0 +1,49 @@
+body {
+  margin: 0;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: chocolate;
+}
+
+.content {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding-top: 60px;
+  background: burlywood;
+}
+
+.divice {
+  width: 375px;
+  height: 667px;
+  box-sizing: content-box;
+  border: 5px solid #333;
+  border-radius: 25px;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  background-color: #333;
+  position: relative;
+  margin: 0 auto;
+}
+
+.webview {
+  height: 100%;
+  background-color: #fff;
+  overflow-y: auto;
+}
+
+.webview * {
+  cursor: pointer;
+  user-select: none;
+}
+
+.divice *::-webkit-scrollbar {
+  display: none;
+}

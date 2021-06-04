@@ -1,0 +1,10 @@
+.button {
+  position: relative;
+  width: 120px;
+  height: 48px;
+  background-color: blueviolet;
+  line-height: 48px;
+  border-radius: 6px;
+  text-align: center;
+  color: #fff;
+}
