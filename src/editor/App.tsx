@@ -8,6 +8,7 @@ import Toolbox from "./components/Toolbox";
 import store from "./store";
 import "./style.css";
 import Shop from "./components/Shop";
+import Configer from "./components/Configer";
 
 (window as any).store = store;
 
@@ -35,6 +36,7 @@ export default class App extends React.Component {
             </div>
           </Controller>
           <Shop />
+          <Configer />
         </div>
         <div className="header"></div>
       </Provider>

@@ -1,4 +1,4 @@
-import { cloneDeep, get } from "lodash-es";
+import { cloneDeep, get, set } from "lodash-es";
 import { Schema } from "../../store";
 
 class SchemaPaser {
@@ -76,6 +76,13 @@ class SchemaPaser {
     _parent.children = _parent.children?.filter((child) => {
       return child.id !== id;
     });
+    return _schema;
+  }
+
+  update(schema: Schema, id: string, prop: string, value: any) {
+    const _schema = cloneDeep(schema);
+    const [_target] = this.searchById(_schema, id);
+    set(_target, prop, value);
     return _schema;
   }
 }
