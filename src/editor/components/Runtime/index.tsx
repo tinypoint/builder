@@ -8,8 +8,11 @@ class Runtime extends React.Component {
     return (
       <iframe
         className="runtime"
-        width="320px"
-        height="520px"
+        style={{
+          width: 750,
+          height: 1334,
+          transform: 'scale(0.5)'
+        }}
         src="http://localhost:8080/runtime"
         ref={(ref) => (this.iframe = ref)}
       ></iframe>

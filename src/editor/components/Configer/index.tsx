@@ -26,7 +26,7 @@ class Configer extends React.Component<Props> {
         <input
           key={item.key}
           type="text"
-          value={props[item.key]}
+          value={props[item.key] || ''}
           onChange={(e) => {
             const value = (e.target as HTMLInputElement).value;
 

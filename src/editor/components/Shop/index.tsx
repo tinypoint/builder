@@ -14,22 +14,41 @@ interface Props {
 class Shop extends React.Component<Props> {
   addComp = (type: string) => {
     const { select, schema } = this.props;
+    const newScheam = {
+      type,
+      id: type + (Math.random() + "").slice(2, 6),
+      props: {},
+      styles: {},
+      children: [],
+    };
     if (!select) {
+      const [page] = schemaParser.search(schema, "type", "page");
+      const _schema = schemaParser.appendChild(schema, page.id, newScheam);
+
+      store.dispatch({
+        type: "CHANGE_VALUE",
+        payload: [
+          { key: "schema", value: _schema },
+          { key: "select", value: newScheam.id },
+        ],
+      });
       return;
     }
     const hasBlock =
       (window as any)._hasBlock && (window as any)._hasBlock(select);
 
     if (hasBlock) {
-      const newScheam = {
-        type,
-        id: type + (Math.random() + "").slice(2, 6),
-        props: {},
-        styles: {},
-        children: [],
-      };
-
       const _schema = schemaParser.appendChild(schema, select, newScheam);
+
+      store.dispatch({
+        type: "CHANGE_VALUE",
+        payload: [
+          { key: "schema", value: _schema },
+          { key: "select", value: newScheam.id },
+        ],
+      });
+    } else {
+      const _schema = schemaParser.insertAfter(schema, select, newScheam);
 
       store.dispatch({
         type: "CHANGE_VALUE",

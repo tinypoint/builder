@@ -18,6 +18,8 @@ const initState = {
   height: 0,
 };
 
+const scale = 0.5
+
 class Tracker extends React.Component<Props> {
   state = {
     select: initState,
@@ -62,9 +64,9 @@ class Tracker extends React.Component<Props> {
           className="tracker-box hover"
           style={{
             display: hover.visible ? "block" : "none",
-            transform: `translate3d(${hover.x}px,${hover.y}px,0px)`,
-            width: hover.width,
-            height: hover.height,
+            transform: `translate3d(${hover.x * scale}px,${hover.y * scale}px,0px)`,
+            width: hover.width * scale,
+            height: hover.height * scale,
           }}
         >
           {hoveror}
@@ -73,9 +75,9 @@ class Tracker extends React.Component<Props> {
           className="tracker-box select"
           style={{
             display: select.visible ? "block" : "none",
-            transform: `translate3d(${select.x}px,${select.y}px,0px)`,
-            width: select.width,
-            height: select.height,
+            transform: `translate3d(${select.x * scale}px,${select.y * scale}px,0px)`,
+            width: select.width * scale,
+            height: select.height * scale,
           }}
         >
           {selector}

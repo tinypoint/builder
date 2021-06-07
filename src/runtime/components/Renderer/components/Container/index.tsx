@@ -7,7 +7,7 @@ class Container extends React.Component<IContainerProps> {
 
   render() {
     return (
-      <div id={this.props.id}>
+      <div id={this.props.id} className="container" data-builder-type="container" data-builder-block>
         {this.props.children}
       </div>
     );

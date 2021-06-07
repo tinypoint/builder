@@ -35,6 +35,7 @@ class StyleSyncer {
 
             console.log('update')
             this._nextstr = ''
+            console.log(schema)
             schemaParser.traverse(schema, this._cssStyleCreator)
             this.styleElement.innerText = this._nextstr
             this._nextstr = ''

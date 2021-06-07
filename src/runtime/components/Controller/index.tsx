@@ -218,12 +218,18 @@ class Controller extends React.Component<Props> {
 
   _ticking = false;
 
+  _element: HTMLElement | null = null;
+
   _track = () => {
     const { select } = this.props;
     if (select) {
       const element = document.getElementById(select);
 
       if (element) {
+        if (this._element !== element) {
+          (window.parent as any)._styler(window.getComputedStyle(element));
+          this._element = element
+        }
         const elementRect = element.getBoundingClientRect();
         const {
           x: sx,
@@ -310,6 +316,8 @@ class Controller extends React.Component<Props> {
   clearSelect = () => {
     const { x: sx, y: sy, width: swidth, height: sheight } = initState;
     const { x, y, width, height, visible } = this._state.select;
+    (window.parent as any)._styler(null);
+    this._element = null
     if (
       sx !== x ||
       sy !== y ||

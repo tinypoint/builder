@@ -19,7 +19,10 @@ class Toolbox extends React.Component<Props> {
     if (!select) {
       return;
     }
-
+    const [_target] = schemaParser.searchById(schema, select);
+    if (_target.type === 'page') {
+      return;
+    }
     const _schema = schemaParser.remove(schema, select);
 
     store.dispatch({

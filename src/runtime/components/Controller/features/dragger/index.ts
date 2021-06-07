@@ -40,6 +40,8 @@ class Dragger {
 
         const cssStyle = window.getComputedStyle(target);
         this.transfer = {
+            _left: cssStyle.left,
+            _top: cssStyle.top,
             x: Number(cssStyle.left.replace('px', '')) || 0,
             y: Number(cssStyle.top.replace('px', '')) || 0,
         }
@@ -72,11 +74,14 @@ class Dragger {
     }
 
     cancel = (e: MouseEvent) => {
+        this._target.style.left = this.transfer._left
+        this._target.style.top = this.transfer._top
         this._target = null
         this._working = false;
         this.transfer = {};
         this.startX = 0;
         this.startY = 0;
+        
         window.removeEventListener('mousemove', this.move)
         window.removeEventListener('mouseup', this.up)
         window.removeEventListener('mouseleave', this.cancel)

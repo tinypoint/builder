@@ -1,5 +1,6 @@
 import React from "react";
 import { Provider } from "react-redux";
+import Header from "./components/Header";
 import Controller from "./components/Controller";
 import Runtime from "./components/Runtime";
 import Tracker from "./components/Tracker";
@@ -8,11 +9,28 @@ import Toolbox from "./components/Toolbox";
 import store from "./store";
 import "./style.css";
 import Shop from "./components/Shop";
-import Configer from "./components/Configer";
+// import Configer from "./components/Configer";
+import Styler from "./components/Styler";
+import historyer from "./features/historyer";
 
+historyer.onChange((schema: any) => {
+  store.dispatch({
+    type: "CHANGE_VALUE",
+    payload: [{ key: "schema", value: schema }],
+  });
+});
 (window as any).store = store;
 
 export default class App extends React.Component {
+  fetchData = async () => {
+    const val = window.localStorage.getItem("_test_data") || "{}";
+    historyer.push(JSON.parse(val));
+  };
+
+  componentDidMount() {
+    this.fetchData();
+  }
+
   render() {
     return (
       <Provider store={store}>
@@ -22,7 +40,10 @@ export default class App extends React.Component {
               className="divice"
               style={{ position: "absolute", top: 80, left: 300 }}
             >
-              <div className="webview">
+              <div className="webview" style={{   
+                width: 375,
+                height: 667
+              }}>
                 <Runtime />
               </div>
               <Tracker
@@ -36,9 +57,10 @@ export default class App extends React.Component {
             </div>
           </Controller>
           <Shop />
-          <Configer />
+          {/* <Configer /> */}
+          <Styler />
         </div>
-        <div className="header"></div>
+        <Header />
       </Provider>
     );
   }

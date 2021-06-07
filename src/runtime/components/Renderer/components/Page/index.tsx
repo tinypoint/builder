@@ -1,4 +1,5 @@
 import React from "react";
+import './index.css';
 
 type IContainerProps = any;
 
@@ -7,7 +8,7 @@ class Page extends React.Component<IContainerProps> {
 
   render() {
     return (
-      <div id={this.props.id} data-builder-type="page" data-builder-block>
+      <div id={this.props.id} className="page" data-builder-type="page" data-builder-block>
         {this.props.children}
       </div>
     );
