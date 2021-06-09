@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "start": "webpack serve --config ./scripts/webpack.editor.config.js",
-    "start:runtime": "webpack serve --config ./scripts/webpack.runtime.config.js"
+    "start": "webpack serve --config ./scripts/webpack.config.js"
   },
   "keywords": [],
   "author": "",
@@ -28,11 +27,13 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "@types/react-router-dom": "^5.1.7",
     "antd": "^4.16.1",
     "lodash-es": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",
+    "react-router-dom": "^5.2.0",
     "redux": "^4.1.0"
   }
 }

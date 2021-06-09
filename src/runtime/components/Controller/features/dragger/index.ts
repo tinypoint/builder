@@ -1,4 +1,6 @@
 // import store from '../../store';
+import { get } from 'lodash-es';
+import schemaParser from '../../../../../editor/pages/editor/features/schemaParser';
 import Overlayer from '../overlayer';
 import './index.css'
 
@@ -40,8 +42,8 @@ class Dragger {
 
         const cssStyle = window.getComputedStyle(target);
         this.transfer = {
-            _left: cssStyle.left,
-            _top: cssStyle.top,
+            _left: this._target.style.left,
+            _top: this._target.style.top,
             x: Number(cssStyle.left.replace('px', '')) || 0,
             y: Number(cssStyle.top.replace('px', '')) || 0,
         }
@@ -98,6 +100,23 @@ class Dragger {
         const top = (this.transfer.y + moveY)
         this._target.style.left = `${left}px`
         this._target.style.top = `${top}px`
+        const { schema, select } = (window as any).store.getState();
+        const [_targetSchema] = schemaParser.searchById(schema, select)
+        const styles = get(_targetSchema, `styles.#${_targetSchema.id}`, {});
+        const _schema = schemaParser.update(schema, select, `styles.#${_targetSchema.id}`, {
+            ...styles,
+            left: `${left}px`,
+            top: `${top}px`
+        });
+
+        (window as any).store.dispatch({
+            type: 'CHANGE_VALUE',
+            payload: [
+                { key: 'schema', value: _schema }
+            ]
+        });
+        
+
         this.cancel(e);
     }
 }

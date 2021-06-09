@@ -1,0 +1,36 @@
+.shop {
+  position: fixed;
+  left: 0;
+  top: 32px;
+  bottom: 0px;
+  width: 201px;
+  background-color: rgb(167, 166, 166);
+  display: flex;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  border: 1px solid #ccc;
+  border-width: 0px;
+  border-left-width: 1px;
+  border-top-width: 1px;
+  box-sizing: border-box;
+}
+
+.component-card {
+  box-sizing: border-box;
+  width: 100px;
+  height: 80px;
+  line-height: 80px;
+  font-size: 14px;
+  text-align: center;
+  color: #fff;
+  border: 1px solid #ccc;
+  border-left-width: 0px;
+  border-top-width: 0px;
+  user-select: none;
+  cursor: pointer;
+}
+
+
+.component-card {
+  
+}
