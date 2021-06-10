@@ -1,3 +1,4 @@
+import Button from "@material-ui/core/Button";
 import React from "react";
 import { connect } from "react-redux";
 import schemaParser from "../../features/schemaParser";
@@ -20,7 +21,7 @@ class Toolbox extends React.Component<Props> {
       return;
     }
     const [_target] = schemaParser.searchById(schema, select);
-    if (_target.type === 'page') {
+    if (_target.type === "page") {
       return;
     }
     const _schema = schemaParser.remove(schema, select);
@@ -42,6 +43,7 @@ class Toolbox extends React.Component<Props> {
         </div>
         <div className="toolbox-item">Y</div>
         <div className="toolbox-item">Z</div>
+        <Button>Edit</Button>
       </div>
     );
   }

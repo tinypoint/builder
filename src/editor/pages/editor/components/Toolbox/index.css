@@ -1,12 +1,10 @@
 .toolbox {
   position: absolute;
-  right: -40px;
+  right: 0px;
   top: 0px;
-  width: 32px;
-  height: 96px;
-  background-color: blueviolet;
   pointer-events: all;
   cursor: pointer;
+  transform: translateX(100%);
 }
 
 .toolbox-item {
