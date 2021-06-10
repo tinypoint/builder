@@ -38,9 +38,13 @@ class Dragger {
             return;
         }
 
+        const cssStyle = window.getComputedStyle(target);
         this._target = target;
 
-        const cssStyle = window.getComputedStyle(target);
+        if (cssStyle.position === 'static') {
+            return;
+        }
+
         this.transfer = {
             _left: this._target.style.left,
             _top: this._target.style.top,

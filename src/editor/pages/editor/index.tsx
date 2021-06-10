@@ -11,7 +11,9 @@ import "./style.css";
 import Shop from "./components/Shop";
 // import Configer from "./components/Configer";
 import Styler from "./components/Styler";
+import MockPhone from './components/MockPhone';
 import historyer from "./features/historyer";
+import Configer from "./components/Configer";
 
 historyer.onChange((schema: any) => {
   store.dispatch({
@@ -42,7 +44,7 @@ export default class App extends React.Component {
                 position: "absolute",
                 top: 32,
                 left: 201,
-                transform: "scale(0.75)",
+                // transform: "scale(0.8)",
                 transformOrigin: "top left",
               }}
             >
@@ -50,11 +52,12 @@ export default class App extends React.Component {
                 className="webview"
                 style={{
                   width: 375,
-                  height: 667,
+                  height: 812,
                 }}
               >
                 <Runtime />
               </div>
+              <MockPhone />
               <Tracker
                 selector={
                   <Anchor type="select">
@@ -66,7 +69,7 @@ export default class App extends React.Component {
             </div>
           </Controller>
           <Shop />
-          {/* <Configer /> */}
+          <Configer />
           <Styler />
         </div>
         <Header />

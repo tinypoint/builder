@@ -10,7 +10,7 @@ class Runtime extends React.Component {
         className="runtime"
         style={{
           width: 750,
-          height: 1334,
+          height: 1624,
           transform: 'scale(0.5)'
         }}
         src="http://localhost:8080/runtime.html"

@@ -1,9 +1,8 @@
 .configer {
   position: fixed;
-  right: 0;
-  top: 60px;
+  right: 200px;
+  top: 32px;
   bottom: 0px;
   width: 200px;
-  background-color: cadetblue;
   padding: 20px;
 }

@@ -1,0 +1,17 @@
+.mockphone {
+    position: absolute;
+    top: -50px;
+    left: -50px;
+    width: 100%;
+    padding: 50px;
+    height: 100%;
+    background-repeat: no-repeat;
+    pointer-events: none;
+}
+
+.mockphone.iphone12promax {
+    background-image: url(../../../../../assets/apple-iphone12promax-gold-portrait.png);
+    background-size: 491px;
+    background-position: -8px -8px;
+    pointer-events: none;
+}

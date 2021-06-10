@@ -6,6 +6,8 @@ import Button from "./components/Button";
 import Image from "./components/Image";
 import Text from "./components/Text";
 import Scroller from "./components/Scroller";
+import Ppt from "./components/Ppt";
+import PptContainer from "./components/PptContainer";
 import { connect } from "react-redux";
 
 interface Props {
@@ -19,6 +21,8 @@ const MAPS: any = {
   img: Image,
   text: Text,
   scroller: Scroller,
+  ppt: Ppt,
+  'ppt-container': PptContainer
 };
 
 class Renderer extends React.Component<Props> {

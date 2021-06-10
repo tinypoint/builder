@@ -1,10 +1,20 @@
 import React from "react";
 import { connect } from "react-redux";
-import store, { State } from "../../store";
+import store, { Schema, State } from "../../store";
 import "./index.css";
 import schemaParser from "../../features/schemaParser";
 
-const lsit = ["button", "text", "img", "scroller"];
+const createSchema = (type: string): Schema => {
+  const newScheam = {
+    type,
+    id: type + (Math.random() + "").slice(2, 6),
+    props: {},
+    styles: {},
+    children: [],
+  };
+  return newScheam;
+};
+const lsit = ["button", "text", "img", "scroller", "ppt", "ppt-container"];
 
 interface Props {
   select: State["select"];
@@ -14,13 +24,17 @@ interface Props {
 class Shop extends React.Component<Props> {
   addComp = (type: string) => {
     const { select, schema } = this.props;
-    const newScheam = {
-      type,
-      id: type + (Math.random() + "").slice(2, 6),
-      props: {},
-      styles: {},
-      children: [],
-    };
+    const newScheam = createSchema(type);
+
+    if (type === "ppt") {
+      const children = [
+        createSchema("ppt-container"),
+        createSchema("ppt-container"),
+        createSchema("ppt-container"),
+      ];
+      newScheam.children = children;
+    }
+
     if (!select) {
       const [page] = schemaParser.search(schema, "type", "page");
       const _schema = schemaParser.appendChild(schema, page.id, newScheam);
