@@ -2,6 +2,18 @@ import React from "react";
 import { connect } from "react-redux";
 import { State } from "../../store";
 import "./index.css";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import Input from "@material-ui/core/Input";
+import IconButton from "@material-ui/core/IconButton";
+import UndoIcon from "@material-ui/icons/Undo";
+import RedoIcon from "@material-ui/icons/Redo";
+import SaveIcon from "@material-ui/icons/Save";
+import LocalSeeIcon from "@material-ui/icons/LocalSee";
+import PublishIcon from "@material-ui/icons/Publish";
 
 interface Props {
   schema: State["schema"];
@@ -15,39 +27,40 @@ class Header extends React.Component<Props> {
 
   render() {
     return (
-      <div className="header">
-        <div className="header-group-left">
-          <button className="header-button">回退</button>
-          <button className="header-button">前进</button>
-        </div>
-        <div className="header-group-center">
-          <select className="header-select" defaultValue="iPhone XR">
-            <option value="iPhone12 Pro Max">iPhone12 Pro Max</option>
-            <option value="iPhone XR">iPhone XR</option>
-            <option value="iPhone 6">iPhone 6</option>
-          </select>
-          <input
-            type="text"
-            className="header-input"
-            defaultValue="375px"
-            style={{ width: 48 }}
-          />
-          <input
-            type="text"
-            className="header-input"
-            defaultValue="75%"
-            style={{ width: 32 }}
-          />
-        </div>
-        <div className="header-group-right">
-          {/* <button className="header-button">历史版本</button> */}
-          <button className="header-button" onClick={this.save}>
-            保存
-          </button>
-          <button className="header-button">预览</button>
-          <button className="header-button">发布</button>
-        </div>
-      </div>
+      <Grid container justify="space-between" className="header">
+        <Grid item>
+          <Button>editor</Button>
+          <Button>view</Button>
+          <Button>shortcut</Button>
+          <Button>help</Button>
+        </Grid>
+        <Grid item>
+          <Select defaultValue="iPhone XR">
+            <MenuItem value="iPhone12 Pro Max">iPhone12 Pro Max</MenuItem>
+            <MenuItem value="iPhone XR">iPhone XR</MenuItem>
+            <MenuItem value="iPhone 6">iPhone 6</MenuItem>
+          </Select>
+          <Input defaultValue="375px" style={{ width: 60 }} />
+          <Input defaultValue="75%" style={{ width: 60 }} />
+        </Grid>
+        <Grid item>
+          <IconButton aria-label="undo" color="primary">
+            <UndoIcon />
+          </IconButton>
+          <IconButton aria-label="redo" color="primary">
+            <RedoIcon />
+          </IconButton>
+          <IconButton aria-label="save" color="primary" onClick={this.save}>
+            <SaveIcon />
+          </IconButton>
+          <IconButton aria-label="publish" color="primary">
+            <LocalSeeIcon />
+          </IconButton>
+          <IconButton aria-label="publish" color="primary">
+            <PublishIcon />
+          </IconButton>
+        </Grid>
+      </Grid>
     );
   }
 }
