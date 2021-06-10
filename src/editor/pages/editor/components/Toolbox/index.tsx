@@ -1,9 +1,17 @@
+import { IconButton } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
 import Button from "@material-ui/core/Button";
 import React from "react";
 import { connect } from "react-redux";
 import schemaParser from "../../features/schemaParser";
 import store, { State } from "../../store";
 import "./index.css";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Quill from "quill";
+import "quill/dist/quill.snow.css";
 
 interface Props {
   type: "select" | "hover";
@@ -15,6 +23,10 @@ interface Props {
 }
 
 class Toolbox extends React.Component<Props> {
+  state = {
+    open: false,
+  };
+
   delComp = () => {
     const { select, schema } = this.props;
     if (!select) {
@@ -35,16 +47,51 @@ class Toolbox extends React.Component<Props> {
     });
   };
 
+  openRichTextEditor = () => {
+    this.setState(
+      {
+        open: true,
+      },
+      () => {
+        this.editor = new Quill(this.ref!, {
+          placeholder: "Input some text here...",
+          theme: 'snow',
+        });
+      }
+    );
+  };
+
+  ref: HTMLDivElement | null = null;
+
+  editor: Quill | null = null;
+
+  handleClose = () => {};
+
   render() {
+    const { select, schema } = this.props;
+    const { open } = this.state;
+    const [_target] = schemaParser.searchById(schema, select);
+
     return (
-      <div className="toolbox">
-        <div className="toolbox-item" onClick={this.delComp}>
-          X
+      <>
+        <div className="toolbox">
+          <IconButton onClick={this.delComp} color="primary">
+            <DeleteIcon />
+          </IconButton>
         </div>
-        <div className="toolbox-item">Y</div>
-        <div className="toolbox-item">Z</div>
-        <Button>Edit</Button>
-      </div>
+        {Boolean(_target && _target.type === "text") && (
+          <div
+            className="rich-text-editor"
+            onDoubleClick={this.openRichTextEditor}
+          ></div>
+        )}
+        <div
+          className="rich-text-editor-wrapper"
+          style={{ display: open ? "block" : "none" }}
+        >
+          <div ref={(ref) => (this.ref = ref)}></div>
+        </div>
+      </>
     );
   }
 }

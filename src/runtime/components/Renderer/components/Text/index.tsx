@@ -1,8 +1,7 @@
 import React from "react";
 import Quill from "quill";
 import "./index.css";
-import 'quill/dist/quill.core.css';
-import 'quill/dist/quill.snow.css';
+import "quill/dist/quill.core.css";
 
 type ITextProps = any;
 
@@ -16,18 +15,15 @@ export default class Text extends React.Component<ITextProps> {
   componentDidMount() {
     this.editor = new Quill(this.ref!, {
       placeholder: "Input some text here...",
-      theme: "snow",
+      readOnly: true,
     });
   }
 
   render() {
     return (
-      <div
-        id={this.props.id}
-        data-builder-type="text"
-        className="text"
-        ref={(ref) => (this.ref = ref)}
-      ></div>
+      <div id={this.props.id} data-builder-type="text" className="text">
+        <div ref={(ref) => (this.ref = ref)}></div>
+      </div>
     );
   }
 }
