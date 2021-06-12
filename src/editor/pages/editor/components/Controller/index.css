@@ -1,0 +1,28 @@
+.controller {
+    position: relative;
+}
+
+
+.divice {
+    position: absolute;
+    box-sizing: content-box;
+    border: 50px solid transparent;
+  }
+  
+  .webview {
+    background-color: #fff;
+    position: relative;
+    border-radius: 40px;
+    box-sizing: border-box;
+    padding-top: 36px;
+    overflow: hidden;
+  }
+  
+  .webview * {
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .divice *::-webkit-scrollbar {
+    display: none;
+  }

@@ -1,9 +1,6 @@
 .shop {
-  position: fixed;
-  left: 0;
-  top: 48px;
-  bottom: 0px;
   width: 201px;
+  height: 100%;
   background-color: rgb(167, 166, 166);
   display: flex;
   align-content: flex-start;

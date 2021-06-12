@@ -12,10 +12,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
-
-interface Props {
-  type: "select" | "hover";
-}
+import Paper from "@material-ui/core/Paper";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
 
 interface Props {
   select: State["select"];
@@ -73,25 +71,15 @@ class Toolbox extends React.Component<Props> {
     const [_target] = schemaParser.searchById(schema, select);
 
     return (
-      <>
-        <div className="toolbox">
+      <Paper>
+        {/* <ButtonGroup variant="contained" color="primary"> */}
           <IconButton onClick={this.delComp} color="primary">
             <DeleteIcon />
           </IconButton>
-        </div>
-        {Boolean(_target && _target.type === "text") && (
-          <div
-            className="rich-text-editor"
-            onDoubleClick={this.openRichTextEditor}
-          ></div>
-        )}
-        <div
-          className="rich-text-editor-wrapper"
-          style={{ display: open ? "block" : "none" }}
-        >
-          <div ref={(ref) => (this.ref = ref)}></div>
-        </div>
-      </>
+          <Button onClick={this.openRichTextEditor}>Edit</Button>
+          <Button>Three</Button>
+        {/* </ButtonGroup> */}
+      </Paper>
     );
   }
 }

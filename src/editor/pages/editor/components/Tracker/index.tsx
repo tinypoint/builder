@@ -1,13 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import { State } from "../../store";
+import Anchor from "../Anchor";
+import Toolbox from "../Toolbox";
 import "./index.css";
+import Popper from '@material-ui/core/Popper';
 
 interface Props {
   select: State["select"];
   hover: State["hover"];
-  selector: React.ReactNode;
-  hoveror: React.ReactNode;
 }
 
 const initState = {
@@ -35,6 +36,7 @@ class Tracker extends React.Component<Props> {
 
     this.setState(state);
   };
+  ref: HTMLDivElement | null = null;
 
   componentDidMount() {
     this._working = true;
@@ -47,8 +49,6 @@ class Tracker extends React.Component<Props> {
     });
   }
 
-  componentDidUpdate(prevProps: Props) {}
-
   componentWillUnmount() {
     this._working = false;
 
@@ -56,7 +56,6 @@ class Tracker extends React.Component<Props> {
   }
 
   render() {
-    const { selector, hoveror } = this.props;
     const { select, hover } = this.state;
     return (
       <div className="tracker-layer" data-builder-tracker>
@@ -69,19 +68,23 @@ class Tracker extends React.Component<Props> {
             height: hover.height * scale,
           }}
         >
-          {hoveror}
+          <Anchor type="hover" />
         </div>
         <div
           className="tracker-box select"
+          ref={ref => this.ref = ref}
           style={{
-            display: select.visible ? "block" : "none",
+            visibility: select.visible ? "visible" : "hidden",
             transform: `translate3d(${select.x * scale}px,${select.y * scale}px,0px)`,
             width: select.width * scale,
             height: select.height * scale,
           }}
         >
-          {selector}
+          <Anchor type="select" />
         </div>
+        <Popper open={select.visible} anchorEl={() => this.ref!}>
+          <Toolbox />
+        </Popper>
       </div>
     );
   }

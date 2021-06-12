@@ -18,7 +18,8 @@ const initState = {
     schema: {
         type: 'container',
         id: 'container1'
-    }
+    },
+    scale: 1
 }
 
 export type State = typeof initState

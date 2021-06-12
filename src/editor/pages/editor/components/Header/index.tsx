@@ -1,6 +1,6 @@
 import React from "react";
-import { connect } from "react-redux";
-import { State } from "../../store";
+import { connect, ConnectedProps } from "react-redux";
+import store, { State } from "../../store";
 import "./index.css";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -9,15 +9,22 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Input from "@material-ui/core/Input";
 import IconButton from "@material-ui/core/IconButton";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import UndoIcon from "@material-ui/icons/Undo";
 import RedoIcon from "@material-ui/icons/Redo";
 import SaveIcon from "@material-ui/icons/Save";
 import LocalSeeIcon from "@material-ui/icons/LocalSee";
 import PublishIcon from "@material-ui/icons/Publish";
+import Divider from '@material-ui/core/Divider';
 
-interface Props {
-  schema: State["schema"];
-}
+const connector = connect((state: State) => {
+  return ({
+    schema: state.schema,
+    scale: state.scale
+  })
+})
+
+type Props = ConnectedProps<typeof connector>
 
 class Header extends React.Component<Props> {
   save = async () => {
@@ -25,12 +32,28 @@ class Header extends React.Component<Props> {
     window.localStorage.setItem("_test_data", JSON.stringify(schema));
   };
 
+  onScaleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    store.dispatch({
+      type: 'CHANGE_VALUE',
+      payload: [
+        { key: 'scale', value: +(Number(value) / 100).toFixed(2) }
+      ]
+    })
+  }
+
   render() {
+    const { scale } = this.props;
+
     return (
       <Grid container justify="space-between" className="header">
         <Grid item>
+          <IconButton aria-label="back">
+            <ArrowBackIcon />
+          </IconButton>
+          <Divider orientation="vertical" />
           <Button>editor</Button>
-          <Button>view</Button>
+          <Button>add</Button>
           <Button>shortcut</Button>
           <Button>help</Button>
         </Grid>
@@ -40,23 +63,23 @@ class Header extends React.Component<Props> {
             <MenuItem value="iPhone XR">iPhone XR</MenuItem>
             <MenuItem value="iPhone 6">iPhone 6</MenuItem>
           </Select>
-          <Input defaultValue="375px" style={{ width: 60 }} />
-          <Input defaultValue="75%" style={{ width: 60 }} />
+          {/* <Input defaultValue="375px" style={{ width: 60 }} /> */}
+          <Input value={(scale * 100)} inputMode="numeric" onChange={this.onScaleChange} style={{ width: 60 }} />
         </Grid>
         <Grid item>
-          <IconButton aria-label="undo" color="primary">
+          <IconButton aria-label="undo">
             <UndoIcon />
           </IconButton>
-          <IconButton aria-label="redo" color="primary">
+          <IconButton aria-label="redo">
             <RedoIcon />
           </IconButton>
-          <IconButton aria-label="save" color="primary" onClick={this.save}>
+          <IconButton aria-label="save" onClick={this.save}>
             <SaveIcon />
           </IconButton>
-          <IconButton aria-label="publish" color="primary">
+          <IconButton aria-label="publish">
             <LocalSeeIcon />
           </IconButton>
-          <IconButton aria-label="publish" color="primary">
+          <IconButton aria-label="publish">
             <PublishIcon />
           </IconButton>
         </Grid>
@@ -65,8 +88,4 @@ class Header extends React.Component<Props> {
   }
 }
 
-export default connect((state: State) => {
-  return {
-    schema: state.schema,
-  };
-})(Header);
+export default connector(Header);
