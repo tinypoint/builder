@@ -27,7 +27,8 @@ const initState = {
     } as Schema),
     scale: 0.75,
     create: Boolean(window.location.pathname.match(/^\/create/)),
-    loading: ({} as Loading)
+    loading: ({} as Loading),
+    settingsPanelVisible: false
 }
 
 export type State = typeof initState

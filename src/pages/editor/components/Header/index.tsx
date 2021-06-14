@@ -16,6 +16,7 @@ import LocalSeeIcon from "@material-ui/icons/LocalSee";
 import PublishIcon from "@material-ui/icons/Publish";
 import Divider from "@material-ui/core/Divider";
 import historyer from "../../features/historyer";
+import EditorButton from "./EditorButton";
 
 const connector = connect((state: State) => {
   return {
@@ -68,6 +69,7 @@ class Header extends React.Component<Props> {
 
   onScaleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    console.log(+(Number(value) / 100).toFixed(2));
     store.dispatch({
       type: "CHANGE_VALUE",
       payload: [{ key: "scale", value: +(Number(value) / 100).toFixed(2) }],
@@ -84,7 +86,8 @@ class Header extends React.Component<Props> {
             <ArrowBackIcon />
           </IconButton>
           <Divider orientation="vertical" />
-          <Button>editor</Button>
+          {/* <Button>editor</Button> */}
+          <EditorButton />
           <Button>add</Button>
           <Button>shortcut</Button>
           <Button>help</Button>
@@ -97,7 +100,7 @@ class Header extends React.Component<Props> {
           </Select>
           {/* <Input defaultValue="375px" style={{ width: 60 }} /> */}
           <Input
-            value={scale * 100}
+            value={+(Number(scale) * 100).toFixed(0)}
             inputMode="numeric"
             onChange={this.onScaleChange}
             style={{ width: 60 }}

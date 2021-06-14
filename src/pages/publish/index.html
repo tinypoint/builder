@@ -1,12 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Publish</title>
-</head>
-<body>
-    
-</body>
+    <script src="require.js"></script>
+    <script>
+      window.require.config({
+        paths: {
+          react: "react.development",
+          "react-dom": "react-dom.development",
+        },
+      });
+
+      window.$$schema$$ = {
+        type: "container",
+        id: "container1",
+        children: [
+          {
+            type: "page",
+            id: "page1",
+            children: [
+              {
+                type: "ppt",
+                id: "ppt7955",
+                props: {},
+                styles: {},
+                children: [
+                  {
+                    type: "ppt-container",
+                    id: "ppt-container0201",
+                    props: {},
+                    styles: {},
+                    children: [
+                      {
+                        type: "button",
+                        id: "button8217",
+                        props: { text: "button" },
+                        styles: {},
+                        children: [],
+                      },
+                      {
+                        type: "button",
+                        id: "button9826",
+                        props: { text: " 我是按钮" },
+                        styles: { "#button9826": { height: "200px" } },
+                        children: [],
+                      },
+                      {
+                        type: "text",
+                        id: "text0180",
+                        props: {},
+                        styles: {},
+                        children: [],
+                      },
+                      {
+                        type: "img",
+                        id: "img2094",
+                        props: {},
+                        styles: {},
+                        children: [],
+                      },
+                    ],
+                  },
+                  {
+                    type: "ppt-container",
+                    id: "ppt-container5874",
+                    props: {},
+                    styles: {},
+                    children: [
+                      {
+                        type: "img",
+                        id: "img7984",
+                        props: {},
+                        styles: {},
+                        children: [],
+                      },
+                      {
+                        type: "scroller",
+                        id: "scroller4815",
+                        props: {},
+                        styles: {},
+                        children: [],
+                      },
+                    ],
+                  },
+                  {
+                    type: "ppt-container",
+                    id: "ppt-container6827",
+                    props: {},
+                    styles: {},
+                    children: [
+                      {
+                        type: "scroller",
+                        id: "scroller3793",
+                        props: {},
+                        styles: {},
+                        children: [
+                          {
+                            type: "button",
+                            id: "button7202",
+                            props: {},
+                            styles: {},
+                            children: [],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
 </html>

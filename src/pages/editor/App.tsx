@@ -9,6 +9,7 @@ import Styler from "./components/Styler";
 import historyer from "./features/historyer";
 import Configer from "./components/Configer";
 import Loading from "./components/Loading";
+import SettingsPanel from "./components/SettingsPanel";
 
 (window as any).store = store;
 
@@ -58,6 +59,7 @@ class Editor extends React.Component {
           <Styler />
         </div>
         <Header />
+        <SettingsPanel />
         <Loading />
       </Provider>
     );

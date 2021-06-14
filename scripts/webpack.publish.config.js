@@ -1,18 +1,21 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 const root = path.dirname(__dirname);
 
 module.exports = {
   mode: "development",
   entry: {
-    publish: path.resolve(root, "./src/publish/index.ts"),
+    style: path.resolve(root, "./src/pages/publish/index.css"),
+    main: path.resolve(root, "./src/pages/publish/index.js"),
   },
   devtool: "inline-source-map",
   devServer: {
     contentBase: path.resolve(root, "publish"),
     open: true,
-    port: '8081'
+    port: "8081",
+    writeToDisk: true,
   },
   output: {
     filename: "[name].[contenthash].js",
@@ -21,9 +24,42 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(root, "./src/publish/index.html"),
-      filename: './index.html',
-    })
+      template: path.resolve(root, "./src/pages/publish/index.html"),
+      filename: "./index.html",
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(root, "./src/pages/publish/require.js"),
+          to: path.resolve(root, "publish", "require.js"),
+        },
+        {
+          from: path.resolve(
+            root,
+            "./node_modules/react/umd/react.development.js"
+          ),
+          to: path.resolve(root, "publish", "react.development.js"),
+        },
+        {
+          from: path.resolve(
+            root,
+            "./node_modules/react-dom/umd/react-dom.development.js"
+          ),
+          to: path.resolve(root, "publish", "react-dom.development.js"),
+        },
+        {
+          from: path.resolve(root, "./node_modules/redux/dist/redux.js"),
+          to: path.resolve(root, "publish", "redux.js"),
+        },
+        {
+          from: path.resolve(
+            root,
+            "./node_modules/react-redux/dist/react-redux.js"
+          ),
+          to: path.resolve(root, "publish", "react-redux.js"),
+        },
+      ],
+    }),
   ],
   optimization: {
     moduleIds: "deterministic",
