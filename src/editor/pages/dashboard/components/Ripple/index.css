@@ -1,0 +1,10 @@
+.ripple {
+    position: fixed;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+.ripple.animating {
+    transition: width 1.5s, height 1.5s, background-color 1.2s;
+}

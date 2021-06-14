@@ -4,16 +4,6 @@ import store, { Schema, State } from "../../store";
 import "./index.css";
 import schemaParser from "../../features/schemaParser";
 
-const createSchema = (type: string): Schema => {
-  const newScheam = {
-    type,
-    id: type + (Math.random() + "").slice(2, 6),
-    props: {},
-    styles: {},
-    children: [],
-  };
-  return newScheam;
-};
 const lsit = ["button", "text", "img", "scroller", "ppt", "ppt-container"];
 
 interface Props {
@@ -24,13 +14,13 @@ interface Props {
 class Shop extends React.Component<Props> {
   addComp = (type: string) => {
     const { select, schema } = this.props;
-    const newScheam = createSchema(type);
+    const newScheam = schemaParser.createSchema(type);
 
     if (type === "ppt") {
       const children = [
-        createSchema("ppt-container"),
-        createSchema("ppt-container"),
-        createSchema("ppt-container"),
+        schemaParser.createSchema("ppt-container"),
+        schemaParser.createSchema("ppt-container"),
+        schemaParser.createSchema("ppt-container"),
       ];
       newScheam.children = children;
     }

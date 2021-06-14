@@ -8,8 +8,11 @@ export default class App extends React.Component {
     return (
       <HashRouter>
         <Switch>
-          <Route path="/editor/create">
+          <Route path="/editor/edit">
             <Editor />
+          </Route>
+          <Route path="/editor/create">
+            <Editor create />
           </Route>
           <Route>
             <Dashboard />

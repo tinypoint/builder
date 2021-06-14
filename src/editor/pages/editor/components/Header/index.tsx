@@ -16,21 +16,57 @@ import SaveIcon from "@material-ui/icons/Save";
 import LocalSeeIcon from "@material-ui/icons/LocalSee";
 import PublishIcon from "@material-ui/icons/Publish";
 import Divider from '@material-ui/core/Divider';
+import historyer from "../../features/historyer";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 
 const connector = connect((state: State) => {
   return ({
     schema: state.schema,
-    scale: state.scale
+    scale: state.scale,
+    create: state.create
   })
 })
 
-type Props = ConnectedProps<typeof connector>
+type Props = RouteComponentProps & ConnectedProps<typeof connector>
 
 class Header extends React.Component<Props> {
+
+  create = async () => {
+
+    store.dispatch({
+      type: 'CHANGE_VALUE',
+      payload: [
+        { key: 'loading', value: { creating: true } }
+      ]
+    })
+
+    setTimeout(() => {
+
+      this.props.history.replace('/editor/edit')
+
+      store.dispatch({
+        type: 'CHANGE_VALUE',
+        payload: [
+          { key: 'loading', value: { creating: false } }
+        ]
+      })
+    }, 2000)
+
+  }
+
   save = async () => {
-    const { schema } = this.props;
-    window.localStorage.setItem("_test_data", JSON.stringify(schema));
+    if (this.props.create) {
+      this.create()
+    } else {
+      const { schema } = this.props;
+      window.localStorage.setItem("_test_data", JSON.stringify(schema));
+    }
+
   };
+
+  undo = async () => {
+    historyer.undo();
+  }
 
   onScaleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -67,7 +103,7 @@ class Header extends React.Component<Props> {
           <Input value={(scale * 100)} inputMode="numeric" onChange={this.onScaleChange} style={{ width: 60 }} />
         </Grid>
         <Grid item>
-          <IconButton aria-label="undo">
+          <IconButton aria-label="undo" onClick={this.undo}>
             <UndoIcon />
           </IconButton>
           <IconButton aria-label="redo">
@@ -88,4 +124,4 @@ class Header extends React.Component<Props> {
   }
 }
 
-export default connector(Header);
+export default connector(withRouter(Header));

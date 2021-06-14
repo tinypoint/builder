@@ -4,6 +4,17 @@ import { Schema } from "../../store";
 class SchemaPaser {
   SchemaPaser = SchemaPaser;
 
+  createSchema = (type: string): Schema => {
+    const newScheam = {
+      type,
+      id: type + (Math.random() + "").slice(2, 6),
+      props: {},
+      styles: {},
+      children: [],
+    };
+    return newScheam;
+  };
+
   _traverse = (
     schema: Schema,
     callback: (schema: Schema, layerId: number) => boolean,

@@ -1,5 +1,6 @@
 import { set } from 'lodash-es';
 import { AnyAction, createStore } from 'redux';
+import historyer from '../features/historyer';
 
 export interface Schema {
     type: string;
@@ -9,17 +10,24 @@ export interface Schema {
     children?: Schema[];
 }
 
+interface Loading {
+    [index: string]: any;
+}
+
 
 const initState = {
     select: '',
     selectQueen: [],
     hover: '',
     hoverQueen: [],
-    schema: {
+    schema: ({
         type: 'container',
-        id: 'container1'
-    },
-    scale: 1
+        id: 'container0001',
+        children: []
+    } as Schema),
+    scale: 0.75,
+    create: false,
+    loading: ({} as Loading)
 }
 
 export type State = typeof initState
@@ -30,10 +38,12 @@ const reducer = (state = initState, action: AnyAction) => {
         case 'CHANGE_VALUE':
             if (Array.isArray(payload)) {
                 payload.forEach(({ key, value }) => {
+                    key === 'schema' && historyer.push(value)
                     set(state, key, value)
                 })
             } else {
                 const { key, value } = payload;
+                key === 'schema' && historyer.push(value)
                 set(state, key, value)
             }
             return { ...state }

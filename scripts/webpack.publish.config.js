@@ -6,31 +6,24 @@ const root = path.dirname(__dirname);
 module.exports = {
   mode: "development",
   entry: {
-    editor: path.resolve(root, "./src/editor/index.ts"),
-    client: path.resolve(root, "./src/runtime/index.ts")
+    publish: path.resolve(root, "./src/publish/index.ts"),
   },
   devtool: "inline-source-map",
   devServer: {
-    contentBase: path.resolve(root, "dist", "editor"),
+    contentBase: path.resolve(root, "publish"),
     open: true,
-    openPage: 'editor.html#/editor/create',
+    port: '8081'
   },
   output: {
     filename: "[name].[contenthash].js",
-    path: path.resolve(root, "dist", "editor"),
+    path: path.resolve(root, "publish"),
     clean: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(root, "./src/editor/index.html"),
-      filename: './editor.html',
-      chunks: ['editor']
-    }),
-    new HtmlWebpackPlugin({
-      template: path.resolve(root, "./src/runtime/index.html"),
-      filename: './runtime.html',
-      chunks: ['client']
-    }),
+      template: path.resolve(root, "./src/publish/index.html"),
+      filename: './index.html',
+    })
   ],
   optimization: {
     moduleIds: "deterministic",
