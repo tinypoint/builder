@@ -26,7 +26,7 @@ const initState = {
         children: []
     } as Schema),
     scale: 0.75,
-    create: false,
+    create: Boolean(window.location.pathname.match(/^\/create/)),
     loading: ({} as Loading)
 }
 

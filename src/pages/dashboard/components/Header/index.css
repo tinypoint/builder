@@ -1,0 +1,17 @@
+.dashboard-header {
+  height: 60px;
+}
+
+.dashboard-header .MuiGrid-item {
+  display: flex;
+}
+
+.logo {
+  padding-left: 24px;
+  padding-right: 24px;
+  display: flex;
+  align-items: center;
+  font-size: 36px;
+  font-weight: bold;
+  font-family: monospace;
+}

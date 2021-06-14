@@ -9,19 +9,18 @@ import Tracker from "../Tracker";
 import "./index.css";
 
 const connector = connect((state: State) => {
-  return ({
+  return {
     scale: state.scale,
-    schema: state.schema
-  })
-})
+    schema: state.schema,
+  };
+});
 
-type Props = ConnectedProps<typeof connector>
+type Props = ConnectedProps<typeof connector>;
 
 class Controller extends React.Component<Props> {
-
   addBlankPage = () => {
     const { schema } = this.props;
-    const pageSchema = schemaParser.createSchema('page');
+    const pageSchema = schemaParser.createSchema("page");
     const _schema = schemaParser.appendChild(schema, schema.id, pageSchema);
 
     store.dispatch({
@@ -31,35 +30,40 @@ class Controller extends React.Component<Props> {
         { key: "select", value: pageSchema.id },
       ],
     });
-  }
+  };
 
   render() {
     const { scale, schema } = this.props;
-    return <div className="controller">
-      <div
-        className="divice"
-        style={{
-          transform: `scale(${scale})`,
-          transformOrigin: "top left",
-        }}
-      >
+    return (
+      <div className="controller">
         <div
-          className="webview"
+          className="divice"
           style={{
-            width: 375,
-            height: 812,
+            transform: `scale(${scale})`,
+            transformOrigin: "top left",
           }}
         >
-          <Runtime />
-          {Boolean(!schema.children || !schema.children.length) && < div className="add-a-page">
-            <Button onClick={this.addBlankPage}>Add a Blank Page</Button>
+          <div
+            className="webview"
+            style={{
+              width: 375,
+              height: 812,
+            }}
+          >
+            <Runtime />
+            {Boolean(!schema.children || !schema.children.length) && (
+              <div className="add-a-page">
+                <Button color="primary" onClick={this.addBlankPage}>
+                  Add a Blank Page
+                </Button>
+              </div>
+            )}
           </div>
-          }
+          <MockPhone />
+          <Tracker />
         </div>
-        <MockPhone />
-        <Tracker />
       </div>
-    </div >;
+    );
   }
 }
 

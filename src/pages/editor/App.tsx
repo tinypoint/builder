@@ -12,26 +12,27 @@ import Loading from "./components/Loading";
 
 (window as any).store = store;
 
-interface Props {
-  create?: boolean;
-}
-class Editor extends React.Component<Props> {
-
+class Editor extends React.Component {
   createData = () => {
     store.dispatch({
       type: "CHANGE_VALUE",
-      payload: [{
-        key: "schema", value: {
-          type: 'container',
-          id: 'container0001',
-          children: []
-        }
-      }],
+      payload: [
+        {
+          key: "schema",
+          value: {
+            type: "container",
+            id: "container0001",
+            children: [],
+          },
+        },
+      ],
     });
-  }
+  };
 
   fetchData = async () => {
-    const val = window.localStorage.getItem("_test_data") || `{ "type": "container", "children": [ { "type": "page", "id": "page1234",  "children": [] } ] }`;
+    const val =
+      window.localStorage.getItem("_test_data") ||
+      `{ "type": "container", "children": [ { "type": "page", "id": "page1234",  "children": [] } ] }`;
 
     store.dispatch({
       type: "CHANGE_VALUE",
@@ -40,29 +41,7 @@ class Editor extends React.Component<Props> {
   };
 
   componentDidMount() {
-    const { create } = this.props;
-    store.dispatch({
-      type: 'CHANGE_VALUE',
-      payload: [
-        { key: 'create', value: create }
-      ]
-    });
-    if (create) {
-      this.createData();
-    } else {
-      this.fetchData();
-    }
-  }
-
-  componentDidUpdate() {
-    const { create } = this.props;
-    store.dispatch({
-      type: 'CHANGE_VALUE',
-      payload: [
-        { key: 'create', value: this.props.create }
-      ]
-    })
-    if (create) {
+    if (store.getState().create) {
       this.createData();
     } else {
       this.fetchData();
