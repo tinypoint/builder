@@ -2,7 +2,7 @@ import React from "react";
 import "./index.css";
 import dragger from "./features/dragger";
 import resizer from "./features/resizer";
-import { State } from "../../../editor/pages/editor/store";
+import { State } from "../../../editor/store";
 import { connect } from "react-redux";
 
 interface Props {

@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import Header from "./components/Header";
 import Controller from "./components/Controller";
 import store from "./store";
-import "./style.css";
+import "./App.css";
 import Shop from "./components/Shop";
 import Styler from "./components/Styler";
 import historyer from "./features/historyer";

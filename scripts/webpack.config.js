@@ -6,30 +6,43 @@ const root = path.dirname(__dirname);
 module.exports = {
   mode: "development",
   entry: {
-    editor: path.resolve(root, "./src/editor/index.ts"),
-    client: path.resolve(root, "./src/runtime/index.ts")
+    dashboard: path.resolve(root, "./src/pages/dashboard/index.ts"),
+    editor: path.resolve(root, "./src/pages/editor/index.ts"),
+    client: path.resolve(root, "./src/pages/client/index.ts"),
   },
   devtool: "inline-source-map",
   devServer: {
-    contentBase: path.resolve(root, "dist", "editor"),
+    contentBase: path.resolve(root, "dist"),
     open: true,
-    openPage: 'editor.html#/editor/create',
+    openPage: "editor.html#/editor/create",
   },
   output: {
     filename: "[name].[contenthash].js",
-    path: path.resolve(root, "dist", "editor"),
+    path: path.resolve(root, "dist"),
     clean: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(root, "./src/editor/index.html"),
-      filename: './editor.html',
-      chunks: ['editor']
+      template: path.resolve(root, "./src/pages/dashboard/index.html"),
+      filename: "./index.html",
+      chunks: ["dashboard"],
     }),
     new HtmlWebpackPlugin({
-      template: path.resolve(root, "./src/runtime/index.html"),
-      filename: './runtime.html',
-      chunks: ['client']
+      title: "create",
+      template: path.resolve(root, "./src/pages/editor/index.ejs"),
+      filename: "./create/index.html",
+      chunks: ["editor"],
+    }),
+    new HtmlWebpackPlugin({
+      title: "editor",
+      template: path.resolve(root, "./src/pages/editor/index.ejs"),
+      filename: "./editor/index.html",
+      chunks: ["editor"],
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(root, "./src/pages/client/index.html"),
+      filename: "./client/index.html",
+      chunks: ["client"],
     }),
   ],
   optimization: {

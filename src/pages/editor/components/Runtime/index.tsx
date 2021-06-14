@@ -13,7 +13,7 @@ class Runtime extends React.Component {
           height: 1552,
           transform: 'scale(0.5)'
         }}
-        src="http://localhost:8080/runtime.html"
+        src="http://localhost:8080/client"
         ref={(ref) => (this.iframe = ref)}
       ></iframe>
     );

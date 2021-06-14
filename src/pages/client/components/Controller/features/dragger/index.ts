@@ -1,6 +1,6 @@
 // import store from '../../store';
 import { get } from 'lodash-es';
-import schemaParser from '../../../../../editor/pages/editor/features/schemaParser';
+import schemaParser from '../../../../../editor/features/schemaParser';
 import Overlayer from '../overlayer';
 import './index.css'
 

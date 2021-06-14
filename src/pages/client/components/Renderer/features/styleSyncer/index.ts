@@ -1,6 +1,6 @@
 import { Unsubscribe } from "redux";
-import schemaParser from "../../../../../editor/pages/editor/features/schemaParser";
-import { Schema, State } from "../../../../../editor/pages/editor/store";
+import schemaParser from "../../../../../editor/features/schemaParser";
+import { Schema, State } from "../../../../../editor/store";
 
 class StyleSyncer {
     StyleSyncer = StyleSyncer;

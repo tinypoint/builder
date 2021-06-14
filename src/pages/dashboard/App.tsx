@@ -1,3 +1,4 @@
+import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -6,10 +7,8 @@ import CardContent from "@material-ui/core/CardContent";
 import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import React from "react";
-import { Link } from "react-router-dom";
 import Ripple from "./components/Ripple";
-import './index.css';
+import "./App.css";
 
 export default class App extends React.Component {
   render() {
@@ -25,7 +24,6 @@ export default class App extends React.Component {
             <Button>
               <Avatar>z</Avatar>
             </Button>
-
           </Grid>
         </Grid>
         <div className="card-wrapper">
@@ -45,7 +43,7 @@ export default class App extends React.Component {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button><Link to="/editor/create">create</Link></Button>
+              <Button href="/create">create</Button>
             </CardActions>
           </Card>
           <Card elevation={0} raised square className="edit-card">
@@ -55,7 +53,7 @@ export default class App extends React.Component {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button><Link to="/editor/edit">edit</Link></Button>
+              <Button href="/editor">edit</Button>
             </CardActions>
           </Card>
         </div>

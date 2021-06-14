@@ -1,5 +1,5 @@
 import React from "react";
-import { Schema, State } from "../../../editor/pages/editor/store";
+import { Schema, State } from "../../../editor/store";
 import Container from "./components/Container";
 import Page from "./components/Page";
 import Button from "./components/Button";
