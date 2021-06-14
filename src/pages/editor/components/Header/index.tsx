@@ -44,13 +44,7 @@ class Header extends React.Component<Props> {
     });
 
     setTimeout(() => {
-      window.location.replace("/editor.html");
-      window.location.reload();
-
-      store.dispatch({
-        type: "CHANGE_VALUE",
-        payload: [{ key: "loading", value: { creating: false } }],
-      });
+      window.location.replace("/editor");
     }, 2000);
   };
 
