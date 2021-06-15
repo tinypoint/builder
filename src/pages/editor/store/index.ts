@@ -14,6 +14,18 @@ interface Loading {
     [index: string]: any;
 }
 
+export interface PagesRecord {
+    _id: string;
+    status: string;
+    page: string;
+    schema: State["schema"];
+}
+
+export interface Page {
+    name: string;
+    _id: string
+}
+
 
 const initState = {
     select: '',
@@ -28,7 +40,11 @@ const initState = {
     scale: 0.75,
     create: Boolean(window.location.pathname.match(/^\/create/)),
     loading: ({} as Loading),
-    settingsPanelVisible: false
+    settingsPanelVisible: false,
+    meta: {
+        page: ({} as Page),
+        records: ([] as PagesRecord[])
+    }
 }
 
 export type State = typeof initState

@@ -17,12 +17,16 @@ import PublishIcon from "@material-ui/icons/Publish";
 import Divider from "@material-ui/core/Divider";
 import historyer from "../../features/historyer";
 import EditorButton from "./EditorButton";
+import axios from "axios";
 
 const connector = connect((state: State) => {
   return {
     schema: state.schema,
     scale: state.scale,
     create: state.create,
+    editing: state.meta.records.filter(
+      (record) => record.status === "editing"
+    )[0],
   };
 });
 
@@ -37,23 +41,44 @@ class Header extends React.Component<Props> {
     }
   };
 
-  create = async () => {
+  _create = async () => {
     store.dispatch({
       type: "CHANGE_VALUE",
       payload: [{ key: "loading", value: { creating: true } }],
     });
+    const { schema } = this.props;
+    const {
+      data: {
+        data: { pageid },
+      },
+    } = await axios.post("/api/page/create", {
+      schema,
+    });
 
-    setTimeout(() => {
-      window.location.replace("/editor");
-    }, 2000);
+    window.location.replace(`/editor/index.html?id=${pageid}`);
+  };
+
+  _save = async () => {
+    store.dispatch({
+      type: "CHANGE_VALUE",
+      payload: [{ key: "loading", value: { saving: true } }],
+    });
+    const { schema, editing } = this.props;
+    await axios.post("/api/page/save", {
+      schema,
+      _id: editing._id,
+    });
+    store.dispatch({
+      type: "CHANGE_VALUE",
+      payload: [{ key: "loading", value: { saving: false } }],
+    });
   };
 
   save = async () => {
     if (this.props.create) {
-      this.create();
+      this._create();
     } else {
-      const { schema } = this.props;
-      window.localStorage.setItem("_test_data", JSON.stringify(schema));
+      this._save();
     }
   };
 

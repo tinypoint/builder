@@ -14,7 +14,9 @@ module.exports = {
   devServer: {
     contentBase: path.resolve(root, "dist"),
     open: true,
-    openPage: "editor.html#/editor/create",
+    proxy: {
+      "/api": "http://localhost:8082",
+    },
   },
   output: {
     filename: "[name].[contenthash].js",
