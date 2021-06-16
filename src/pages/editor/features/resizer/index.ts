@@ -37,12 +37,16 @@ class Resizer {
         if (!select) {
             return;
         }
-        const target = document.getElementById(select)
+        const iframe = document.getElementById('runtime') as HTMLIFrameElement;
+        const iframeWindow = iframe.contentWindow!;
+        const iframeDocument = iframeWindow.document;
+        const target = iframeDocument.getElementById(select)
+
         if (!target) {
             return;
         }
         this._target = target;
-        const cssStyle = window.getComputedStyle(target);
+        const cssStyle = iframeWindow.getComputedStyle(target);
         this.transfer = {
             x: cssStyle.left.replace('px', ''),
             y: cssStyle.top.replace('px', ''),

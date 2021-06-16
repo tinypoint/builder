@@ -28,6 +28,7 @@ export interface Page {
 
 
 const initState = {
+    shopShow: true,
     sid: 0,
     hid: -1,
     hredo: false,

@@ -113,13 +113,7 @@ class Dragger {
             top: `${top}px`
         });
 
-        (window as any).store.dispatch({
-            type: 'CHANGE_VALUE',
-            payload: [
-                { key: 'schema', value: _schema }
-            ]
-        });
-        
+        (window.parent as any).changePosition(_schema);
 
         this.cancel(e);
     }

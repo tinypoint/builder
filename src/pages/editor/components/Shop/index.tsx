@@ -1,16 +1,21 @@
 import React from "react";
-import { connect } from "react-redux";
-import store, { Schema, State } from "../../store";
+import { connect, ConnectedProps } from "react-redux";
+import store, { State } from "../../store";
 import "./index.css";
 import schemaParser from "../../features/schemaParser";
 import historyer from "../../features/historyer";
 
 const lsit = ["button", "text", "img", "scroller", "ppt", "ppt-container"];
 
-interface Props {
-  select: State["select"];
-  schema: State["schema"];
-}
+const connector = connect((state: State) => {
+  return {
+    select: state.select,
+    schema: state.schema,
+    shopShow: state.shopShow,
+  };
+});
+
+type Props = ConnectedProps<typeof connector>;
 
 class Shop extends React.Component<Props> {
   addComp = (type: string) => {
@@ -44,25 +49,28 @@ class Shop extends React.Component<Props> {
       historyer.push(_schema);
       store.dispatch({
         type: "CHANGE_VALUE",
-        payload: [
-          { key: "select", value: newScheam.id },
-        ],
+        payload: [{ key: "select", value: newScheam.id }],
       });
     } else {
       const _schema = schemaParser.insertAfter(schema, select, newScheam);
       historyer.push(_schema);
       store.dispatch({
         type: "CHANGE_VALUE",
-        payload: [
-          { key: "select", value: newScheam.id },
-        ],
+        payload: [{ key: "select", value: newScheam.id }],
       });
     }
   };
 
   render() {
+    const { shopShow } = this.props;
     return (
-      <div className="shop">
+      <div
+        className="shop"
+        style={{
+          transform: shopShow ? "" : "translateX(-100%)",
+          transition: shopShow ? "transform .3s" : "",
+        }}
+      >
         {lsit.map((type) => {
           return (
             <div
@@ -72,7 +80,7 @@ class Shop extends React.Component<Props> {
                 this.addComp(type);
               }}
             >
-              {type}
+              {type.toUpperCase()}
             </div>
           );
         })}
@@ -81,9 +89,4 @@ class Shop extends React.Component<Props> {
   }
 }
 
-export default connect((state: State) => {
-  return {
-    select: state.select,
-    schema: state.schema,
-  };
-})(Shop);
+export default connector(Shop);

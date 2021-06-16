@@ -2,6 +2,7 @@ import Button from "@material-ui/core/Button";
 import React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import historyer from "../../features/historyer";
+import resizer from "../../features/resizer";
 import schemaParser from "../../features/schemaParser";
 import store, { State } from "../../store";
 import MockPhone from "../MockPhone";
@@ -29,6 +30,25 @@ class Controller extends React.Component<Props> {
       payload: [{ key: "select", value: pageSchema.id }],
     });
   };
+
+  onMouseDown = (e: MouseEvent) => {
+    if ((e.target as HTMLElement).getAttribute("data-builder-dotdir")) {
+      const type = (
+        e.target as HTMLElement
+      ).parentElement!.parentElement!.getAttribute("data-builder-anchor");
+
+      resizer.start(e);
+      return;
+    }
+  };
+
+  componentDidMount() {
+    window.addEventListener("mousedown", this.onMouseDown);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("mousedown", this.onMouseDown);
+  }
 
   render() {
     const { scale, schema } = this.props;

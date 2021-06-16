@@ -15,6 +15,7 @@ class Runtime extends React.Component {
         }}
         src="http://localhost:8080/client"
         ref={(ref) => (this.iframe = ref)}
+        id="runtime"
       ></iframe>
     );
   }

@@ -21,6 +21,7 @@ import axios from "axios";
 
 const connector = connect((state: State) => {
   return {
+    shopShow: state.shopShow,
     sid: state.sid,
     hid: state.hid,
     hredo: state.hredo,
@@ -107,7 +108,7 @@ class Header extends React.Component<Props> {
   };
 
   render() {
-    const { scale, hundo, hredo, sid, hid } = this.props;
+    const { shopShow, scale, hundo, hredo, sid, hid } = this.props;
 
     return (
       <Grid container justify="space-between" className="header">
@@ -118,7 +119,19 @@ class Header extends React.Component<Props> {
           <Divider orientation="vertical" />
           {/* <Button>editor</Button> */}
           <EditorButton undo={this.undo} redo={this.redo} save={this.save} />
-          <Button>add</Button>
+          <Button
+            color={shopShow ? "primary" : "default"}
+            variant={shopShow ? "contained" : "text"}
+            disableElevation
+            onClick={() => {
+              store.dispatch({
+                type: "CHANGE_VALUE",
+                payload: [{ key: "shopShow", value: !shopShow }],
+              });
+            }}
+          >
+            add
+          </Button>
           <Button>shortcut</Button>
           <Button>help</Button>
         </Grid>

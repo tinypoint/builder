@@ -1,21 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import store, { Schema, State } from "../../store";
+import { Schema, State } from "../../store";
 import "./index.css";
 import schemaParser from "../../features/schemaParser";
 import { get } from "lodash-es";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import historyer from "../../features/historyer";
-
-const map: any = {
-  button: [
-    {
-      type: "input",
-      key: "text",
-    },
-  ],
-};
 
 interface Props {
   select: State["select"];

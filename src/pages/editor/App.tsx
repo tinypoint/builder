@@ -2,7 +2,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import Header from "./components/Header";
 import Controller from "./components/Controller";
-import store, { State } from "./store";
+import store, { Schema, State } from "./store";
 import "./App.css";
 import Shop from "./components/Shop";
 import Styler from "./components/Styler";
@@ -14,6 +14,9 @@ import queryString from "query-string";
 import axios from "axios";
 
 (window as any).store = store;
+(window as any).changePosition = (_schema: Schema) => {
+  historyer.push(_schema);
+};
 
 interface PagesRecord {
   status: string;
