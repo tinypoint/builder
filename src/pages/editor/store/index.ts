@@ -28,6 +28,11 @@ export interface Page {
 
 
 const initState = {
+    sid: 0,
+    hid: -1,
+    hredo: false,
+    hundo: false,
+    hsctack: ([] as any[]),
     select: '',
     selectQueen: [],
     hover: '',
@@ -55,12 +60,10 @@ const reducer = (state = initState, action: AnyAction) => {
         case 'CHANGE_VALUE':
             if (Array.isArray(payload)) {
                 payload.forEach(({ key, value }) => {
-                    key === 'schema' && historyer.push(value)
                     set(state, key, value)
                 })
             } else {
                 const { key, value } = payload;
-                key === 'schema' && historyer.push(value)
                 set(state, key, value)
             }
             return { ...state }

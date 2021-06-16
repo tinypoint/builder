@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import store, { Schema, State } from "../../store";
 import "./index.css";
 import schemaParser from "../../features/schemaParser";
+import historyer from "../../features/historyer";
 
 const lsit = ["button", "text", "img", "scroller", "ppt", "ppt-container"];
 
@@ -28,13 +29,10 @@ class Shop extends React.Component<Props> {
     if (!select) {
       const [page] = schemaParser.search(schema, "type", "page");
       const _schema = schemaParser.appendChild(schema, page.id, newScheam);
-
+      historyer.push(_schema);
       store.dispatch({
         type: "CHANGE_VALUE",
-        payload: [
-          { key: "schema", value: _schema },
-          { key: "select", value: newScheam.id },
-        ],
+        payload: [{ key: "select", value: newScheam.id }],
       });
       return;
     }
@@ -43,21 +41,19 @@ class Shop extends React.Component<Props> {
 
     if (hasBlock) {
       const _schema = schemaParser.appendChild(schema, select, newScheam);
-
+      historyer.push(_schema);
       store.dispatch({
         type: "CHANGE_VALUE",
         payload: [
-          { key: "schema", value: _schema },
           { key: "select", value: newScheam.id },
         ],
       });
     } else {
       const _schema = schemaParser.insertAfter(schema, select, newScheam);
-
+      historyer.push(_schema);
       store.dispatch({
         type: "CHANGE_VALUE",
         payload: [
-          { key: "schema", value: _schema },
           { key: "select", value: newScheam.id },
         ],
       });

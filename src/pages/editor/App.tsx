@@ -23,18 +23,10 @@ interface PagesRecord {
 
 class Editor extends React.Component {
   createData = () => {
-    store.dispatch({
-      type: "CHANGE_VALUE",
-      payload: [
-        {
-          key: "schema",
-          value: {
-            type: "container",
-            id: "container0001",
-            children: [],
-          },
-        },
-      ],
+    historyer.push({
+      type: "container",
+      id: "container0001",
+      children: [],
     });
   };
 
@@ -58,11 +50,10 @@ class Editor extends React.Component {
 
     store.dispatch({
       type: "CHANGE_VALUE",
-      payload: [
-        { key: "meta", value: meta },
-        { key: "schema", value: editing.schema },
-      ],
+      payload: [{ key: "meta", value: meta }],
     });
+
+    historyer.push(editing.schema);
   };
 
   componentDidMount() {

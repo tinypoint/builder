@@ -1,6 +1,7 @@
 import Button from "@material-ui/core/Button";
 import React from "react";
 import { connect, ConnectedProps } from "react-redux";
+import historyer from "../../features/historyer";
 import schemaParser from "../../features/schemaParser";
 import store, { State } from "../../store";
 import MockPhone from "../MockPhone";
@@ -22,13 +23,10 @@ class Controller extends React.Component<Props> {
     const { schema } = this.props;
     const pageSchema = schemaParser.createSchema("page");
     const _schema = schemaParser.appendChild(schema, schema.id, pageSchema);
-
+    historyer.push(_schema);
     store.dispatch({
       type: "CHANGE_VALUE",
-      payload: [
-        { key: "schema", value: _schema },
-        { key: "select", value: pageSchema.id },
-      ],
+      payload: [{ key: "select", value: pageSchema.id }],
     });
   };
 

@@ -6,6 +6,7 @@ import schemaParser from "../../features/schemaParser";
 import { get } from "lodash-es";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
+import historyer from "../../features/historyer";
 
 const map: any = {
   button: [
@@ -25,7 +26,7 @@ interface States {
   cssDefination: CSSStyleDeclaration | null;
 }
 
-const noop = () => { };
+const noop = () => {};
 
 (window as any)._styler = noop;
 
@@ -66,10 +67,7 @@ class Configer extends React.Component<Props, States> {
               value
             );
 
-            store.dispatch({
-              type: "CHANGE_VALUE",
-              payload: [{ key: "schema", value: _schema }],
-            });
+            historyer.push(_schema);
           }}
         />
       );
@@ -91,7 +89,9 @@ class Configer extends React.Component<Props, States> {
 
     return (
       <div className="styler">
-        <TextField id="width-styles" label="width"
+        <TextField
+          id="width-styles"
+          label="width"
           key="width-styles"
           value={styles.width || cssDefination.width || ""}
           disabled={!styles.width}
@@ -106,10 +106,7 @@ class Configer extends React.Component<Props, States> {
               `styles.#${targetSchema.id}.width`,
               value
             );
-            store.dispatch({
-              type: "CHANGE_VALUE",
-              payload: [{ key: "schema", value: _schema }],
-            });
+            historyer.push(_schema);
           }}
           onDoubleClick={() => {
             if (styles.width) {
@@ -121,14 +118,12 @@ class Configer extends React.Component<Props, States> {
               `styles.#${targetSchema.id}.width`,
               cssDefination.width
             );
-            store.dispatch({
-              type: "CHANGE_VALUE",
-              payload: [{ key: "schema", value: _schema }],
-            });
+            historyer.push(_schema);
           }}
         />
-        <TextField id="height-styles" label="height"
-
+        <TextField
+          id="height-styles"
+          label="height"
           key="height-styles"
           value={styles.height || cssDefination.height || ""}
           disabled={!styles.height}
@@ -143,10 +138,7 @@ class Configer extends React.Component<Props, States> {
               `styles.#${targetSchema.id}.height`,
               value
             );
-            store.dispatch({
-              type: "CHANGE_VALUE",
-              payload: [{ key: "schema", value: _schema }],
-            });
+            historyer.push(_schema);
           }}
           onDoubleClick={() => {
             if (styles.height) {
@@ -158,13 +150,12 @@ class Configer extends React.Component<Props, States> {
               `styles.#${targetSchema.id}.height`,
               cssDefination.height
             );
-            store.dispatch({
-              type: "CHANGE_VALUE",
-              payload: [{ key: "schema", value: _schema }],
-            });
+            historyer.push(_schema);
           }}
         />
-        <TextField id="position-styles" label="position"
+        <TextField
+          id="position-styles"
+          label="position"
           select
           key="position-styles"
           value={styles.position || cssDefination.position || ""}
@@ -181,10 +172,7 @@ class Configer extends React.Component<Props, States> {
               `styles.#${targetSchema.id}.position`,
               value
             );
-            store.dispatch({
-              type: "CHANGE_VALUE",
-              payload: [{ key: "schema", value: _schema }],
-            });
+            historyer.push(_schema);
           }}
           onDoubleClick={() => {
             if (styles.position) {
@@ -196,10 +184,7 @@ class Configer extends React.Component<Props, States> {
               `styles.#${targetSchema.id}.position`,
               cssDefination.position
             );
-            store.dispatch({
-              type: "CHANGE_VALUE",
-              payload: [{ key: "schema", value: _schema }],
-            });
+            historyer.push(_schema);
           }}
         >
           <MenuItem value="static">static</MenuItem>
@@ -207,7 +192,9 @@ class Configer extends React.Component<Props, States> {
           <MenuItem value="absolute">absolute</MenuItem>
           <MenuItem value="fixed">fixed</MenuItem>
         </TextField>
-        <TextField id="left-styles" label="left"
+        <TextField
+          id="left-styles"
+          label="left"
           key="left-styles"
           value={styles.left || cssDefination.left || ""}
           disabled={!styles.left}
@@ -222,10 +209,7 @@ class Configer extends React.Component<Props, States> {
               `styles.#${targetSchema.id}.left`,
               value
             );
-            store.dispatch({
-              type: "CHANGE_VALUE",
-              payload: [{ key: "schema", value: _schema }],
-            });
+            historyer.push(_schema);
           }}
           onDoubleClick={() => {
             if (styles.left) {
@@ -237,13 +221,12 @@ class Configer extends React.Component<Props, States> {
               `styles.#${targetSchema.id}.left`,
               cssDefination.left
             );
-            store.dispatch({
-              type: "CHANGE_VALUE",
-              payload: [{ key: "schema", value: _schema }],
-            });
+            historyer.push(_schema);
           }}
         />
-        <TextField id="top-styles" label="top"
+        <TextField
+          id="top-styles"
+          label="top"
           key="top-styles"
           value={styles.top || cssDefination.top || ""}
           disabled={!styles.top}
@@ -258,10 +241,7 @@ class Configer extends React.Component<Props, States> {
               `styles.#${targetSchema.id}.top`,
               value
             );
-            store.dispatch({
-              type: "CHANGE_VALUE",
-              payload: [{ key: "schema", value: _schema }],
-            });
+            historyer.push(_schema);
           }}
           onDoubleClick={() => {
             if (styles.top) {
@@ -273,24 +253,25 @@ class Configer extends React.Component<Props, States> {
               `styles.#${targetSchema.id}.top`,
               cssDefination.top
             );
-            store.dispatch({
-              type: "CHANGE_VALUE",
-              payload: [{ key: "schema", value: _schema }],
-            });
+            historyer.push(_schema);
           }}
         />
-        <TextField id="backgroundColor-styles" label="backgroundColor"
+        <TextField
+          id="backgroundColor-styles"
+          label="backgroundColor"
           style={{
-            display: 'flex'
+            display: "flex",
           }}
           inputProps={{
-            type: 'color'
+            type: "color",
           }}
           key="backgroundColor-styles"
-          value={styles['background-color'] || cssDefination.backgroundColor || ""}
-          disabled={!styles['background-color']}
+          value={
+            styles["background-color"] || cssDefination.backgroundColor || ""
+          }
+          disabled={!styles["background-color"]}
           onChange={(e) => {
-            if (!styles['background-color']) {
+            if (!styles["background-color"]) {
               return;
             }
             const value = (e.target as HTMLInputElement).value;
@@ -300,13 +281,10 @@ class Configer extends React.Component<Props, States> {
               `styles.#${targetSchema.id}.background-color`,
               value
             );
-            store.dispatch({
-              type: "CHANGE_VALUE",
-              payload: [{ key: "schema", value: _schema }],
-            });
+            historyer.push(_schema);
           }}
           onDoubleClick={() => {
-            if (styles['background-color']) {
+            if (styles["background-color"]) {
               return;
             }
             const _schema = schemaParser.update(
@@ -315,21 +293,22 @@ class Configer extends React.Component<Props, States> {
               `styles.#${targetSchema.id}.background-color`,
               cssDefination.backgroundColor
             );
-            store.dispatch({
-              type: "CHANGE_VALUE",
-              payload: [{ key: "schema", value: _schema }],
-            });
+            historyer.push(_schema);
           }}
         />
-        <TextField id="backgroundImage-styles" label="backgroundImage"
+        <TextField
+          id="backgroundImage-styles"
+          label="backgroundImage"
           style={{
-            display: 'flex'
+            display: "flex",
           }}
           key="backgroundImage-styles"
-          value={styles['background-image'] || cssDefination.backgroundImage || ""}
-          disabled={!styles['background-image']}
+          value={
+            styles["background-image"] || cssDefination.backgroundImage || ""
+          }
+          disabled={!styles["background-image"]}
           onChange={(e) => {
-            if (!styles['background-image']) {
+            if (!styles["background-image"]) {
               return;
             }
             const value = (e.target as HTMLInputElement).value;
@@ -339,13 +318,10 @@ class Configer extends React.Component<Props, States> {
               `styles.#${targetSchema.id}.background-image`,
               value
             );
-            store.dispatch({
-              type: "CHANGE_VALUE",
-              payload: [{ key: "schema", value: _schema }],
-            });
+            historyer.push(_schema);
           }}
           onDoubleClick={() => {
-            if (styles['background-image']) {
+            if (styles["background-image"]) {
               return;
             }
             const _schema = schemaParser.update(
@@ -354,10 +330,7 @@ class Configer extends React.Component<Props, States> {
               `styles.#${targetSchema.id}.background-image`,
               cssDefination.backgroundImage
             );
-            store.dispatch({
-              type: "CHANGE_VALUE",
-              payload: [{ key: "schema", value: _schema }],
-            });
+            historyer.push(_schema);
           }}
         />
         {/* <div>

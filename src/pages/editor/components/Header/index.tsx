@@ -21,6 +21,10 @@ import axios from "axios";
 
 const connector = connect((state: State) => {
   return {
+    sid: state.sid,
+    hid: state.hid,
+    hredo: state.hredo,
+    hundo: state.hundo,
     schema: state.schema,
     scale: state.scale,
     create: state.create,
@@ -70,7 +74,10 @@ class Header extends React.Component<Props> {
     });
     store.dispatch({
       type: "CHANGE_VALUE",
-      payload: [{ key: "loading", value: { saving: false } }],
+      payload: [
+        { key: "loading", value: { saving: false } },
+        { key: "sid", value: historyer.id },
+      ],
     });
   };
 
@@ -86,6 +93,10 @@ class Header extends React.Component<Props> {
     historyer.undo();
   };
 
+  redo = async () => {
+    historyer.redo();
+  };
+
   onScaleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     console.log(+(Number(value) / 100).toFixed(2));
@@ -96,7 +107,7 @@ class Header extends React.Component<Props> {
   };
 
   render() {
-    const { scale } = this.props;
+    const { scale, hundo, hredo, sid, hid } = this.props;
 
     return (
       <Grid container justify="space-between" className="header">
@@ -106,7 +117,7 @@ class Header extends React.Component<Props> {
           </IconButton>
           <Divider orientation="vertical" />
           {/* <Button>editor</Button> */}
-          <EditorButton />
+          <EditorButton undo={this.undo} redo={this.redo} save={this.save} />
           <Button>add</Button>
           <Button>shortcut</Button>
           <Button>help</Button>
@@ -126,13 +137,17 @@ class Header extends React.Component<Props> {
           />
         </Grid>
         <Grid item>
-          <IconButton aria-label="undo" onClick={this.undo}>
+          <IconButton disabled={!hundo} aria-label="undo" onClick={this.undo}>
             <UndoIcon />
           </IconButton>
-          <IconButton aria-label="redo">
+          <IconButton disabled={!hredo} aria-label="redo" onClick={this.redo}>
             <RedoIcon />
           </IconButton>
-          <IconButton aria-label="save" onClick={this.save}>
+          <IconButton
+            disabled={sid === hid}
+            aria-label="save"
+            onClick={this.save}
+          >
             <SaveIcon />
           </IconButton>
           <IconButton aria-label="publish">

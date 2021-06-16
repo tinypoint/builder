@@ -14,6 +14,7 @@ import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import Paper from "@material-ui/core/Paper";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
+import historyer from "../../features/historyer";
 
 interface Props {
   select: State["select"];
@@ -35,13 +36,10 @@ class Toolbox extends React.Component<Props> {
       return;
     }
     const _schema = schemaParser.remove(schema, select);
-
+    historyer.push(_schema);
     store.dispatch({
       type: "CHANGE_VALUE",
-      payload: [
-        { key: "schema", value: _schema },
-        { key: "select", value: "" },
-      ],
+      payload: [{ key: "select", value: "" }],
     });
   };
 
@@ -53,7 +51,7 @@ class Toolbox extends React.Component<Props> {
       () => {
         this.editor = new Quill(this.ref!, {
           placeholder: "Input some text here...",
-          theme: 'snow',
+          theme: "snow",
         });
       }
     );
@@ -73,11 +71,11 @@ class Toolbox extends React.Component<Props> {
     return (
       <Paper>
         {/* <ButtonGroup variant="contained" color="primary"> */}
-          <IconButton onClick={this.delComp} color="primary">
-            <DeleteIcon />
-          </IconButton>
-          <Button onClick={this.openRichTextEditor}>Edit</Button>
-          <Button>Three</Button>
+        <IconButton onClick={this.delComp} color="primary">
+          <DeleteIcon />
+        </IconButton>
+        <Button onClick={this.openRichTextEditor}>Edit</Button>
+        <Button>Three</Button>
         {/* </ButtonGroup> */}
       </Paper>
     );

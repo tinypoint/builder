@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import store, { Schema, State } from "../../store";
 import "./index.css";
 import schemaParser from "../../features/schemaParser";
+import historyer from "../../features/historyer";
 
 const map: any = {
   button: [
@@ -26,7 +27,7 @@ class Configer extends React.Component<Props> {
         <input
           key={item.key}
           type="text"
-          value={props[item.key] || ''}
+          value={props[item.key] || ""}
           onChange={(e) => {
             const value = (e.target as HTMLInputElement).value;
 
@@ -37,10 +38,7 @@ class Configer extends React.Component<Props> {
               value
             );
 
-            store.dispatch({
-              type: "CHANGE_VALUE",
-              payload: [{ key: "schema", value: _schema }],
-            });
+            historyer.push(_schema);
           }}
         />
       );

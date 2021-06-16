@@ -12,9 +12,32 @@ import UndoIcon from "@material-ui/icons/Undo";
 import RedoIcon from "@material-ui/icons/Redo";
 import SaveIcon from "@material-ui/icons/Save";
 import SettingsIcon from "@material-ui/icons/Settings";
-import store from "../../../store";
+import store, { State } from "../../../store";
+import { connect, ConnectedProps } from "react-redux";
+import historyer from "../../../features/historyer";
 
-export default function EditorButton() {
+const connector = connect((state: State) => {
+  return {
+    sid: state.sid,
+    hid: state.hid,
+    hredo: state.hredo,
+    hundo: state.hundo,
+    schema: state.schema,
+    scale: state.scale,
+    create: state.create,
+    editing: state.meta.records.filter(
+      (record) => record.status === "editing"
+    )[0],
+  };
+});
+
+type Prop = ConnectedProps<typeof connector> & {
+  undo: () => void;
+  redo: () => void;
+  save: () => void;
+};
+
+function EditorButton(props: Prop) {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
 
@@ -95,19 +118,22 @@ export default function EditorButton() {
                   id="menu-list-grow"
                   onKeyDown={handleListKeyDown}
                 >
-                  <MenuItem onClick={handleClose}>
+                  <MenuItem disabled={!props.hundo} onClick={props.undo}>
                     <ListItemIcon>
                       <UndoIcon />
                     </ListItemIcon>
                     <ListItemText primary="Undo" />
                   </MenuItem>
-                  <MenuItem onClick={handleClose}>
+                  <MenuItem disabled={!props.hredo} onClick={props.redo}>
                     <ListItemIcon>
                       <RedoIcon />
                     </ListItemIcon>
                     <ListItemText primary="Redo" />
                   </MenuItem>
-                  <MenuItem onClick={handleClose}>
+                  <MenuItem
+                    disabled={props.sid === props.hid}
+                    onClick={props.save}
+                  >
                     <ListItemIcon>
                       <SaveIcon />
                     </ListItemIcon>
@@ -129,3 +155,5 @@ export default function EditorButton() {
     </>
   );
 }
+
+export default connector(EditorButton);
