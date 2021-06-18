@@ -1,0 +1,8 @@
+.referenceLine {
+  position: absolute;
+  top: 36px;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+  user-select: none;
+}

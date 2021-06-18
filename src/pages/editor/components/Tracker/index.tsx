@@ -4,7 +4,7 @@ import { State } from "../../store";
 import Anchor from "../Anchor";
 import Toolbox from "../Toolbox";
 import "./index.css";
-import Popper from '@material-ui/core/Popper';
+import Popper from "@material-ui/core/Popper";
 
 interface Props {
   select: State["select"];
@@ -19,7 +19,7 @@ const initState = {
   height: 0,
 };
 
-const scale = 0.5
+const scale = 0.5;
 
 class Tracker extends React.Component<Props> {
   state = {
@@ -63,7 +63,9 @@ class Tracker extends React.Component<Props> {
           className="tracker-box hover"
           style={{
             display: hover.visible ? "block" : "none",
-            transform: `translate3d(${hover.x * scale}px,${hover.y * scale}px,0px)`,
+            transform: `translate3d(${hover.x * scale}px,${
+              hover.y * scale
+            }px,0px)`,
             width: hover.width * scale,
             height: hover.height * scale,
           }}
@@ -72,19 +74,27 @@ class Tracker extends React.Component<Props> {
         </div>
         <div
           className="tracker-box select"
-          ref={ref => this.ref = ref}
+          ref={(ref) => (this.ref = ref)}
           style={{
             visibility: select.visible ? "visible" : "hidden",
-            transform: `translate3d(${select.x * scale}px,${select.y * scale}px,0px)`,
+            transform: `translate3d(${select.x * scale}px,${
+              select.y * scale
+            }px,0px)`,
             width: select.width * scale,
             height: select.height * scale,
           }}
         >
           <Anchor type="select" />
         </div>
-        <Popper open={select.visible} anchorEl={() => this.ref!}>
+        {/* <Popper
+          open={select.visible}
+          anchorEl={() => this.ref!}
+          popperOptions={{
+            offsets: { x: 20, y: 20 },
+          }}
+        >
           <Toolbox />
-        </Popper>
+        </Popper> */}
       </div>
     );
   }

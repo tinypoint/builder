@@ -1,9 +1,9 @@
 import React from "react";
 import './index.css';
 
-type IContainerProps = any;
+type IPageProps = any;
 
-class Page extends React.Component<IContainerProps> {
+class Page extends React.Component<IPageProps> {
   static displayName = "Page";
 
   render() {

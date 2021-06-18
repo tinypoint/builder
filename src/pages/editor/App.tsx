@@ -73,7 +73,7 @@ class Editor extends React.Component {
         <div className="content">
           <Shop />
           <Controller />
-          <Configer />
+          {/* <Configer /> */}
           <Styler />
         </div>
         <Header />

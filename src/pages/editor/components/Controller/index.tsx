@@ -8,6 +8,7 @@ import store, { State } from "../../store";
 import MockPhone from "../MockPhone";
 import Runtime from "../Runtime";
 import Tracker from "../Tracker";
+import ReferenceLine from '../ReferenceLine';
 import "./index.css";
 
 const connector = connect((state: State) => {
@@ -78,6 +79,7 @@ class Controller extends React.Component<Props> {
             )}
           </div>
           <MockPhone />
+          <ReferenceLine />
           <Tracker />
         </div>
       </div>

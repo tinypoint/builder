@@ -5,7 +5,7 @@ import "./index.css";
 import schemaParser from "../../features/schemaParser";
 import historyer from "../../features/historyer";
 
-const lsit = ["button", "text", "img", "scroller", "ppt", "ppt-container"];
+const lsit = ["section", "button", "text", "img", "scroller", "ppt", "ppt-container"];
 
 const connector = connect((state: State) => {
   return {

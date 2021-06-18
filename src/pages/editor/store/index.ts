@@ -26,6 +26,13 @@ export interface Page {
     _id: string
 }
 
+export interface Bound {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+}
+
 
 const initState = {
     shopShow: true,
@@ -43,7 +50,12 @@ const initState = {
         id: 'container0001',
         children: []
     } as Schema),
+    baseScale: 0.5,
     scale: 0.75,
+    precision: 0,
+    bounds: ([] as Bound[]),
+    currentBound: (null as unknown as Bound),
+    threshold: 20,
     create: Boolean(window.location.pathname.match(/^\/create/)),
     loading: ({} as Loading),
     settingsPanelVisible: false,

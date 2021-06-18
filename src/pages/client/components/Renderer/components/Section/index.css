@@ -1,0 +1,6 @@
+.section {
+  min-height: 200px;
+  min-width: 200px;
+  outline: 2px dashed #00c4cc;
+  /* outline-offset: -1; */
+}

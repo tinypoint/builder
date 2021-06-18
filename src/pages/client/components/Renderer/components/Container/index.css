@@ -1,0 +1,9 @@
+.container *[data-builder-block="true"] {
+  display: grid;
+}
+
+.container *[data-builder-block="true"] > *[data-builder-type] {
+  grid-area: 1/1;
+  align-self: flex-start;
+  justify-self: flex-start;
+}

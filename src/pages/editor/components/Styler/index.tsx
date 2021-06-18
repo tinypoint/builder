@@ -144,7 +144,7 @@ class Configer extends React.Component<Props, States> {
             historyer.push(_schema);
           }}
         />
-        <TextField
+        {/* <TextField
           id="position-styles"
           label="position"
           select
@@ -182,67 +182,75 @@ class Configer extends React.Component<Props, States> {
           <MenuItem value="relative">relative</MenuItem>
           <MenuItem value="absolute">absolute</MenuItem>
           <MenuItem value="fixed">fixed</MenuItem>
-        </TextField>
+        </TextField> */}
         <TextField
-          id="left-styles"
-          label="left"
-          key="left-styles"
-          value={styles.left || cssDefination.left || ""}
-          disabled={!styles.left}
+          id="margin-left-styles"
+          label="margin-left"
+          key="margin-left-styles"
+          value={
+            styles["margin-left"] ||
+            cssDefination.getPropertyValue("margin-left") ||
+            ""
+          }
+          disabled={!styles["margin-left"]}
           onChange={(e) => {
-            if (!styles.left) {
+            if (!styles["margin-left"]) {
               return;
             }
             const value = (e.target as HTMLInputElement).value;
             const _schema = schemaParser.update(
               this.props.schema,
               targetSchema.id,
-              `styles.#${targetSchema.id}.left`,
+              `styles.#${targetSchema.id}.margin-left`,
               value
             );
             historyer.push(_schema);
           }}
           onDoubleClick={() => {
-            if (styles.left) {
+            if (styles["margin-left"]) {
               return;
             }
             const _schema = schemaParser.update(
               this.props.schema,
               targetSchema.id,
-              `styles.#${targetSchema.id}.left`,
-              cssDefination.left
+              `styles.#${targetSchema.id}.margin-left`,
+              cssDefination.getPropertyValue("margin-left")
             );
             historyer.push(_schema);
           }}
         />
         <TextField
-          id="top-styles"
-          label="top"
-          key="top-styles"
-          value={styles.top || cssDefination.top || ""}
-          disabled={!styles.top}
+          id="margin-top-styles"
+          label="margin-top"
+          key="margin-top-styles"
+          value={
+            styles["margin-top"] ||
+            cssDefination.getPropertyValue("margin-top") ||
+            ""
+          }
+          disabled={!styles["margin-top"]}
           onChange={(e) => {
-            if (!styles.top) {
+            if (!styles["margin-top"]) {
               return;
             }
             const value = (e.target as HTMLInputElement).value;
             const _schema = schemaParser.update(
               this.props.schema,
               targetSchema.id,
-              `styles.#${targetSchema.id}.top`,
+              `styles.#${targetSchema.id}.margin-top`,
               value
             );
             historyer.push(_schema);
           }}
           onDoubleClick={() => {
-            if (styles.top) {
+            if (styles["margin-top"]) {
               return;
             }
             const _schema = schemaParser.update(
               this.props.schema,
               targetSchema.id,
-              `styles.#${targetSchema.id}.top`,
-              cssDefination.top
+              `styles.#${targetSchema.id}.margin-top`,
+              cssDefination.getPropertyValue("margin-top")
             );
             historyer.push(_schema);
           }}

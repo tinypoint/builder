@@ -41,22 +41,20 @@ class Dragger {
         const cssStyle = window.getComputedStyle(target);
         this._target = target;
 
-        if (cssStyle.position === 'static') {
+        if (cssStyle.position === 'absolute' || cssStyle.position === 'fixed') {
             return;
         }
 
         this.transfer = {
             _left: this._target.style.left,
             _top: this._target.style.top,
-            x: Number(cssStyle.left.replace('px', '')) || 0,
-            y: Number(cssStyle.top.replace('px', '')) || 0,
+            x: Number(cssStyle.marginLeft.replace('px', '')) || 0,
+            y: Number(cssStyle.marginTop.replace('px', '')) || 0,
         }
         this._working = true;
         this.startX = e.pageX;
         this.startY = e.pageY;
 
-        // this.overlayer.host.style.display = 'block';
-        // this.overlayer.host.style.cursor = 'nwse-resize'
 
         document.documentElement.classList.add('dragger')
 
@@ -75,19 +73,19 @@ class Dragger {
 
         const left = (this.transfer.x + moveX)
         const top = (this.transfer.y + moveY)
-        this._target.style.left = `${left}px`
-        this._target.style.top = `${top}px`
+        this._target.style.marginLeft = `${left}px`
+        this._target.style.marginTop = `${top}px`
     }
 
     cancel = (e: MouseEvent) => {
-        this._target.style.left = this.transfer._left
-        this._target.style.top = this.transfer._top
+        this._target.style.marginLeft = this.transfer._left
+        this._target.style.marginTop = this.transfer._top
         this._target = null
         this._working = false;
         this.transfer = {};
         this.startX = 0;
         this.startY = 0;
-        
+
         window.removeEventListener('mousemove', this.move)
         window.removeEventListener('mouseup', this.up)
         window.removeEventListener('mouseleave', this.cancel)
@@ -102,15 +100,15 @@ class Dragger {
         const moveY = e.pageY - this.startY
         const left = (this.transfer.x + moveX)
         const top = (this.transfer.y + moveY)
-        this._target.style.left = `${left}px`
-        this._target.style.top = `${top}px`
+        this._target.style.marginLeft = `${left}px`
+        this._target.style.marginTop = `${top}px`
         const { schema, select } = (window as any).store.getState();
         const [_targetSchema] = schemaParser.searchById(schema, select)
         const styles = get(_targetSchema, `styles.#${_targetSchema.id}`, {});
         const _schema = schemaParser.update(schema, select, `styles.#${_targetSchema.id}`, {
             ...styles,
-            left: `${left}px`,
-            top: `${top}px`
+            'margin-left': `${left}px`,
+            'margin-top': `${top}px`
         });
 
         (window.parent as any).changePosition(_schema);
