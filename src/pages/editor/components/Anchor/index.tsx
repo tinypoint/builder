@@ -3,7 +3,7 @@ import './index.css';
 
 interface IProps {
   type: 'select' | 'hover';
-  children: React.ReactChildren
+  children?: React.ReactNode;
 }
 
 interface DotProps {
@@ -32,13 +32,17 @@ const dots = (
 );
 
 const Anchor: React.FC<IProps> = (props: IProps) => {
-  const { type, children } = props;
+  const { type, children = null } = props;
   return (
     <div data-builder-anchor={type} className="anchor">
       {type === 'select' && (dots)}
       {children}
     </div>
   );
+};
+
+Anchor.defaultProps = {
+  children: null,
 };
 
 export default Anchor;
