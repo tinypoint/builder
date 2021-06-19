@@ -70,7 +70,7 @@ class Resizer {
 
     const _parentSchema = schemaParser.searchById(schema, select)[1];
     const siblings = (_parentSchema.children || []).filter((child) => child.id !== select);
-
+    siblings.unshift(_parentSchema);
     const bounds: Bound[] = siblings.map((sib) => {
       const element = iframeDocument.getElementById(sib.id);
 

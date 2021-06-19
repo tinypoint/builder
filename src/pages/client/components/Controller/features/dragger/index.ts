@@ -3,13 +3,10 @@ import { get } from 'lodash-es';
 import adsorptioner from '../../../../../editor/features/adsorptioner';
 import schemaParser from '../../../../../editor/features/schemaParser';
 import { Bound } from '../../../../../editor/store';
-import Overlayer from '../overlayer';
 import './index.css';
 
 class Dragger {
   Dragger = Dragger;
-
-  overlayer = new Overlayer();
 
   _working = false;
 
@@ -20,10 +17,6 @@ class Dragger {
   _target: any = null;
 
   transfer: any = {};
-
-  constructor() {
-    this.overlayer.host.style.display = 'none';
-  }
 
   start = (e: MouseEvent) => {
     const { select, schema, threshold } = (window as any).store.getState();
@@ -52,7 +45,7 @@ class Dragger {
 
     const _parentSchema = schemaParser.searchById(schema, select)[1];
     const siblings = (_parentSchema.children || []).filter((child) => child.id !== select);
-
+    siblings.unshift(_parentSchema);
     const bounds: Bound[] = siblings.map((sib) => {
       const element = document.getElementById(sib.id);
 
@@ -173,8 +166,6 @@ class Dragger {
     window.removeEventListener('mouseup', this.up);
     window.removeEventListener('mouseleave', this.cancel);
 
-    // this.overlayer.host.style.display = 'none'
-    // this.overlayer.host.style.cursor = 'initial'
     document.documentElement.classList.remove('dragger');
   };
 
