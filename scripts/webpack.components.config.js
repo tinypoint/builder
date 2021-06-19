@@ -23,8 +23,8 @@ module.exports = {
       name: '[name]',
       type: 'amd',
     },
-    filename: '[name].js',
-    path: path.resolve(root, 'publish'),
+    filename: '[name].[contenthash].js',
+    path: path.resolve(root, 'public', 'assets'),
   },
   externals: [
     {

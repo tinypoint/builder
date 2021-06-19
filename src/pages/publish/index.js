@@ -18,7 +18,7 @@ _traverse(window.$$schema$$, (schema) => {
 });
 
 window.require(
-  ["react", "react-dom", "redux", "react-redux", ...components],
+  ['react', 'react-dom', 'redux', 'react-redux', ...components],
   function (React, ReactDOM, { createStore }, { Provider, connect }, ...mods) {
     mods.forEach((mod, index) => {
       MAPS[components[index]] = mod.default;
@@ -39,17 +39,15 @@ window.require(
     const store = createStore(reducer);
 
     class Renderer extends React.Component {
-      cycle = (schema) => {
-        return React.createElement(
-          MAPS[schema.type],
-          {
-            ...(schema.props || {}),
-            key: schema.id,
-            id: schema.id,
-          },
-          (schema.children || []).map(this.cycle)
-        );
-      };
+      cycle = (schema) => React.createElement(
+        MAPS[schema.type],
+        {
+          ...(schema.props || {}),
+          key: schema.id,
+          id: schema.id,
+        },
+        (schema.children || []).map(this.cycle),
+      );
 
       render() {
         const { schema } = this.props;
@@ -57,11 +55,9 @@ window.require(
       }
     }
 
-    const Client = connect((state) => {
-      return {
-        schema: state.schema,
-      };
-    })(Renderer);
+    const Client = connect((state) => ({
+      schema: state.schema,
+    }))(Renderer);
 
     class App extends React.Component {
       render() {
@@ -70,11 +66,11 @@ window.require(
           {
             store,
           },
-          React.createElement(Client)
+          React.createElement(Client),
         );
       }
     }
 
-    ReactDOM.render(React.createElement(App), document.getElementById("root"));
-  }
+    ReactDOM.render(React.createElement(App), document.getElementById('root'));
+  },
 );
