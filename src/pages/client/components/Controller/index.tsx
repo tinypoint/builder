@@ -2,7 +2,6 @@ import React from 'react';
 import './index.css';
 import { connect } from 'react-redux';
 import dragger from './features/dragger';
-import resizer from './features/resizer';
 import { State } from '../../../editor/store';
 
 interface Props {
@@ -21,8 +20,78 @@ const initState = {
 class Controller extends React.Component<Props> {
   clickTimer: any = null;
 
+  _mousehasmove = false;
+
+  _mousehasdown = false;
+
+  _state = {
+    select: initState,
+    hover: initState,
+  };
+
+  _ticking = false;
+
+  _element: HTMLElement | null = null;
+
+  _mutationObserver: MutationObserver | null = null;
+
+  _looptimer: any = 1;
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.track, true);
+    this._looptimer = setInterval(this.track, 300);
+    this._mutationObserver = new MutationObserver(this.track);
+    this._mutationObserver!.observe(document.documentElement, {
+      attributes: true,
+      childList: true,
+      subtree: true,
+    });
+
+    document.body.addEventListener('dragstart', this.onDragStart);
+
+    document.body.addEventListener('mousedown', this.onMouseDown);
+
+    document.body.addEventListener('mouseup', this.onMouseUp);
+
+    document.body.addEventListener('mouseover', this.onMouseOver);
+
+    document.body.addEventListener('mouseleave', this.onMouseLeave);
+
+    document.body.addEventListener('dblclick', this.onDoubleClick);
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    const { select, hover } = this.props;
+    if (prevProps.select !== select) {
+      this.clearSelect();
+    }
+
+    if (prevProps.hover !== hover) {
+      this.clearHover();
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.track, true);
+    clearInterval(this._looptimer);
+    this._mutationObserver!.disconnect();
+    this._mutationObserver = null;
+
+    document.body.removeEventListener('dragstart', this.onDragStart);
+
+    document.body.removeEventListener('mousedown', this.onMouseDown);
+
+    document.body.removeEventListener('mouseup', this.onMouseUp);
+
+    document.body.removeEventListener('mouseover', this.onMouseOver);
+
+    document.body.removeEventListener('mouseleave', this.onMouseLeave);
+
+    document.body.removeEventListener('dblclick', this.onDoubleClick);
+  }
+
   select = (list: HTMLElement[]) => {
-    for (let i = 0, len = list.length; i < len; i++) {
+    for (let i = 0, len = list.length; i < len; i += 1) {
       const dom = list[i];
       if (dom.hasAttribute('data-builder-tracker')) {
         return;
@@ -57,7 +126,7 @@ class Controller extends React.Component<Props> {
     }, 300);
   };
 
-  onDoubleClick = (e: MouseEvent) => {
+  onDoubleClick = () => {
     if (this.clickTimer) {
       clearTimeout(this.clickTimer);
       this.clickTimer = 0;
@@ -66,7 +135,7 @@ class Controller extends React.Component<Props> {
 
   onMouseOver = (e: MouseEvent) => {
     const list = e.composedPath().slice(0, -2) as HTMLElement[];
-    for (let i = 0, len = list.length; i < len; i++) {
+    for (let i = 0, len = list.length; i < len; i += 1) {
       const dom = list[i];
       if (dom.hasAttribute('data-builder-tracker')) {
         return;
@@ -95,13 +164,11 @@ class Controller extends React.Component<Props> {
       type: 'CHANGE_VALUE',
       payload: [{ key: 'hover', value: '' }],
     });
-  }
+  };
 
   onDragStart = (e: MouseEvent) => {
     e.preventDefault();
   };
-
-  _mousehasdown = false;
 
   onMouseDown = (e: MouseEvent) => {
     if ((e.target as HTMLElement).getAttribute('data-builder-dotdir')) {
@@ -120,14 +187,11 @@ class Controller extends React.Component<Props> {
           ],
         });
       }
-      resizer.start(e);
       return;
     }
     this._mousehasdown = true;
     window.addEventListener('mousemove', this.onMouseMove, true);
   };
-
-  _mousehasmove = false;
 
   onMouseMove = (e: MouseEvent) => {
     window.removeEventListener('mousemove', this.onMouseMove, true);
@@ -157,68 +221,7 @@ class Controller extends React.Component<Props> {
     this._mousehasdown = false;
   };
 
-  componentDidMount() {
-    window.addEventListener('scroll', this.track, true);
-    this._looptimer = setInterval(this.track, 300);
-
-    this._mutationObserver!.observe(document.documentElement, {
-      attributes: true,
-      childList: true,
-      subtree: true,
-    });
-
-    document.body.addEventListener('dragstart', this.onDragStart);
-
-    document.body.addEventListener('mousedown', this.onMouseDown);
-
-    document.body.addEventListener('mouseup', this.onMouseUp);
-
-    document.body.addEventListener('mouseover', this.onMouseOver);
-
-    document.body.addEventListener('mouseleave', this.onMouseLeave);
-
-    document.body.addEventListener('dblclick', this.onDoubleClick);
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    if (prevProps.select !== this.props.select) {
-      this.clearSelect();
-    }
-
-    if (prevProps.hover !== this.props.hover) {
-      this.clearHover();
-    }
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.track, true);
-    clearInterval(this._looptimer);
-    this._mutationObserver!.disconnect();
-    this._mutationObserver = null;
-
-    document.body.removeEventListener('dragstart', this.onDragStart);
-
-    document.body.removeEventListener('mousedown', this.onMouseDown);
-
-    document.body.removeEventListener('mouseup', this.onMouseUp);
-
-    document.body.removeEventListener('mouseover', this.onMouseOver);
-
-    document.body.removeEventListener('mouseleave', this.onMouseLeave);
-
-    document.body.removeEventListener('dblclick', this.onDoubleClick);
-  }
-
   // track start
-
-  _state = {
-    select: initState,
-    hover: initState,
-  };
-
-  _ticking = false;
-
-  _element: HTMLElement | null = null;
 
   _track = () => {
     const { select } = this.props;
@@ -366,10 +369,6 @@ class Controller extends React.Component<Props> {
     };
     (window.parent as any)._track(args);
   };
-
-  _mutationObserver: MutationObserver | null = new MutationObserver(this.track);
-
-  _looptimer: any = 1;
 
   // track end
 

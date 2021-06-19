@@ -6,7 +6,7 @@ import resizer from '../../features/resizer';
 import schemaParser from '../../features/schemaParser';
 import store, { State } from '../../store';
 import MockPhone from '../MockPhone';
-import Runtime from '../Runtime';
+import Client from '../Client';
 import Tracker from '../Tracker';
 import ReferenceLine from '../ReferenceLine';
 import './index.css';
@@ -19,6 +19,14 @@ const connector = connect((state: State) => ({
 type Props = ConnectedProps<typeof connector>;
 
 class Controller extends React.Component<Props> {
+  componentDidMount() {
+    window.addEventListener('mousedown', this.onMouseDown);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('mousedown', this.onMouseDown);
+  }
+
   addBlankPage = () => {
     const { schema } = this.props;
     const pageSchema = schemaParser.createSchema('page');
@@ -32,21 +40,9 @@ class Controller extends React.Component<Props> {
 
   onMouseDown = (e: MouseEvent) => {
     if ((e.target as HTMLElement).getAttribute('data-builder-dotdir')) {
-      const type = (
-        e.target as HTMLElement
-      ).parentElement!.parentElement!.getAttribute('data-builder-anchor');
-
       resizer.start(e);
     }
   };
-
-  componentDidMount() {
-    window.addEventListener('mousedown', this.onMouseDown);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('mousedown', this.onMouseDown);
-  }
 
   render() {
     const { scale, schema } = this.props;
@@ -66,7 +62,7 @@ class Controller extends React.Component<Props> {
               height: 812,
             }}
           >
-            <Runtime />
+            <Client />
             {Boolean(!schema.children || !schema.children.length) && (
               <div className="add-a-page">
                 <Button color="primary" onClick={this.addBlankPage}>

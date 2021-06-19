@@ -2,29 +2,33 @@ import { IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import './index.css';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 import Paper from '@material-ui/core/Paper';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import store, { State } from '../../store';
 import schemaParser from '../../features/schemaParser';
 import historyer from '../../features/historyer';
 
-interface Props {
-  select: State['select'];
-  schema: State['schema'];
-}
+const connecter = connect((state: State) => ({
+  select: state.select,
+  schema: state.schema,
+}));
+
+type Props = ConnectedProps<typeof connecter>;
 
 class Toolbox extends React.Component<Props> {
-  state = {
-    open: false,
-  };
+  ref: HTMLDivElement | null = null;
+
+  editor: Quill | null = null;
+
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      // open: false,
+    };
+  }
 
   delComp = () => {
     const { select, schema } = this.props;
@@ -46,7 +50,7 @@ class Toolbox extends React.Component<Props> {
   openRichTextEditor = () => {
     this.setState(
       {
-        open: true,
+        // open: true,
       },
       () => {
         this.editor = new Quill(this.ref!, {
@@ -57,17 +61,9 @@ class Toolbox extends React.Component<Props> {
     );
   };
 
-  ref: HTMLDivElement | null = null;
-
-  editor: Quill | null = null;
-
   handleClose = () => {};
 
   render() {
-    const { select, schema } = this.props;
-    const { open } = this.state;
-    const [_target] = schemaParser.searchById(schema, select);
-
     return (
       <Paper>
         {/* <ButtonGroup variant="contained" color="primary"> */}
@@ -82,7 +78,4 @@ class Toolbox extends React.Component<Props> {
   }
 }
 
-export default connect((state: State) => ({
-  select: state.select,
-  schema: state.schema,
-}))(Toolbox);
+export default connecter(Toolbox);

@@ -3,16 +3,12 @@ import './index.css';
 
 type IContainerProps = any;
 
-class PptContainer extends React.Component<IContainerProps> {
-  static displayName = 'PptContainer';
+const PptContainer: React.FC<IContainerProps> = ({ id, children }: IContainerProps) => (
+  <div id={id} className="ppt-container" data-builder-type="ppt-container" data-builder-block>
+    {children}
+  </div>
+);
 
-  render() {
-    return (
-      <div id={this.props.id} className="ppt-container" data-builder-type="ppt-container" data-builder-block>
-        {this.props.children}
-      </div>
-    );
-  }
-}
+PptContainer.displayName = 'Scroller';
 
 export default PptContainer;

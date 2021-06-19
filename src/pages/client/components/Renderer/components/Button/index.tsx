@@ -3,20 +3,16 @@ import './index.css';
 
 type IButtonProps = any;
 
-class Button extends React.Component<IButtonProps> {
-  static displayName = 'Button';
+const Button: React.FC<IButtonProps> = ({ id, text }: IButtonProps) => (
+  <div
+    id={id}
+    data-builder-type="button"
+    className="button"
+  >
+    {text}
+  </div>
+);
 
-  render() {
-    return (
-      <div
-        id={this.props.id}
-        data-builder-type="button"
-        className="button"
-      >
-        {this.props.text}
-      </div>
-    );
-  }
-}
+Button.displayName = 'Button';
 
 export default Button;

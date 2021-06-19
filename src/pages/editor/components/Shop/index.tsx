@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import store, { State } from '../../store';
 import './index.css';
+import Button from '@material-ui/core/Button';
 import schemaParser from '../../features/schemaParser';
 import historyer from '../../features/historyer';
+import store, { State } from '../../store';
 
 const lsit = ['section', 'button', 'text', 'img', 'scroller', 'ppt', 'ppt-container'];
 
@@ -69,7 +70,7 @@ class Shop extends React.Component<Props> {
         }}
       >
         {lsit.map((type) => (
-          <div
+          <Button
             className="component-card"
             key={type}
             onClick={() => {
@@ -77,7 +78,7 @@ class Shop extends React.Component<Props> {
             }}
           >
             {type.toUpperCase()}
-          </div>
+          </Button>
         ))}
       </div>
     );

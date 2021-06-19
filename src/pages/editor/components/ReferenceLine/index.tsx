@@ -10,6 +10,23 @@ class ReferenceLine extends React.Component {
 
   unsubscribe: Unsubscribe | null = null;
 
+  componentDidMount() {
+    this.ctx = this.ref!.getContext('2d')!;
+
+    this.unsubscribe = store.subscribe(() => {
+      const { currentBound, bounds, threshold } = store.getState();
+      if (!currentBound || !bounds || !bounds.length) {
+        this.clear();
+      } else {
+        this.draw(currentBound, bounds, threshold);
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe!();
+  }
+
   clear = () => {
     this.ctx!.clearRect(0, 0, 750, 1552);
   };
@@ -61,30 +78,16 @@ class ReferenceLine extends React.Component {
     });
   };
 
-  componentDidMount() {
-    this.ctx = this.ref!.getContext('2d')!;
-
-    this.unsubscribe = store.subscribe(() => {
-      const { currentBound, bounds, threshold } = store.getState();
-      if (!currentBound || !bounds || !bounds.length) {
-        this.clear();
-      } else {
-        this.draw(currentBound, bounds, threshold);
-      }
-    });
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe!();
-  }
-
   render() {
     return (
       <canvas
         className="referenceLine"
         width="750px"
         height="1552px"
-        ref={(ref) => (this.ref = ref)}
+        ref={(ref) => {
+          this.ref = ref;
+        }}
+
       />
     );
   }

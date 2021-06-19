@@ -9,7 +9,7 @@ import './App.css';
 import Shop from './components/Shop';
 import Styler from './components/Styler';
 import historyer from './features/historyer';
-import Configer from './components/Configer';
+// import Configer from './components/Configer';
 import Loading from './components/Loading';
 import SettingsPanel from './components/SettingsPanel';
 
@@ -25,6 +25,14 @@ interface PagesRecord {
 }
 
 class Editor extends React.Component {
+  componentDidMount() {
+    if (store.getState().create) {
+      this.createData();
+    } else {
+      this.fetchData();
+    }
+  }
+
   createData = () => {
     historyer.push({
       type: 'container',
@@ -34,10 +42,9 @@ class Editor extends React.Component {
   };
 
   fetchData = async () => {
-    const { id } = queryString.parse(location.search);
+    const { id } = queryString.parse(window.location.search);
 
     if (!id || !/^[0-9a-zA-Z]{24}$/.exec(id as string)) {
-      alert('invalid id');
       return;
     }
 
@@ -45,7 +52,7 @@ class Editor extends React.Component {
       data: { data: meta },
     } = await axios.get(`/api/page/info/${id}`);
 
-    const { page, records } = meta;
+    const { records } = meta;
 
     const editing = records.filter(
       (record: PagesRecord) => record.status === 'editing',
@@ -58,14 +65,6 @@ class Editor extends React.Component {
 
     historyer.push(editing.schema);
   };
-
-  componentDidMount() {
-    if (store.getState().create) {
-      this.createData();
-    } else {
-      this.fetchData();
-    }
-  }
 
   render() {
     return (

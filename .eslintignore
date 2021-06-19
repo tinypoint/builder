@@ -4,3 +4,8 @@ node_modules
 dist
 # don't lint nyc coverage output
 publish
+# config file
+.eslintrc.js
+commitlint.config.js
+#
+scripts

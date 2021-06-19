@@ -14,7 +14,6 @@ import SaveIcon from '@material-ui/icons/Save';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { connect, ConnectedProps } from 'react-redux';
 import store, { State } from '../../../store';
-import historyer from '../../../features/historyer';
 
 const connector = connect((state: State) => ({
   sid: state.sid,

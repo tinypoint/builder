@@ -7,6 +7,7 @@ module.exports = {
   extends: [
     'plugin:react/recommended',
     'airbnb',
+	'airbnb-typescript'
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -15,6 +16,7 @@ module.exports = {
     },
     ecmaVersion: 12,
     sourceType: 'module',
+		project: './tsconfig.json',
   },
   plugins: [
     'react',
@@ -22,7 +24,10 @@ module.exports = {
   ],
   rules: {
     'no-underscore-dangle': 'off',
-    'import/no-unresolved': 'off',
+    'no-bitwise': 'off',
+		'react/jsx-props-no-spreading': 'off',
+		'@typescript-eslint/naming-convention': 'off',
+		'react/no-unescaped-entities': 'off'
   },
   settings: {
     'import/resolver': {

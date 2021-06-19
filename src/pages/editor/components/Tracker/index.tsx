@@ -1,15 +1,17 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
+import Popper from '@material-ui/core/Popper';
 import { State } from '../../store';
 import Anchor from '../Anchor';
 import Toolbox from '../Toolbox';
 import './index.css';
-import Popper from '@material-ui/core/Popper';
 
-interface Props {
-  select: State['select'];
-  hover: State['hover'];
-}
+const connecter = connect((state: State) => ({
+  select: state.select,
+  hover: state.hover,
+}));
+
+type IProps = ConnectedProps<typeof connecter>;
 
 const initState = {
   visible: false,
@@ -19,25 +21,26 @@ const initState = {
   height: 0,
 };
 
+interface IState {
+  select: typeof initState,
+  hover: typeof initState
+}
+
 const scale = 0.5;
 
-class Tracker extends React.Component<Props> {
-  state = {
-    select: initState,
-    hover: initState,
-  };
-
+class Tracker extends React.Component<IProps, IState> {
   _working = false;
 
-  listen = (state: { select: typeof initState; hover: typeof initState }) => {
-    if (!this._working) {
-      return;
-    }
-
-    this.setState(state);
-  };
-
   ref: HTMLDivElement | null = null;
+
+  constructor(props: IProps) {
+    super(props);
+
+    this.state = {
+      select: initState,
+      hover: initState,
+    };
+  }
 
   componentDidMount() {
     this._working = true;
@@ -53,6 +56,14 @@ class Tracker extends React.Component<Props> {
 
     delete (window as any)._track;
   }
+
+  listen = (state: { select: typeof initState; hover: typeof initState }) => {
+    if (!this._working) {
+      return;
+    }
+
+    this.setState(state);
+  };
 
   render() {
     const { select, hover } = this.state;
@@ -73,7 +84,9 @@ class Tracker extends React.Component<Props> {
         </div>
         <div
           className="tracker-box select"
-          ref={(ref) => (this.ref = ref)}
+          ref={(ref) => {
+            this.ref = ref;
+          }}
           style={{
             visibility: select.visible ? 'visible' : 'hidden',
             transform: `translate3d(${select.x * scale}px,${
@@ -99,7 +112,4 @@ class Tracker extends React.Component<Props> {
   }
 }
 
-export default connect((state: State) => ({
-  select: state.select,
-  hover: state.hover,
-}))(Tracker);
+export default connecter(Tracker);

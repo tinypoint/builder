@@ -81,7 +81,8 @@ class Header extends React.Component<Props> {
   };
 
   save = async () => {
-    if (this.props.create) {
+    const { create } = this.props;
+    if (create) {
       this._create();
     } else {
       this._save();
@@ -98,7 +99,7 @@ class Header extends React.Component<Props> {
 
   onScaleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    console.log(+(Number(value) / 100).toFixed(2));
+
     store.dispatch({
       type: 'CHANGE_VALUE',
       payload: [{ key: 'scale', value: +(Number(value) / 100).toFixed(2) }],

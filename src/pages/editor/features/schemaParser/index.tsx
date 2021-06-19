@@ -25,7 +25,7 @@ class SchemaPaser {
     callback(schema, layerId);
 
     const { children = [] } = schema;
-    for (let i = 0, len = children.length; i < len; i++) {
+    for (let i = 0, len = children.length; i < len; i += 1) {
       this._traverse(children[i], callback, option, layerId + 1);
     }
   };
@@ -80,7 +80,7 @@ class SchemaPaser {
 
   insertAfter(schema: Schema, id: string, newScheam: Schema) {
     const _schema = cloneDeep(schema);
-    const [_target, _parent] = this.searchById(_schema, id);
+    const _parent = this.searchById(_schema, id)[1];
     const _index = _parent.children?.findIndex((child) => child.id === id);
     if (_index !== undefined) {
       _parent.children?.splice(_index + 1, 0, newScheam);
@@ -90,7 +90,7 @@ class SchemaPaser {
 
   remove(schema: Schema, id: string) {
     const _schema = cloneDeep(schema);
-    const [_target, _parent] = this.searchById(_schema, id);
+    const _parent = this.searchById(_schema, id)[1];
     _parent.children = _parent.children?.filter((child) => child.id !== id);
     return _schema;
   }

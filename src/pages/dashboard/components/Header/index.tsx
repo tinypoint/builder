@@ -6,6 +6,10 @@ import Grid from '@material-ui/core/Grid';
 import './index.css';
 
 class Header extends React.Component {
+  componentDidMount() {
+    // console.log
+  }
+
   render() {
     return (
       <Grid container justify="space-between" className="dashboard-header">

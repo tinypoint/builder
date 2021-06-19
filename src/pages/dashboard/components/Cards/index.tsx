@@ -13,11 +13,23 @@ interface Page {
   _id: string;
 }
 
-class Header extends React.Component {
-  state = {
-    pages: [] as Page[],
-    loading: true,
-  };
+interface IStates {
+  pages: Page[];
+  loading: boolean;
+}
+
+class Cards extends React.Component<any, IStates> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      pages: [] as Page[],
+      loading: true,
+    };
+  }
+
+  componentDidMount() {
+    this.fetchData();
+  }
 
   fetchData = async () => {
     this.setState({
@@ -31,10 +43,6 @@ class Header extends React.Component {
       loading: false,
     });
   };
-
-  componentDidMount() {
-    this.fetchData();
-  }
 
   delete = async (id: string) => {
     await axios.delete(`/api/page/${id}`);
@@ -97,4 +105,4 @@ class Header extends React.Component {
   }
 }
 
-export default Header;
+export default Cards;

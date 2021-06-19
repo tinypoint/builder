@@ -3,18 +3,14 @@ import './index.css';
 
 type IScrollerProps = any;
 
-class Scroller extends React.Component<IScrollerProps> {
-  static displayName = 'Scroller';
+const Scroller: React.FC<IScrollerProps> = ({ id, children }: IScrollerProps) => (
+  <div id={id} data-builder-type="scroller" className="scroller">
+    <div data-builder-block style={{ height: '100%', width: 1000 }}>
+      {children}
+    </div>
+  </div>
+);
 
-  render() {
-    return (
-      <div id={this.props.id} data-builder-type="scroller" className="scroller">
-        <div data-builder-block style={{ height: '100%', width: 1000 }}>
-          {this.props.children}
-        </div>
-      </div>
-    );
-  }
-}
+Scroller.displayName = 'Scroller';
 
 export default Scroller;

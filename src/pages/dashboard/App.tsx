@@ -4,14 +4,12 @@ import Cards from './components/Cards';
 import Ripple from './components/Ripple';
 import './App.css';
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <>
-        <Header />
-        <Cards />
-        <Ripple />
-      </>
-    );
-  }
-}
+const App = () => (
+  <>
+    <Header />
+    <Cards />
+    <Ripple />
+  </>
+);
+
+export default App;

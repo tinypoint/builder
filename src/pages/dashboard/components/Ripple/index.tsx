@@ -1,13 +1,29 @@
-import { debounce, throttle } from 'lodash-es';
-import React from 'react';
+import { debounce } from 'lodash-es';
+import React, { MouseEvent } from 'react';
 import './index.css';
 
 class Ripple extends React.Component {
-  state = {
-    animating: false,
-    x: 0,
-    y: 0,
-  };
+  ref: HTMLDivElement | null = null;
+
+  debounceRipple: any = null;
+
+  constructor(props: any) {
+    super(props);
+
+    // this.throttleRipple = throttle(this.ripple, 1000)
+
+    this.debounceRipple = debounce(this.ripple, 18);
+  }
+
+  componentDidMount() {
+    // window.addEventListener('mousemove', this.throttleRipple, true);
+    window.addEventListener('mousedown', this.debounceRipple!, true);
+  }
+
+  componentWillUnmount() {
+    // window.removeEventListener('mousemove', this.throttleRipple, true);
+    window.removeEventListener('mousedown', this.debounceRipple, true);
+  }
 
   randomColor = () => Math.floor(Math.random() * 256);
 
@@ -52,22 +68,6 @@ class Ripple extends React.Component {
       div = null;
     }, 1000);
   };
-
-  ref: HTMLDivElement | null = null;
-
-  // throttleRipple = throttle(this.ripple, 1000)
-
-  debounceRipple = debounce(this.ripple, 18);
-
-  componentDidMount() {
-    // window.addEventListener('mousemove', this.throttleRipple, true);
-    window.addEventListener('mousedown', this.debounceRipple, true);
-  }
-
-  componentWillUnmount() {
-    // window.removeEventListener('mousemove', this.throttleRipple, true);
-    window.removeEventListener('mousedown', this.debounceRipple, true);
-  }
 
   render() {
     return null;

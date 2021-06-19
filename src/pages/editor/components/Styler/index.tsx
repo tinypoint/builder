@@ -1,19 +1,20 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Schema, State } from '../../store';
+import { connect, ConnectedProps } from 'react-redux';
 import './index.css';
 import { get } from 'lodash-es';
-import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import schemaParser from '../../features/schemaParser';
 import historyer from '../../features/historyer';
+import { Schema, State } from '../../store';
 
-interface Props {
-  select: State['select'];
-  schema: State['schema'];
-}
+const connecter = connect((state: State) => ({
+  select: state.select,
+  schema: state.schema,
+}));
 
-interface States {
+type IProps = ConnectedProps<typeof connecter>;
+
+interface IStates {
   cssDefination: CSSStyleDeclaration | null;
 }
 
@@ -21,16 +22,13 @@ const noop = () => {};
 
 (window as any)._styler = noop;
 
-class Configer extends React.Component<Props, States> {
-  state: States = {
-    cssDefination: null,
-  };
-
-  _listen = (cssDefination: CSSStyleDeclaration | null) => {
-    this.setState({
-      cssDefination,
-    });
-  };
+class Configer extends React.Component<IProps, IStates> {
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+      cssDefination: null,
+    };
+  }
 
   componentDidMount() {
     (window as any)._styler = this._listen;
@@ -40,7 +38,14 @@ class Configer extends React.Component<Props, States> {
     (window as any)._styler = noop;
   }
 
+  _listen = (cssDefination: CSSStyleDeclaration | null) => {
+    this.setState({
+      cssDefination,
+    });
+  };
+
   renderProp = (item: any, targetSchema: Schema) => {
+    const { schema } = this.props;
     const { props = {} } = targetSchema;
     if (item.type === 'input') {
       return (
@@ -52,7 +57,7 @@ class Configer extends React.Component<Props, States> {
             const { value } = e.target as HTMLInputElement;
 
             const _schema = schemaParser.update(
-              this.props.schema,
+              schema,
               targetSchema.id,
               `props.${item.key}`,
               value,
@@ -63,6 +68,8 @@ class Configer extends React.Component<Props, States> {
         />
       );
     }
+
+    return null;
   };
 
   render() {
@@ -92,7 +99,7 @@ class Configer extends React.Component<Props, States> {
             }
             const { value } = e.target as HTMLInputElement;
             const _schema = schemaParser.update(
-              this.props.schema,
+              schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.width`,
               value,
@@ -104,7 +111,7 @@ class Configer extends React.Component<Props, States> {
               return;
             }
             const _schema = schemaParser.update(
-              this.props.schema,
+              schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.width`,
               cssDefination.width,
@@ -124,7 +131,7 @@ class Configer extends React.Component<Props, States> {
             }
             const { value } = e.target as HTMLInputElement;
             const _schema = schemaParser.update(
-              this.props.schema,
+              schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.height`,
               value,
@@ -136,7 +143,7 @@ class Configer extends React.Component<Props, States> {
               return;
             }
             const _schema = schemaParser.update(
-              this.props.schema,
+              schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.height`,
               cssDefination.height,
@@ -158,7 +165,7 @@ class Configer extends React.Component<Props, States> {
             const value = e.target.value;
 
             const _schema = schemaParser.update(
-              this.props.schema,
+              schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.position`,
               value
@@ -170,7 +177,7 @@ class Configer extends React.Component<Props, States> {
               return;
             }
             const _schema = schemaParser.update(
-              this.props.schema,
+              schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.position`,
               cssDefination.position
@@ -199,7 +206,7 @@ class Configer extends React.Component<Props, States> {
             }
             const { value } = e.target as HTMLInputElement;
             const _schema = schemaParser.update(
-              this.props.schema,
+              schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.margin-left`,
               value,
@@ -211,7 +218,7 @@ class Configer extends React.Component<Props, States> {
               return;
             }
             const _schema = schemaParser.update(
-              this.props.schema,
+              schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.margin-left`,
               cssDefination.getPropertyValue('margin-left'),
@@ -235,7 +242,7 @@ class Configer extends React.Component<Props, States> {
             }
             const { value } = e.target as HTMLInputElement;
             const _schema = schemaParser.update(
-              this.props.schema,
+              schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.margin-top`,
               value,
@@ -247,7 +254,7 @@ class Configer extends React.Component<Props, States> {
               return;
             }
             const _schema = schemaParser.update(
-              this.props.schema,
+              schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.margin-top`,
               cssDefination.getPropertyValue('margin-top'),
@@ -275,7 +282,7 @@ class Configer extends React.Component<Props, States> {
             }
             const { value } = e.target as HTMLInputElement;
             const _schema = schemaParser.update(
-              this.props.schema,
+              schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.background-color`,
               value,
@@ -287,7 +294,7 @@ class Configer extends React.Component<Props, States> {
               return;
             }
             const _schema = schemaParser.update(
-              this.props.schema,
+              schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.background-color`,
               cssDefination.backgroundColor,
@@ -312,7 +319,7 @@ class Configer extends React.Component<Props, States> {
             }
             const { value } = e.target as HTMLInputElement;
             const _schema = schemaParser.update(
-              this.props.schema,
+              schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.background-image`,
               value,
@@ -324,7 +331,7 @@ class Configer extends React.Component<Props, States> {
               return;
             }
             const _schema = schemaParser.update(
-              this.props.schema,
+              schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.background-image`,
               cssDefination.backgroundImage,
@@ -340,7 +347,4 @@ class Configer extends React.Component<Props, States> {
   }
 }
 
-export default connect((state: State) => ({
-  select: state.select,
-  schema: state.schema,
-}))(Configer);
+export default connecter(Configer);

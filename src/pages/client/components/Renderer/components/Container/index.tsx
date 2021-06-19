@@ -3,21 +3,17 @@ import './index.css';
 
 type IContainerProps = any;
 
-class Container extends React.Component<IContainerProps> {
-  static displayName = 'Container';
+const Container: React.FC<IContainerProps> = ({ id, children }: IContainerProps) => (
+  <div
+    id={id}
+    className="container"
+    data-builder-type="container"
+    data-builder-block
+  >
+    {children}
+  </div>
+);
 
-  render() {
-    return (
-      <div
-        id={this.props.id}
-        className="container"
-        data-builder-type="container"
-        data-builder-block
-      >
-        {this.props.children}
-      </div>
-    );
-  }
-}
+Container.displayName = 'Container';
 
 export default Container;

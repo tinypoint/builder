@@ -3,16 +3,12 @@ import './index.css';
 
 type IPageProps = any;
 
-class Page extends React.Component<IPageProps> {
-  static displayName = 'Page';
+const Page: React.FC<IPageProps> = ({ id, children }: IPageProps) => (
+  <div id={id} className="page" data-builder-type="page" data-builder-block>
+    {children}
+  </div>
+);
 
-  render() {
-    return (
-      <div id={this.props.id} className="page" data-builder-type="page" data-builder-block>
-        {this.props.children}
-      </div>
-    );
-  }
-}
+Page.displayName = 'Page';
 
 export default Page;

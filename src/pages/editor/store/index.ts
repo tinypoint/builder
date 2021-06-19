@@ -1,44 +1,43 @@
 import { set } from 'lodash-es';
 import { AnyAction, createStore } from 'redux';
-import historyer from '../features/historyer';
 
 export interface Schema {
-    type: string;
-    id: string;
-    props?: any;
-    styles?: any;
-    children?: Schema[];
+  type: string;
+  id: string;
+  props?: any;
+  styles?: any;
+  children?: Schema[];
 }
 
 interface Loading {
-    [index: string]: any;
+  [index: string]: any;
 }
 
 export interface PagesRecord {
-    _id: string;
-    status: string;
-    page: string;
-    schema: State['schema'];
+  _id: string;
+  status: string;
+  page: string;
+  schema: State['schema'];
 }
 
 export interface Page {
-    name: string;
-    _id: string
+  name: string;
+  _id: string
 }
 
 export interface Bound {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
 }
 
 export enum DIR {
-    TOP = 1 << 0,
-    LEFT = 1 << 1,
-    BOTTOM = 1 << 2,
-    RIGHT = 1 << 3,
-    OTHER = 0 << 0
+  TOP = 1 << 0,
+  LEFT = 1 << 1,
+  BOTTOM = 1 << 2,
+  RIGHT = 1 << 3,
+  OTHER = 0 << 0,
 }
 
 const initState = {
@@ -72,7 +71,7 @@ const initState = {
   },
 };
 
-export type State = typeof initState
+export type State = typeof initState;
 
 const reducer = (state = initState, action: AnyAction) => {
   const { type, payload } = action;

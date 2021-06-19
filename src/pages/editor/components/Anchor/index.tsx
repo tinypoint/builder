@@ -1,17 +1,18 @@
 import React from 'react';
 import './index.css';
 
-interface Props {
+interface IProps {
   type: 'select' | 'hover';
+  children: React.ReactChildren
 }
 
 interface DotProps {
   dir: 'tl' | 'tc' | 'tr' | 'cl' | 'cr' | 'bl' | 'bc' | 'br';
 }
 
-const Dot = (props: DotProps) => (
-  <div className={`dot ${props.dir}`}>
-    <div data-builder-dotdir={props.dir} className="dot-hander">
+const Dot: React.FC<DotProps> = ({ dir }: DotProps) => (
+  <div className={`dot ${dir}`}>
+    <div data-builder-dotdir={dir} className="dot-hander">
       <div className="dot-hander-inner" />
     </div>
   </div>
@@ -30,16 +31,14 @@ const dots = (
   </>
 );
 
-class Anchor extends React.Component<Props> {
-  render() {
-    const { type, children } = this.props;
-    return (
-      <div data-builder-anchor={type} className="anchor">
-        {type === 'select' && (dots)}
-        {children}
-      </div>
-    );
-  }
-}
+const Anchor: React.FC<IProps> = (props: IProps) => {
+  const { type, children } = props;
+  return (
+    <div data-builder-anchor={type} className="anchor">
+      {type === 'select' && (dots)}
+      {children}
+    </div>
+  );
+};
 
 export default Anchor;

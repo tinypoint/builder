@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import store, { Schema, State } from '../../store';
+import { Schema, State } from '../../store';
 import './index.css';
 import schemaParser from '../../features/schemaParser';
 import historyer from '../../features/historyer';
@@ -21,6 +21,7 @@ interface Props {
 
 class Configer extends React.Component<Props> {
   renderProp = (item: any, targetSchema: Schema) => {
+    const { schema } = this.props;
     const { props = {} } = targetSchema;
     if (item.type === 'input') {
       return (
@@ -32,7 +33,7 @@ class Configer extends React.Component<Props> {
             const { value } = e.target as HTMLInputElement;
 
             const _schema = schemaParser.update(
-              this.props.schema,
+              schema,
               targetSchema.id,
               `props.${item.key}`,
               value,
@@ -43,6 +44,8 @@ class Configer extends React.Component<Props> {
         />
       );
     }
+
+    return null;
   };
 
   render() {
