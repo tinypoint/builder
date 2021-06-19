@@ -1,10 +1,10 @@
-import React from "react";
-import "./index.css";
+import React from 'react';
+import './index.css';
 
 type IContainerProps = any;
 
 class Ppt extends React.Component<IContainerProps> {
-  static displayName = "Ppt";
+  static displayName = 'Ppt';
 
   state = {
     activeIndex: 0,
@@ -13,14 +13,16 @@ class Ppt extends React.Component<IContainerProps> {
   ref: HTMLDivElement | null = null;
 
   _down = false;
+
   _startY = 0;
+
   _height = 0;
 
   onMouseDown = (e: React.MouseEvent) => {
     this._down = true;
     this._startY = e.pageY;
     this._height = this.ref!.getBoundingClientRect().height;
-    this.ref?.classList.remove("animation");
+    this.ref?.classList.remove('animation');
   };
 
   onMouseMove = (e: React.MouseEvent) => {
@@ -35,12 +37,12 @@ class Ppt extends React.Component<IContainerProps> {
 
   onMouseUp = (e: React.MouseEvent) => {
     const moveY = e.pageY - this._startY;
-    this.ref?.classList.add("animation");
+    this.ref?.classList.add('animation');
 
     if (
-      moveY < -this._height * 0.3 &&
-      this.state.activeIndex + 1 <=
-        (((this.props.children || []) as any).length - 1 || 0)
+      moveY < -this._height * 0.3
+      && this.state.activeIndex + 1
+        <= (((this.props.children || []) as any).length - 1 || 0)
     ) {
       // up
       this.ref!.style.transform = `translateY(${
@@ -68,7 +70,7 @@ class Ppt extends React.Component<IContainerProps> {
   };
 
   onMouseLeave = () => {
-    this.ref?.classList.add("animation");
+    this.ref?.classList.add('animation');
     this._down = false;
     this._startY = 0;
     this._height = 0;

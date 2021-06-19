@@ -1,24 +1,24 @@
-import { IconButton } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import Button from "@material-ui/core/Button";
-import React from "react";
-import { connect } from "react-redux";
-import schemaParser from "../../features/schemaParser";
-import store, { State } from "../../store";
-import "./index.css";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Quill from "quill";
-import "quill/dist/quill.snow.css";
-import Paper from "@material-ui/core/Paper";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import historyer from "../../features/historyer";
+import { IconButton } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Button from '@material-ui/core/Button';
+import React from 'react';
+import { connect } from 'react-redux';
+import './index.css';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Quill from 'quill';
+import 'quill/dist/quill.snow.css';
+import Paper from '@material-ui/core/Paper';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import store, { State } from '../../store';
+import schemaParser from '../../features/schemaParser';
+import historyer from '../../features/historyer';
 
 interface Props {
-  select: State["select"];
-  schema: State["schema"];
+  select: State['select'];
+  schema: State['schema'];
 }
 
 class Toolbox extends React.Component<Props> {
@@ -32,14 +32,14 @@ class Toolbox extends React.Component<Props> {
       return;
     }
     const [_target] = schemaParser.searchById(schema, select);
-    if (_target.type === "page") {
+    if (_target.type === 'page') {
       return;
     }
     const _schema = schemaParser.remove(schema, select);
     historyer.push(_schema);
     store.dispatch({
-      type: "CHANGE_VALUE",
-      payload: [{ key: "select", value: "" }],
+      type: 'CHANGE_VALUE',
+      payload: [{ key: 'select', value: '' }],
     });
   };
 
@@ -50,10 +50,10 @@ class Toolbox extends React.Component<Props> {
       },
       () => {
         this.editor = new Quill(this.ref!, {
-          placeholder: "Input some text here...",
-          theme: "snow",
+          placeholder: 'Input some text here...',
+          theme: 'snow',
         });
-      }
+      },
     );
   };
 
@@ -82,9 +82,7 @@ class Toolbox extends React.Component<Props> {
   }
 }
 
-export default connect((state: State) => {
-  return {
-    select: state.select,
-    schema: state.schema,
-  };
-})(Toolbox);
+export default connect((state: State) => ({
+  select: state.select,
+  schema: state.schema,
+}))(Toolbox);

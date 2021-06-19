@@ -1,12 +1,12 @@
-import React from "react";
-import Quill from "quill";
-import "./index.css";
-import "quill/dist/quill.core.css";
+import React from 'react';
+import Quill from 'quill';
+import './index.css';
+import 'quill/dist/quill.core.css';
 
 type ITextProps = any;
 
 export default class Text extends React.Component<ITextProps> {
-  static displayName = "Text";
+  static displayName = 'Text';
 
   ref: HTMLDivElement | null = null;
 
@@ -14,7 +14,7 @@ export default class Text extends React.Component<ITextProps> {
 
   componentDidMount() {
     this.editor = new Quill(this.ref!, {
-      placeholder: "Input some text here...",
+      placeholder: 'Input some text here...',
       readOnly: true,
     });
   }
@@ -22,7 +22,7 @@ export default class Text extends React.Component<ITextProps> {
   render() {
     return (
       <div id={this.props.id} data-builder-type="text" className="text">
-        <div ref={(ref) => (this.ref = ref)}></div>
+        <div ref={(ref) => (this.ref = ref)} />
       </div>
     );
   }

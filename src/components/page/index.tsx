@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 import './index.css';
 
 type IContainerProps = any;
 
 class Page extends React.Component<IContainerProps> {
-  static displayName = "Page";
+  static displayName = 'Page';
 
   render() {
     return (

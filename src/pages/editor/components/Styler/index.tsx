@@ -1,16 +1,16 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Schema, State } from "../../store";
-import "./index.css";
-import schemaParser from "../../features/schemaParser";
-import { get } from "lodash-es";
-import MenuItem from "@material-ui/core/MenuItem";
-import TextField from "@material-ui/core/TextField";
-import historyer from "../../features/historyer";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Schema, State } from '../../store';
+import './index.css';
+import { get } from 'lodash-es';
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
+import schemaParser from '../../features/schemaParser';
+import historyer from '../../features/historyer';
 
 interface Props {
-  select: State["select"];
-  schema: State["schema"];
+  select: State['select'];
+  schema: State['schema'];
 }
 
 interface States {
@@ -42,20 +42,20 @@ class Configer extends React.Component<Props, States> {
 
   renderProp = (item: any, targetSchema: Schema) => {
     const { props = {} } = targetSchema;
-    if (item.type === "input") {
+    if (item.type === 'input') {
       return (
         <input
           key={item.key}
           type="text"
-          value={props[item.key] || ""}
+          value={props[item.key] || ''}
           onChange={(e) => {
-            const value = (e.target as HTMLInputElement).value;
+            const { value } = e.target as HTMLInputElement;
 
             const _schema = schemaParser.update(
               this.props.schema,
               targetSchema.id,
               `props.${item.key}`,
-              value
+              value,
             );
 
             historyer.push(_schema);
@@ -84,18 +84,18 @@ class Configer extends React.Component<Props, States> {
           id="width-styles"
           label="width"
           key="width-styles"
-          value={styles.width || cssDefination.width || ""}
+          value={styles.width || cssDefination.width || ''}
           disabled={!styles.width}
           onChange={(e) => {
             if (!styles.width) {
               return;
             }
-            const value = (e.target as HTMLInputElement).value;
+            const { value } = e.target as HTMLInputElement;
             const _schema = schemaParser.update(
               this.props.schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.width`,
-              value
+              value,
             );
             historyer.push(_schema);
           }}
@@ -107,7 +107,7 @@ class Configer extends React.Component<Props, States> {
               this.props.schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.width`,
-              cssDefination.width
+              cssDefination.width,
             );
             historyer.push(_schema);
           }}
@@ -116,18 +116,18 @@ class Configer extends React.Component<Props, States> {
           id="height-styles"
           label="height"
           key="height-styles"
-          value={styles.height || cssDefination.height || ""}
+          value={styles.height || cssDefination.height || ''}
           disabled={!styles.height}
           onChange={(e) => {
             if (!styles.height) {
               return;
             }
-            const value = (e.target as HTMLInputElement).value;
+            const { value } = e.target as HTMLInputElement;
             const _schema = schemaParser.update(
               this.props.schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.height`,
-              value
+              value,
             );
             historyer.push(_schema);
           }}
@@ -139,7 +139,7 @@ class Configer extends React.Component<Props, States> {
               this.props.schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.height`,
-              cssDefination.height
+              cssDefination.height,
             );
             historyer.push(_schema);
           }}
@@ -188,33 +188,33 @@ class Configer extends React.Component<Props, States> {
           label="margin-left"
           key="margin-left-styles"
           value={
-            styles["margin-left"] ||
-            cssDefination.getPropertyValue("margin-left") ||
-            ""
+            styles['margin-left']
+            || cssDefination.getPropertyValue('margin-left')
+            || ''
           }
-          disabled={!styles["margin-left"]}
+          disabled={!styles['margin-left']}
           onChange={(e) => {
-            if (!styles["margin-left"]) {
+            if (!styles['margin-left']) {
               return;
             }
-            const value = (e.target as HTMLInputElement).value;
+            const { value } = e.target as HTMLInputElement;
             const _schema = schemaParser.update(
               this.props.schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.margin-left`,
-              value
+              value,
             );
             historyer.push(_schema);
           }}
           onDoubleClick={() => {
-            if (styles["margin-left"]) {
+            if (styles['margin-left']) {
               return;
             }
             const _schema = schemaParser.update(
               this.props.schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.margin-left`,
-              cssDefination.getPropertyValue("margin-left")
+              cssDefination.getPropertyValue('margin-left'),
             );
             historyer.push(_schema);
           }}
@@ -224,33 +224,33 @@ class Configer extends React.Component<Props, States> {
           label="margin-top"
           key="margin-top-styles"
           value={
-            styles["margin-top"] ||
-            cssDefination.getPropertyValue("margin-top") ||
-            ""
+            styles['margin-top']
+            || cssDefination.getPropertyValue('margin-top')
+            || ''
           }
-          disabled={!styles["margin-top"]}
+          disabled={!styles['margin-top']}
           onChange={(e) => {
-            if (!styles["margin-top"]) {
+            if (!styles['margin-top']) {
               return;
             }
-            const value = (e.target as HTMLInputElement).value;
+            const { value } = e.target as HTMLInputElement;
             const _schema = schemaParser.update(
               this.props.schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.margin-top`,
-              value
+              value,
             );
             historyer.push(_schema);
           }}
           onDoubleClick={() => {
-            if (styles["margin-top"]) {
+            if (styles['margin-top']) {
               return;
             }
             const _schema = schemaParser.update(
               this.props.schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.margin-top`,
-              cssDefination.getPropertyValue("margin-top")
+              cssDefination.getPropertyValue('margin-top'),
             );
             historyer.push(_schema);
           }}
@@ -259,38 +259,38 @@ class Configer extends React.Component<Props, States> {
           id="backgroundColor-styles"
           label="backgroundColor"
           style={{
-            display: "flex",
+            display: 'flex',
           }}
           inputProps={{
-            type: "color",
+            type: 'color',
           }}
           key="backgroundColor-styles"
           value={
-            styles["background-color"] || cssDefination.backgroundColor || ""
+            styles['background-color'] || cssDefination.backgroundColor || ''
           }
-          disabled={!styles["background-color"]}
+          disabled={!styles['background-color']}
           onChange={(e) => {
-            if (!styles["background-color"]) {
+            if (!styles['background-color']) {
               return;
             }
-            const value = (e.target as HTMLInputElement).value;
+            const { value } = e.target as HTMLInputElement;
             const _schema = schemaParser.update(
               this.props.schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.background-color`,
-              value
+              value,
             );
             historyer.push(_schema);
           }}
           onDoubleClick={() => {
-            if (styles["background-color"]) {
+            if (styles['background-color']) {
               return;
             }
             const _schema = schemaParser.update(
               this.props.schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.background-color`,
-              cssDefination.backgroundColor
+              cssDefination.backgroundColor,
             );
             historyer.push(_schema);
           }}
@@ -299,35 +299,35 @@ class Configer extends React.Component<Props, States> {
           id="backgroundImage-styles"
           label="backgroundImage"
           style={{
-            display: "flex",
+            display: 'flex',
           }}
           key="backgroundImage-styles"
           value={
-            styles["background-image"] || cssDefination.backgroundImage || ""
+            styles['background-image'] || cssDefination.backgroundImage || ''
           }
-          disabled={!styles["background-image"]}
+          disabled={!styles['background-image']}
           onChange={(e) => {
-            if (!styles["background-image"]) {
+            if (!styles['background-image']) {
               return;
             }
-            const value = (e.target as HTMLInputElement).value;
+            const { value } = e.target as HTMLInputElement;
             const _schema = schemaParser.update(
               this.props.schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.background-image`,
-              value
+              value,
             );
             historyer.push(_schema);
           }}
           onDoubleClick={() => {
-            if (styles["background-image"]) {
+            if (styles['background-image']) {
               return;
             }
             const _schema = schemaParser.update(
               this.props.schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.background-image`,
-              cssDefination.backgroundImage
+              cssDefination.backgroundImage,
             );
             historyer.push(_schema);
           }}
@@ -340,9 +340,7 @@ class Configer extends React.Component<Props, States> {
   }
 }
 
-export default connect((state: State) => {
-  return {
-    select: state.select,
-    schema: state.schema,
-  };
-})(Configer);
+export default connect((state: State) => ({
+  select: state.select,
+  schema: state.schema,
+}))(Configer);

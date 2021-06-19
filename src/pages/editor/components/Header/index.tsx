@@ -1,39 +1,37 @@
-import React from "react";
-import { connect, ConnectedProps } from "react-redux";
-import store, { State } from "../../store";
-import "./index.css";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import Input from "@material-ui/core/Input";
-import IconButton from "@material-ui/core/IconButton";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import UndoIcon from "@material-ui/icons/Undo";
-import RedoIcon from "@material-ui/icons/Redo";
-import SaveIcon from "@material-ui/icons/Save";
-import LocalSeeIcon from "@material-ui/icons/LocalSee";
-import PublishIcon from "@material-ui/icons/Publish";
-import Divider from "@material-ui/core/Divider";
-import historyer from "../../features/historyer";
-import EditorButton from "./EditorButton";
-import axios from "axios";
+import React from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import './index.css';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import Input from '@material-ui/core/Input';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import UndoIcon from '@material-ui/icons/Undo';
+import RedoIcon from '@material-ui/icons/Redo';
+import SaveIcon from '@material-ui/icons/Save';
+import LocalSeeIcon from '@material-ui/icons/LocalSee';
+import PublishIcon from '@material-ui/icons/Publish';
+import Divider from '@material-ui/core/Divider';
+import axios from 'axios';
+import historyer from '../../features/historyer';
+import EditorButton from './EditorButton';
+import store, { State } from '../../store';
 
-const connector = connect((state: State) => {
-  return {
-    shopShow: state.shopShow,
-    sid: state.sid,
-    hid: state.hid,
-    hredo: state.hredo,
-    hundo: state.hundo,
-    schema: state.schema,
-    scale: state.scale,
-    create: state.create,
-    editing: state.meta.records.filter(
-      (record) => record.status === "editing"
-    )[0],
-  };
-});
+const connector = connect((state: State) => ({
+  shopShow: state.shopShow,
+  sid: state.sid,
+  hid: state.hid,
+  hredo: state.hredo,
+  hundo: state.hundo,
+  schema: state.schema,
+  scale: state.scale,
+  create: state.create,
+  editing: state.meta.records.filter(
+    (record) => record.status === 'editing',
+  )[0],
+}));
 
 type Props = ConnectedProps<typeof connector>;
 
@@ -42,21 +40,21 @@ class Header extends React.Component<Props> {
     if (window.history.length >= 3) {
       window.history.back();
     } else {
-      window.location.replace("/");
+      window.location.replace('/');
     }
   };
 
   _create = async () => {
     store.dispatch({
-      type: "CHANGE_VALUE",
-      payload: [{ key: "loading", value: { creating: true } }],
+      type: 'CHANGE_VALUE',
+      payload: [{ key: 'loading', value: { creating: true } }],
     });
     const { schema } = this.props;
     const {
       data: {
         data: { pageid },
       },
-    } = await axios.post("/api/page/create", {
+    } = await axios.post('/api/page/create', {
       schema,
     });
 
@@ -65,19 +63,19 @@ class Header extends React.Component<Props> {
 
   _save = async () => {
     store.dispatch({
-      type: "CHANGE_VALUE",
-      payload: [{ key: "loading", value: { saving: true } }],
+      type: 'CHANGE_VALUE',
+      payload: [{ key: 'loading', value: { saving: true } }],
     });
     const { schema, editing } = this.props;
-    await axios.post("/api/page/save", {
+    await axios.post('/api/page/save', {
       schema,
       _id: editing._id,
     });
     store.dispatch({
-      type: "CHANGE_VALUE",
+      type: 'CHANGE_VALUE',
       payload: [
-        { key: "loading", value: { saving: false } },
-        { key: "sid", value: historyer.id },
+        { key: 'loading', value: { saving: false } },
+        { key: 'sid', value: historyer.id },
       ],
     });
   };
@@ -99,16 +97,18 @@ class Header extends React.Component<Props> {
   };
 
   onScaleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    const { value } = e.target;
     console.log(+(Number(value) / 100).toFixed(2));
     store.dispatch({
-      type: "CHANGE_VALUE",
-      payload: [{ key: "scale", value: +(Number(value) / 100).toFixed(2) }],
+      type: 'CHANGE_VALUE',
+      payload: [{ key: 'scale', value: +(Number(value) / 100).toFixed(2) }],
     });
   };
 
   render() {
-    const { shopShow, scale, hundo, hredo, sid, hid } = this.props;
+    const {
+      shopShow, scale, hundo, hredo, sid, hid,
+    } = this.props;
 
     return (
       <Grid container justify="space-between" className="header">
@@ -120,13 +120,13 @@ class Header extends React.Component<Props> {
           {/* <Button>editor</Button> */}
           <EditorButton undo={this.undo} redo={this.redo} save={this.save} />
           <Button
-            color={shopShow ? "primary" : "default"}
-            variant={shopShow ? "contained" : "text"}
+            color={shopShow ? 'primary' : 'default'}
+            variant={shopShow ? 'contained' : 'text'}
             disableElevation
             onClick={() => {
               store.dispatch({
-                type: "CHANGE_VALUE",
-                payload: [{ key: "shopShow", value: !shopShow }],
+                type: 'CHANGE_VALUE',
+                payload: [{ key: 'shopShow', value: !shopShow }],
               });
             }}
           >

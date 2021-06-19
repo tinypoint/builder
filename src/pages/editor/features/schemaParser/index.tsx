@@ -1,5 +1,5 @@
-import { cloneDeep, get, set } from "lodash-es";
-import { Schema } from "../../store";
+import { cloneDeep, get, set } from 'lodash-es';
+import { Schema } from '../../store';
 
 class SchemaPaser {
   SchemaPaser = SchemaPaser;
@@ -7,7 +7,7 @@ class SchemaPaser {
   createSchema = (type: string): Schema => {
     const newScheam = {
       type,
-      id: type + (Math.random() + "").slice(2, 6),
+      id: type + (`${Math.random()}`).slice(2, 6),
       props: {},
       styles: {},
       children: [],
@@ -19,7 +19,7 @@ class SchemaPaser {
     schema: Schema,
     callback: (schema: Schema, layerId: number) => boolean,
     option = { deep: true },
-    layerId = 0
+    layerId = 0,
   ) => {
     // 深度优先
     callback(schema, layerId);
@@ -34,23 +34,20 @@ class SchemaPaser {
     schema: Schema,
     prop: string,
     value: any,
-    queen: Schema[] = []
+    queen: Schema[] = [],
   ): Schema[] {
-    let _queen = queen || [];
+    const _queen = queen || [];
     if (get(schema, prop) === value) {
       _queen.push(schema);
       return _queen;
-    } else {
-      const { children = [] } = schema;
+    }
+    const { children = [] } = schema;
 
-      if (
-        children.some((child) => {
-          return this._search(child, prop, value, _queen).length;
-        })
-      ) {
-        _queen.push(schema);
-        return _queen;
-      }
+    if (
+      children.some((child) => this._search(child, prop, value, _queen).length)
+    ) {
+      _queen.push(schema);
+      return _queen;
     }
 
     return [];
@@ -63,13 +60,13 @@ class SchemaPaser {
   }
 
   searchById(schema: Schema, id: string) {
-    return this._search(schema, "id", id);
+    return this._search(schema, 'id', id);
   }
 
   traverse(
     schema: Schema,
     callback: (schema: Schema, layerId: number) => boolean,
-    option = { deep: true }
+    option = { deep: true },
   ) {
     this._traverse(schema, callback, option);
   }
@@ -84,9 +81,7 @@ class SchemaPaser {
   insertAfter(schema: Schema, id: string, newScheam: Schema) {
     const _schema = cloneDeep(schema);
     const [_target, _parent] = this.searchById(_schema, id);
-    const _index = _parent.children?.findIndex((child) => {
-      return child.id === id;
-    });
+    const _index = _parent.children?.findIndex((child) => child.id === id);
     if (_index !== undefined) {
       _parent.children?.splice(_index + 1, 0, newScheam);
     }
@@ -96,9 +91,7 @@ class SchemaPaser {
   remove(schema: Schema, id: string) {
     const _schema = cloneDeep(schema);
     const [_target, _parent] = this.searchById(_schema, id);
-    _parent.children = _parent.children?.filter((child) => {
-      return child.id !== id;
-    });
+    _parent.children = _parent.children?.filter((child) => child.id !== id);
     return _schema;
   }
 

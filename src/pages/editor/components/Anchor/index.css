@@ -12,10 +12,11 @@
 }
 
 .dot-hander {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 20px;
   height: 20px;
-  text-align: center;
-  line-height: 20px;
   transform: translate3d(-50%, -50%, 0);
   pointer-events: all;
 }
@@ -33,7 +34,7 @@
   box-sizing: border-box;
   border-radius: 6px;
   pointer-events: none;
-  box-shadow: 0 0 5px 1px rgb(57 76 96 / 15%), 0 0 0 1px rgb(53 71 90 / 20%)
+  box-shadow: 0 0 5px 1px rgb(57 76 96 / 15%), 0 0 0 1px rgb(53 71 90 / 20%);
 }
 
 .dot.tl {
@@ -83,3 +84,17 @@
   bottom: 0;
   cursor: se-resize;
 }
+
+.dot.cr > .dot-hander > .dot-hander-inner,
+.dot.cl > .dot-hander > .dot-hander-inner {
+  height: 36px;
+  width: 6px;
+}
+
+.dot.tc > .dot-hander > .dot-hander-inner,
+.dot.bc > .dot-hander > .dot-hander-inner {
+  height: 6px;
+  width: 36px;
+  min-width: 36px;
+}
+

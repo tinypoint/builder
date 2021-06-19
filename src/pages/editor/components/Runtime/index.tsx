@@ -1,13 +1,11 @@
-import React from "react";
-import { connect, ConnectedProps } from "react-redux";
-import { State } from "../../store";
-import "./index.css";
+import React from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import { State } from '../../store';
+import './index.css';
 
-const connecter = connect((state: State) => {
-  return {
-    baseScale: state.baseScale,
-  };
-});
+const connecter = connect((state: State) => ({
+  baseScale: state.baseScale,
+}));
 
 type Props = ConnectedProps<typeof connecter>;
 
@@ -27,7 +25,7 @@ class Runtime extends React.Component<Props> {
         src="http://localhost:8080/client"
         ref={(ref) => (this.iframe = ref)}
         id="runtime"
-      ></iframe>
+      />
     );
   }
 }

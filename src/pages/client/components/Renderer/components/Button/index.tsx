@@ -1,10 +1,11 @@
-import React from "react";
-import "./index.css";
+import React from 'react';
+import './index.css';
 
 type IButtonProps = any;
 
 class Button extends React.Component<IButtonProps> {
-  static displayName = "Button";
+  static displayName = 'Button';
+
   render() {
     return (
       <div

@@ -1,10 +1,10 @@
-import React from "react";
-import "./index.css";
+import React from 'react';
+import './index.css';
 
 type ISectionProps = any;
 
 class Section extends React.Component<ISectionProps> {
-  static displayName = "Section";
+  static displayName = 'Section';
 
   render() {
     return (

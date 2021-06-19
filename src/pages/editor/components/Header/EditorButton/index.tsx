@@ -1,35 +1,33 @@
-import React from "react";
-import Button from "@material-ui/core/Button";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Grow from "@material-ui/core/Grow";
-import Paper from "@material-ui/core/Paper";
-import Popper from "@material-ui/core/Popper";
-import MenuItem from "@material-ui/core/MenuItem";
-import MenuList from "@material-ui/core/MenuList";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import UndoIcon from "@material-ui/icons/Undo";
-import RedoIcon from "@material-ui/icons/Redo";
-import SaveIcon from "@material-ui/icons/Save";
-import SettingsIcon from "@material-ui/icons/Settings";
-import store, { State } from "../../../store";
-import { connect, ConnectedProps } from "react-redux";
-import historyer from "../../../features/historyer";
+import React from 'react';
+import Button from '@material-ui/core/Button';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import UndoIcon from '@material-ui/icons/Undo';
+import RedoIcon from '@material-ui/icons/Redo';
+import SaveIcon from '@material-ui/icons/Save';
+import SettingsIcon from '@material-ui/icons/Settings';
+import { connect, ConnectedProps } from 'react-redux';
+import store, { State } from '../../../store';
+import historyer from '../../../features/historyer';
 
-const connector = connect((state: State) => {
-  return {
-    sid: state.sid,
-    hid: state.hid,
-    hredo: state.hredo,
-    hundo: state.hundo,
-    schema: state.schema,
-    scale: state.scale,
-    create: state.create,
-    editing: state.meta.records.filter(
-      (record) => record.status === "editing"
-    )[0],
-  };
-});
+const connector = connect((state: State) => ({
+  sid: state.sid,
+  hid: state.hid,
+  hredo: state.hredo,
+  hundo: state.hundo,
+  schema: state.schema,
+  scale: state.scale,
+  create: state.create,
+  editing: state.meta.records.filter(
+    (record) => record.status === 'editing',
+  )[0],
+}));
 
 type Prop = ConnectedProps<typeof connector> & {
   undo: () => void;
@@ -47,8 +45,8 @@ function EditorButton(props: Prop) {
 
   const openSettings = () => {
     store.dispatch({
-      type: "CHANGE_VALUE",
-      payload: [{ key: "settingsPanelVisible", value: true }],
+      type: 'CHANGE_VALUE',
+      payload: [{ key: 'settingsPanelVisible', value: true }],
     });
     setOpen(false);
   };
@@ -70,7 +68,7 @@ function EditorButton(props: Prop) {
   };
 
   function handleListKeyDown(event: React.KeyboardEvent<HTMLUListElement>) {
-    if (event.key === "Tab") {
+    if (event.key === 'Tab') {
       event.preventDefault();
       setOpen(false);
     }
@@ -90,7 +88,7 @@ function EditorButton(props: Prop) {
     <>
       <Button
         ref={anchorRef}
-        aria-controls={open ? "menu-list-grow" : undefined}
+        aria-controls={open ? 'menu-list-grow' : undefined}
         aria-haspopup="true"
         onClick={handleToggle}
       >
@@ -108,7 +106,7 @@ function EditorButton(props: Prop) {
             {...TransitionProps}
             style={{
               transformOrigin:
-                placement === "bottom" ? "center top" : "center bottom",
+                placement === 'bottom' ? 'center top' : 'center bottom',
             }}
           >
             <Paper>

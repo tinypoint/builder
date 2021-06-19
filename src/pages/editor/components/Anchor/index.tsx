@@ -1,23 +1,21 @@
-import React from "react";
-import "./index.css";
+import React from 'react';
+import './index.css';
 
 interface Props {
-  type: "select" | "hover";
+  type: 'select' | 'hover';
 }
 
 interface DotProps {
-  dir: "tl" | "tc" | "tr" | "cl" | "cr" | "bl" | "bc" | "br";
+  dir: 'tl' | 'tc' | 'tr' | 'cl' | 'cr' | 'bl' | 'bc' | 'br';
 }
 
-const Dot = (props: DotProps) => {
-  return (
-    <div className={`dot ${props.dir}`}>
-      <div data-builder-dotdir={props.dir} className="dot-hander">
-        <div className="dot-hander-inner"></div>
-      </div>
+const Dot = (props: DotProps) => (
+  <div className={`dot ${props.dir}`}>
+    <div data-builder-dotdir={props.dir} className="dot-hander">
+      <div className="dot-hander-inner" />
     </div>
-  );
-};
+  </div>
+);
 
 const dots = (
   <>

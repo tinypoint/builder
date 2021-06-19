@@ -1,119 +1,232 @@
 // import store from '../../store';
 import { get } from 'lodash-es';
+import adsorptioner from '../../../../../editor/features/adsorptioner';
 import schemaParser from '../../../../../editor/features/schemaParser';
+import { Bound } from '../../../../../editor/store';
 import Overlayer from '../overlayer';
-import './index.css'
+import './index.css';
 
 class Dragger {
     Dragger = Dragger;
+
     overlayer = new Overlayer();
 
     _working = false;
+
     startX = 0;
+
     startY = 0;
+
     _target: any = null;
+
     transfer: any = {};
 
     constructor() {
-        this.overlayer.host.style.display = 'none'
+      this.overlayer.host.style.display = 'none';
     }
 
     start = (e: MouseEvent) => {
-        const select = (window as any).store.getState().select;
-        if (!select) {
-            return;
+      const { select, schema, threshold } = (window as any).store.getState();
+      if (!select) {
+        return;
+      }
+      const target = document.getElementById(select);
+      if (!target) {
+        return;
+      }
+
+      const list = e.composedPath().slice(0, -2) as HTMLElement[];
+
+      const gonext = list.some((item) => item === target);
+
+      if (!gonext) {
+        return;
+      }
+
+      const cssStyle = window.getComputedStyle(target);
+      this._target = target;
+
+      if (cssStyle.position === 'absolute' || cssStyle.position === 'fixed') {
+        return;
+      }
+
+      const [_, _parentSchema] = schemaParser.searchById(schema, select);
+      const siblings = (_parentSchema.children || []).filter((child) => child.id !== select);
+
+      const bounds: Bound[] = siblings.map((sib) => {
+        const element = document.getElementById(sib.id);
+
+        if (!element) {
+          return null as unknown as Bound;
         }
-        const target = document.getElementById(select)
-        if (!target) {
-            return;
-        }
+        const elementCssStyle = window.getComputedStyle(element);
 
-        const list = e.composedPath().slice(0, -2) as HTMLElement[];
+        const x = +elementCssStyle.marginLeft.replace('px', '');
+        const y = +elementCssStyle.marginTop.replace('px', '');
+        const width = +elementCssStyle.width.replace('px', '');
+        const height = +elementCssStyle.height.replace('px', '');
 
-        const gonext = list.some(item => {
-            return item === target
-        })
+        return {
+          x, y, width, height,
+        };
+      }).filter((bound) => Boolean(bound));
 
-        if (!gonext) {
-            return;
-        }
+      const _width = +cssStyle.width.replace('px', '');
+      const _height = +cssStyle.height.replace('px', '');
+      const _left = +cssStyle.marginLeft.replace('px', '');
+      const _top = +cssStyle.marginTop.replace('px', '');
 
-        const cssStyle = window.getComputedStyle(target);
-        this._target = target;
+      this.transfer = {
+        _left: this._target.style.left,
+        _top: this._target.style.top,
+        x: _left,
+        y: _top,
+        width: _width,
+        height: _height,
+        bounds,
+        threshold,
+        schema,
+        select,
+      };
+      this._working = true;
+      this.startX = e.pageX;
+      this.startY = e.pageY;
 
-        if (cssStyle.position === 'absolute' || cssStyle.position === 'fixed') {
-            return;
-        }
+      document.documentElement.classList.add('dragger');
 
-        this.transfer = {
-            _left: this._target.style.left,
-            _top: this._target.style.top,
-            x: Number(cssStyle.marginLeft.replace('px', '')) || 0,
-            y: Number(cssStyle.marginTop.replace('px', '')) || 0,
-        }
-        this._working = true;
-        this.startX = e.pageX;
-        this.startY = e.pageY;
+      window.addEventListener('mousemove', this.move);
+      window.addEventListener('mouseup', this.up);
+      window.addEventListener('mouseleave', this.cancel);
 
-
-        document.documentElement.classList.add('dragger')
-
-
-        window.addEventListener('mousemove', this.move)
-        window.addEventListener('mouseup', this.up)
-        window.addEventListener('mouseleave', this.cancel)
+      (window as any).store.dispatch({
+        type: 'CHANGE_VALUE',
+        payload: [
+          {
+            key: 'currentBound',
+            value: {
+              x: _left, y: _top, width: _width, height: _height,
+            },
+          },
+          { key: 'bounds', value: bounds },
+        ],
+      });
     }
 
     move = (e: MouseEvent) => {
-        if (!this._working) {
-            return;
-        }
-        const moveX = e.pageX - this.startX
-        const moveY = e.pageY - this.startY
+      if (!this._working) {
+        return;
+      }
 
-        const left = (this.transfer.x + moveX)
-        const top = (this.transfer.y + moveY)
-        this._target.style.marginLeft = `${left}px`
-        this._target.style.marginTop = `${top}px`
+      const {
+        x,
+        y,
+        width,
+        height,
+        precision,
+        bounds,
+        threshold,
+      } = this.transfer;
+
+      const moveX = e.pageX - this.startX;
+      const moveY = e.pageY - this.startY;
+
+      let _left = Number((moveX + x).toFixed(precision));
+      let _top = Number((moveY + y).toFixed(precision));
+
+      const res = adsorptioner.move(
+        {
+          x: _left, y: _top, width, height,
+        },
+        bounds,
+        threshold,
+      );
+
+      _left = res.x;
+      _top = res.y;
+
+      this._target.style.marginLeft = `${_left}px`;
+      this._target.style.marginTop = `${_top}px`;
+
+      (window as any).store.dispatch({
+        type: 'CHANGE_VALUE',
+        payload: [
+          {
+            key: 'currentBound',
+            value: {
+              x: _left, y: _top, width, height,
+            },
+          },
+        ],
+      });
     }
 
     cancel = (e: MouseEvent) => {
-        this._target.style.marginLeft = this.transfer._left
-        this._target.style.marginTop = this.transfer._top
-        this._target = null
-        this._working = false;
-        this.transfer = {};
-        this.startX = 0;
-        this.startY = 0;
+      this._target.style.marginLeft = this.transfer._left;
+      this._target.style.marginTop = this.transfer._top;
+      this._target = null;
+      this._working = false;
+      this.transfer = {};
+      this.startX = 0;
+      this.startY = 0;
 
-        window.removeEventListener('mousemove', this.move)
-        window.removeEventListener('mouseup', this.up)
-        window.removeEventListener('mouseleave', this.cancel)
+      window.removeEventListener('mousemove', this.move);
+      window.removeEventListener('mouseup', this.up);
+      window.removeEventListener('mouseleave', this.cancel);
 
-        // this.overlayer.host.style.display = 'none'
-        // this.overlayer.host.style.cursor = 'initial'
-        document.documentElement.classList.remove('dragger')
+      // this.overlayer.host.style.display = 'none'
+      // this.overlayer.host.style.cursor = 'initial'
+      document.documentElement.classList.remove('dragger');
     }
 
     up = (e: MouseEvent) => {
-        const moveX = e.pageX - this.startX
-        const moveY = e.pageY - this.startY
-        const left = (this.transfer.x + moveX)
-        const top = (this.transfer.y + moveY)
-        this._target.style.marginLeft = `${left}px`
-        this._target.style.marginTop = `${top}px`
-        const { schema, select } = (window as any).store.getState();
-        const [_targetSchema] = schemaParser.searchById(schema, select)
-        const styles = get(_targetSchema, `styles.#${_targetSchema.id}`, {});
-        const _schema = schemaParser.update(schema, select, `styles.#${_targetSchema.id}`, {
-            ...styles,
-            'margin-left': `${left}px`,
-            'margin-top': `${top}px`
-        });
+      const {
+        x,
+        y,
+        width,
+        height,
+        precision,
+        bounds,
+        threshold,
+        schema,
+        select,
+      } = this.transfer;
 
-        (window.parent as any).changePosition(_schema);
+      const moveX = e.pageX - this.startX;
+      const moveY = e.pageY - this.startY;
 
-        this.cancel(e);
+      let _left = Number((moveX + x).toFixed(precision));
+      let _top = Number((moveY + y).toFixed(precision));
+
+      const res = adsorptioner.move(
+        {
+          x: _left, y: _top, width, height,
+        },
+        bounds,
+        threshold,
+      );
+
+      _left = res.x;
+      _top = res.y;
+
+      const [_targetSchema] = schemaParser.searchById(schema, select);
+      const styles = get(_targetSchema, `styles.#${_targetSchema.id}`, {});
+      const _schema = schemaParser.update(schema, select, `styles.#${_targetSchema.id}`, {
+        ...styles,
+        'margin-left': `${_left}px`,
+        'margin-top': `${_top}px`,
+      });
+
+      (window.parent as any).changePosition(_schema);
+
+      (window as any).store.dispatch({
+        type: 'CHANGE_VALUE',
+        payload: [
+          { key: 'currentBound', value: null },
+          { key: 'bounds', value: [] },
+        ],
+      });
+
+      this.cancel(e);
     }
 }
 

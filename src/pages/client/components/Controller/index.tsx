@@ -1,13 +1,13 @@
-import React from "react";
-import "./index.css";
-import dragger from "./features/dragger";
-import resizer from "./features/resizer";
-import { State } from "../../../editor/store";
-import { connect } from "react-redux";
+import React from 'react';
+import './index.css';
+import { connect } from 'react-redux';
+import dragger from './features/dragger';
+import resizer from './features/resizer';
+import { State } from '../../../editor/store';
 
 interface Props {
-  select: State["select"];
-  hover: State["hover"];
+  select: State['select'];
+  hover: State['hover'];
 }
 
 const initState = {
@@ -24,16 +24,16 @@ class Controller extends React.Component<Props> {
   select = (list: HTMLElement[]) => {
     for (let i = 0, len = list.length; i < len; i++) {
       const dom = list[i];
-      if (dom.hasAttribute("data-builder-tracker")) {
+      if (dom.hasAttribute('data-builder-tracker')) {
         return;
       }
-      const type = dom.getAttribute("data-builder-type");
+      const type = dom.getAttribute('data-builder-type');
       if (type) {
-        const id = dom.getAttribute("id");
+        const id = dom.getAttribute('id');
 
         (window as any).store.dispatch({
-          type: "CHANGE_VALUE",
-          payload: [{ key: "select", value: id }],
+          type: 'CHANGE_VALUE',
+          payload: [{ key: 'select', value: id }],
         });
 
         return;
@@ -41,8 +41,8 @@ class Controller extends React.Component<Props> {
     }
 
     (window as any).store.dispatch({
-      type: "CHANGE_VALUE",
-      payload: [{ key: "select", value: "" }],
+      type: 'CHANGE_VALUE',
+      payload: [{ key: 'select', value: '' }],
     });
   };
 
@@ -68,16 +68,16 @@ class Controller extends React.Component<Props> {
     const list = e.composedPath().slice(0, -2) as HTMLElement[];
     for (let i = 0, len = list.length; i < len; i++) {
       const dom = list[i];
-      if (dom.hasAttribute("data-builder-tracker")) {
+      if (dom.hasAttribute('data-builder-tracker')) {
         return;
       }
-      const type = dom.getAttribute("data-builder-type");
+      const type = dom.getAttribute('data-builder-type');
       if (type) {
-        const id = dom.getAttribute("id");
+        const id = dom.getAttribute('id');
 
         (window as any).store.dispatch({
-          type: "CHANGE_VALUE",
-          payload: [{ key: "hover", value: id }],
+          type: 'CHANGE_VALUE',
+          payload: [{ key: 'hover', value: id }],
         });
 
         return;
@@ -85,15 +85,15 @@ class Controller extends React.Component<Props> {
     }
 
     (window as any).store.dispatch({
-      type: "CHANGE_VALUE",
-      payload: [{ key: "hover", value: "" }],
+      type: 'CHANGE_VALUE',
+      payload: [{ key: 'hover', value: '' }],
     });
   };
 
   onMouseLeave = () => {
     (window as any).store.dispatch({
-      type: "CHANGE_VALUE",
-      payload: [{ key: "hover", value: "" }],
+      type: 'CHANGE_VALUE',
+      payload: [{ key: 'hover', value: '' }],
     });
   }
 
@@ -104,17 +104,17 @@ class Controller extends React.Component<Props> {
   _mousehasdown = false;
 
   onMouseDown = (e: MouseEvent) => {
-    if ((e.target as HTMLElement).getAttribute("data-builder-dotdir")) {
+    if ((e.target as HTMLElement).getAttribute('data-builder-dotdir')) {
       const type = (
         e.target as HTMLElement
-      ).parentElement!.parentElement!.getAttribute("data-builder-anchor");
+      ).parentElement!.parentElement!.getAttribute('data-builder-anchor');
 
-      if (type === "hover") {
+      if (type === 'hover') {
         (window as any).store.dispatch({
-          type: "CHANGE_VALUE",
+          type: 'CHANGE_VALUE',
           payload: [
             {
-              key: "select",
+              key: 'select',
               value: (window as any).store.getState().hover,
             },
           ],
@@ -124,13 +124,13 @@ class Controller extends React.Component<Props> {
       return;
     }
     this._mousehasdown = true;
-    window.addEventListener("mousemove", this.onMouseMove, true);
+    window.addEventListener('mousemove', this.onMouseMove, true);
   };
 
   _mousehasmove = false;
 
   onMouseMove = (e: MouseEvent) => {
-    window.removeEventListener("mousemove", this.onMouseMove, true);
+    window.removeEventListener('mousemove', this.onMouseMove, true);
     if (!this._mousehasdown) {
       return;
     }
@@ -141,7 +141,7 @@ class Controller extends React.Component<Props> {
   };
 
   onMouseUp = (e: MouseEvent) => {
-    window.removeEventListener("mousemove", this.onMouseMove, true);
+    window.removeEventListener('mousemove', this.onMouseMove, true);
 
     if (!this._mousehasdown) {
       this._mousehasmove = false;
@@ -158,7 +158,7 @@ class Controller extends React.Component<Props> {
   };
 
   componentDidMount() {
-    window.addEventListener("scroll", this.track, true);
+    window.addEventListener('scroll', this.track, true);
     this._looptimer = setInterval(this.track, 300);
 
     this._mutationObserver!.observe(document.documentElement, {
@@ -167,17 +167,17 @@ class Controller extends React.Component<Props> {
       subtree: true,
     });
 
-    document.body.addEventListener("dragstart", this.onDragStart);
+    document.body.addEventListener('dragstart', this.onDragStart);
 
-    document.body.addEventListener("mousedown", this.onMouseDown);
+    document.body.addEventListener('mousedown', this.onMouseDown);
 
-    document.body.addEventListener("mouseup", this.onMouseUp);
+    document.body.addEventListener('mouseup', this.onMouseUp);
 
-    document.body.addEventListener("mouseover", this.onMouseOver);
-    
-    document.body.addEventListener("mouseleave", this.onMouseLeave);
+    document.body.addEventListener('mouseover', this.onMouseOver);
 
-    document.body.addEventListener("dblclick", this.onDoubleClick);
+    document.body.addEventListener('mouseleave', this.onMouseLeave);
+
+    document.body.addEventListener('dblclick', this.onDoubleClick);
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -191,22 +191,22 @@ class Controller extends React.Component<Props> {
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this.track, true);
+    window.removeEventListener('scroll', this.track, true);
     clearInterval(this._looptimer);
     this._mutationObserver!.disconnect();
     this._mutationObserver = null;
 
-    document.body.removeEventListener("dragstart", this.onDragStart);
+    document.body.removeEventListener('dragstart', this.onDragStart);
 
-    document.body.removeEventListener("mousedown", this.onMouseDown);
+    document.body.removeEventListener('mousedown', this.onMouseDown);
 
-    document.body.removeEventListener("mouseup", this.onMouseUp);
+    document.body.removeEventListener('mouseup', this.onMouseUp);
 
-    document.body.removeEventListener("mouseover", this.onMouseOver);
+    document.body.removeEventListener('mouseover', this.onMouseOver);
 
-    document.body.removeEventListener("mouseleave", this.onMouseLeave);
+    document.body.removeEventListener('mouseleave', this.onMouseLeave);
 
-    document.body.removeEventListener("dblclick", this.onDoubleClick);
+    document.body.removeEventListener('dblclick', this.onDoubleClick);
   }
 
   // track start
@@ -228,7 +228,7 @@ class Controller extends React.Component<Props> {
       if (element) {
         if (this._element !== element) {
           (window.parent as any)._styler(window.getComputedStyle(element));
-          this._element = element
+          this._element = element;
         }
         const elementRect = element.getBoundingClientRect();
         const {
@@ -238,13 +238,15 @@ class Controller extends React.Component<Props> {
           height: sheight,
           visible,
         } = this._state.select;
-        const { x, y, width, height } = elementRect;
+        const {
+          x, y, width, height,
+        } = elementRect;
         if (
-          sx !== x ||
-          sy !== y ||
-          swidth !== width ||
-          sheight !== height ||
-          !visible
+          sx !== x
+          || sy !== y
+          || swidth !== width
+          || sheight !== height
+          || !visible
         ) {
           this._setState({
             select: {
@@ -276,13 +278,15 @@ class Controller extends React.Component<Props> {
           height: sheight,
           visible,
         } = this._state.hover;
-        const { x, y, width, height } = elementRect;
+        const {
+          x, y, width, height,
+        } = elementRect;
         if (
-          sx !== x ||
-          sy !== y ||
-          swidth !== width ||
-          sheight !== height ||
-          !visible
+          sx !== x
+          || sy !== y
+          || swidth !== width
+          || sheight !== height
+          || !visible
         ) {
           this._setState({
             hover: {
@@ -314,16 +318,20 @@ class Controller extends React.Component<Props> {
   };
 
   clearSelect = () => {
-    const { x: sx, y: sy, width: swidth, height: sheight } = initState;
-    const { x, y, width, height, visible } = this._state.select;
+    const {
+      x: sx, y: sy, width: swidth, height: sheight,
+    } = initState;
+    const {
+      x, y, width, height, visible,
+    } = this._state.select;
     (window.parent as any)._styler(null);
-    this._element = null
+    this._element = null;
     if (
-      sx !== x ||
-      sy !== y ||
-      swidth !== width ||
-      sheight !== height ||
-      visible
+      sx !== x
+      || sy !== y
+      || swidth !== width
+      || sheight !== height
+      || visible
     ) {
       this._setState({
         select: initState,
@@ -332,14 +340,18 @@ class Controller extends React.Component<Props> {
   };
 
   clearHover = () => {
-    const { x: sx, y: sy, width: swidth, height: sheight } = initState;
-    const { x, y, width, height, visible } = this._state.hover;
+    const {
+      x: sx, y: sy, width: swidth, height: sheight,
+    } = initState;
+    const {
+      x, y, width, height, visible,
+    } = this._state.hover;
     if (
-      sx !== x ||
-      sy !== y ||
-      swidth !== width ||
-      sheight !== height ||
-      visible
+      sx !== x
+      || sy !== y
+      || swidth !== width
+      || sheight !== height
+      || visible
     ) {
       this._setState({
         hover: initState,
@@ -366,9 +378,7 @@ class Controller extends React.Component<Props> {
   }
 }
 
-export default connect((state: State) => {
-  return {
-    select: state.select,
-    hover: state.hover,
-  };
-})(Controller);
+export default connect((state: State) => ({
+  select: state.select,
+  hover: state.hover,
+}))(Controller);

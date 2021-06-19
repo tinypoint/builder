@@ -7,11 +7,11 @@ class Overlayer {
 
     constructor() {
         this.host!.className = 'overlayer';
-        document.body.appendChild(this.host!)
+        document.body.appendChild(this.host!);
     }
 
     destory() {
-        document.body.removeChild(this.host!)
+      document.body.removeChild(this.host!);
     }
 }
 

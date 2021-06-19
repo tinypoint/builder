@@ -1,14 +1,14 @@
-import React from "react";
-import { connect } from "react-redux";
-import { State } from "../../store";
-import Anchor from "../Anchor";
-import Toolbox from "../Toolbox";
-import "./index.css";
-import Popper from "@material-ui/core/Popper";
+import React from 'react';
+import { connect } from 'react-redux';
+import { State } from '../../store';
+import Anchor from '../Anchor';
+import Toolbox from '../Toolbox';
+import './index.css';
+import Popper from '@material-ui/core/Popper';
 
 interface Props {
-  select: State["select"];
-  hover: State["hover"];
+  select: State['select'];
+  hover: State['hover'];
 }
 
 const initState = {
@@ -36,16 +36,15 @@ class Tracker extends React.Component<Props> {
 
     this.setState(state);
   };
+
   ref: HTMLDivElement | null = null;
 
   componentDidMount() {
     this._working = true;
 
-    Object.defineProperty(window, "_track", {
+    Object.defineProperty(window, '_track', {
       configurable: true,
-      get: () => {
-        return this.listen;
-      },
+      get: () => this.listen,
     });
   }
 
@@ -62,7 +61,7 @@ class Tracker extends React.Component<Props> {
         <div
           className="tracker-box hover"
           style={{
-            display: hover.visible ? "block" : "none",
+            display: hover.visible ? 'block' : 'none',
             transform: `translate3d(${hover.x * scale}px,${
               hover.y * scale
             }px,0px)`,
@@ -76,7 +75,7 @@ class Tracker extends React.Component<Props> {
           className="tracker-box select"
           ref={(ref) => (this.ref = ref)}
           style={{
-            visibility: select.visible ? "visible" : "hidden",
+            visibility: select.visible ? 'visible' : 'hidden',
             transform: `translate3d(${select.x * scale}px,${
               select.y * scale
             }px,0px)`,
@@ -86,7 +85,7 @@ class Tracker extends React.Component<Props> {
         >
           <Anchor type="select" />
         </div>
-        {/* <Popper
+        <Popper
           open={select.visible}
           anchorEl={() => this.ref!}
           popperOptions={{
@@ -94,15 +93,13 @@ class Tracker extends React.Component<Props> {
           }}
         >
           <Toolbox />
-        </Popper> */}
+        </Popper>
       </div>
     );
   }
 }
 
-export default connect((state: State) => {
-  return {
-    select: state.select,
-    hover: state.hover,
-  };
-})(Tracker);
+export default connect((state: State) => ({
+  select: state.select,
+  hover: state.hover,
+}))(Tracker);

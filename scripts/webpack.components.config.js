@@ -1,35 +1,35 @@
-const path = require("path");
+const path = require('path');
 
 const root = path.dirname(__dirname);
 
 module.exports = {
-  mode: "development",
+  mode: 'development',
   entry: {
-    container: path.resolve(root, "./src/components/container/index.tsx"),
-    page: path.resolve(root, "./src/components/page/index.tsx"),
-    img: path.resolve(root, "./src/components/img/index.tsx"),
-    button: path.resolve(root, "./src/components/button/index.tsx"),
-    text: path.resolve(root, "./src/components/text/index.tsx"),
-    scroller: path.resolve(root, "./src/components/scroller/index.tsx"),
-    ppt: path.resolve(root, "./src/components/ppt/index.tsx"),
-    "ppt-container": path.resolve(
+    container: path.resolve(root, './src/components/container/index.tsx'),
+    page: path.resolve(root, './src/components/page/index.tsx'),
+    img: path.resolve(root, './src/components/img/index.tsx'),
+    button: path.resolve(root, './src/components/button/index.tsx'),
+    text: path.resolve(root, './src/components/text/index.tsx'),
+    scroller: path.resolve(root, './src/components/scroller/index.tsx'),
+    ppt: path.resolve(root, './src/components/ppt/index.tsx'),
+    'ppt-container': path.resolve(
       root,
-      "./src/components/ppt-container/index.tsx"
+      './src/components/ppt-container/index.tsx',
     ),
   },
-  devtool: "inline-source-map",
+  devtool: 'inline-source-map',
   output: {
     library: {
-      name: "[name]",
-      type: "amd",
+      name: '[name]',
+      type: 'amd',
     },
-    filename: "[name].js",
-    path: path.resolve(root, "publish"),
+    filename: '[name].js',
+    path: path.resolve(root, 'publish'),
   },
   externals: [
     {
       // 字符串
-      react: "react",
+      react: 'react',
     },
     // 函数
     // function ({ context, request }, callback) {
@@ -43,24 +43,24 @@ module.exports = {
     rules: [
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: "asset/resource",
+        type: 'asset/resource',
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
-        type: "asset/resource",
+        type: 'asset/resource',
       },
       {
         test: /\.tsx?$/,
-        use: "ts-loader",
+        use: 'ts-loader',
         exclude: /node_modules/,
       },
     ],
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
+    extensions: ['.tsx', '.ts', '.js'],
   },
 };
