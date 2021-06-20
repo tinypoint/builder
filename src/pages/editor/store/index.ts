@@ -33,11 +33,11 @@ export interface Bound {
 }
 
 export enum DIR {
-  TOP = 1 << 0,
-  LEFT = 1 << 1,
-  BOTTOM = 1 << 2,
-  RIGHT = 1 << 3,
-  OTHER = 0 << 0,
+  TOP = 0b00000001,
+  LEFT = 0b00000010,
+  BOTTOM = 0b00000100,
+  RIGHT = 0b00001000,
+  OTHER = 0b00000000,
 }
 
 export interface Components {

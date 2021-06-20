@@ -27,7 +27,8 @@ module.exports = {
     'no-bitwise': 'off',
 		'react/jsx-props-no-spreading': 'off',
 		'@typescript-eslint/naming-convention': 'off',
-		'react/no-unescaped-entities': 'off'
+		'react/no-unescaped-entities': 'off',
+    'no-param-reassign': 'off'
   },
   settings: {
     'import/resolver': {

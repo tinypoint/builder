@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
+import hotkeyer from '../../features/hotkeyer';
 import { State } from '../../store';
 import './index.css';
 
@@ -12,6 +13,12 @@ type Props = ConnectedProps<typeof connecter>;
 
 class Runtime extends React.Component<Props> {
   iframe: HTMLIFrameElement | null = null;
+
+  componentDidMount() {
+    setTimeout(() => {
+      hotkeyer.init();
+    }, 2000);
+  }
 
   render() {
     const { baseScale, components } = this.props;

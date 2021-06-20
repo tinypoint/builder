@@ -4,14 +4,38 @@ import { Schema } from '../../store';
 class SchemaPaser {
   SchemaPaser = SchemaPaser;
 
+  createId = (type: string) => type + (`${Math.random()}`).slice(2, 6);
+
   createSchema = (type: string): Schema => {
     const newScheam = {
       type,
-      id: type + (`${Math.random()}`).slice(2, 6),
+      id: this.createId(type),
       props: {},
       styles: {},
       children: [],
     };
+    return newScheam;
+  };
+
+  copySchema = (schema: Schema):Schema => {
+    const newScheam = cloneDeep(schema);
+
+    this.traverse(newScheam, (_schema: Schema) => {
+      const _id = this.createId(_schema.type);
+
+      const _styles: Schema['styles'] = {};
+      Object.keys(_schema.styles || {}).forEach((selector: string) => {
+        const _selector = selector.replace(new RegExp(_schema.id, 'g'), _id);
+
+        _styles[_selector] = (_schema.styles || {})[selector];
+      });
+
+      _schema.id = _id;
+
+      _schema.styles = _styles;
+      return true;
+    });
+
     return newScheam;
   };
 
