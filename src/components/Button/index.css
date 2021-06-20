@@ -1,9 +1,9 @@
 .button {
-  width: 375px;
-  height: 96px;
+  width: 50vw;
+  height: 12vw;
   background-color: blueviolet;
-  line-height: 96px;
-  border-radius: 12px;
+  line-height: 12vw;
+  border-radius: 6px;
   text-align: center;
   color: #fff;
 }

@@ -504,6 +504,11 @@
   dependencies:
     redux "*"
 
+"@types/requirejs@^2.1.32":
+  version "2.1.32"
+  resolved "https://registry.nlark.com/@types/requirejs/download/@types/requirejs-2.1.32.tgz?cache=0&sync_timestamp=1621242543238&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Frequirejs%2Fdownload%2F%40types%2Frequirejs-2.1.32.tgz#c936a1f4b08f0a8bc10a380d7b837ccf9137d4b9"
+  integrity sha1-yTah9LCPCovBCjgNe4N8z5E31Lk=
+
 "@types/scheduler@*":
   version "0.16.1"
   resolved "https://registry.nlark.com/@types/scheduler/download/@types/scheduler-0.16.1.tgz?cache=0&sync_timestamp=1621242658440&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fscheduler%2Fdownload%2F%40types%2Fscheduler-0.16.1.tgz#18845205e86ff0038517aab7a18a62a6b9f71275"
@@ -6089,6 +6094,19 @@ yargs@^16.2.0:
   version "16.2.0"
   resolved "https://registry.nlark.com/yargs/download/yargs-16.2.0.tgz?cache=0&sync_timestamp=1620086581476&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fyargs%2Fdownload%2Fyargs-16.2.0.tgz#1c82bf0f6b6a66eafce7ef30e376f49a12477f66"
   integrity sha1-HIK/D2tqZur85+8w43b0mhJHf2Y=
+  dependencies:
+    cliui "^7.0.2"
+    escalade "^3.1.1"
+    get-caller-file "^2.0.5"
+    require-directory "^2.1.1"
+    string-width "^4.2.0"
+    y18n "^5.0.5"
+    yargs-parser "^20.2.2"
+
+yargs@^17.0.1:
+  version "17.0.1"
+  resolved "https://registry.nlark.com/yargs/download/yargs-17.0.1.tgz?cache=0&sync_timestamp=1620086581476&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fyargs%2Fdownload%2Fyargs-17.0.1.tgz#6a1ced4ed5ee0b388010ba9fd67af83b9362e0bb"
+  integrity sha1-ahztTtXuCziAELqf1nr4O5Ni4Ls=
   dependencies:
     cliui "^7.0.2"
     escalade "^3.1.1"

@@ -28,7 +28,7 @@ class ReferenceLine extends React.Component {
   }
 
   clear = () => {
-    this.ctx!.clearRect(0, 0, 750, 1552);
+    this.ctx!.clearRect(0, 0, 375, 776);
   };
 
   draw = (currentBound: Bound, bounds: Bound[], threshold: number) => {
@@ -44,7 +44,7 @@ class ReferenceLine extends React.Component {
         ) <= threshold
         || Math.abs(bound.x - (currentBound.x + currentBound.width)) <= threshold
       ) {
-        /* left */ ctx.strokeRect(bound.x, 0, 1, 1552);
+        /* left */ ctx.strokeRect(bound.x, 0, 1, 776);
       }
 
       if (
@@ -55,7 +55,7 @@ class ReferenceLine extends React.Component {
           bound.x + bound.width - (currentBound.x + currentBound.width),
         ) <= threshold
       ) {
-        /* right */ ctx.strokeRect(bound.x + bound.width, 0, 1, 1552);
+        /* right */ ctx.strokeRect(bound.x + bound.width, 0, 1, 776);
       }
 
       if (
@@ -63,7 +63,7 @@ class ReferenceLine extends React.Component {
         Math.abs(bound.y - currentBound.y) <= threshold
         || Math.abs(bound.y - (currentBound.y + currentBound.height)) <= threshold
       ) {
-        /* top */ ctx.strokeRect(0, bound.y, 750, 1);
+        /* top */ ctx.strokeRect(0, bound.y, 375, 1);
       }
 
       if (
@@ -73,7 +73,7 @@ class ReferenceLine extends React.Component {
           bound.y + bound.height - (currentBound.y + currentBound.height),
         ) <= threshold
       ) {
-        /* bottom */ ctx.strokeRect(0, bound.y + bound.height, 750, 1);
+        /* bottom */ ctx.strokeRect(0, bound.y + bound.height, 375, 1);
       }
     });
   };
@@ -82,8 +82,8 @@ class ReferenceLine extends React.Component {
     return (
       <canvas
         className="referenceLine"
-        width="750px"
-        height="1552px"
+        width="375px"
+        height="776px"
         ref={(ref) => {
           this.ref = ref;
         }}

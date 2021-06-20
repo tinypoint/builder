@@ -4,19 +4,6 @@ const root = path.dirname(__dirname);
 
 module.exports = {
   mode: 'development',
-  entry: {
-    container: path.resolve(root, './src/components/container/index.tsx'),
-    page: path.resolve(root, './src/components/page/index.tsx'),
-    img: path.resolve(root, './src/components/img/index.tsx'),
-    button: path.resolve(root, './src/components/button/index.tsx'),
-    text: path.resolve(root, './src/components/text/index.tsx'),
-    scroller: path.resolve(root, './src/components/scroller/index.tsx'),
-    ppt: path.resolve(root, './src/components/ppt/index.tsx'),
-    'ppt-container': path.resolve(
-      root,
-      './src/components/ppt-container/index.tsx',
-    ),
-  },
   devtool: 'inline-source-map',
   output: {
     library: {

@@ -6,12 +6,11 @@ import schemaParser from '../../features/schemaParser';
 import historyer from '../../features/historyer';
 import store, { State } from '../../store';
 
-const lsit = ['section', 'button', 'text', 'img', 'scroller', 'ppt', 'ppt-container'];
-
 const connector = connect((state: State) => ({
   select: state.select,
   schema: state.schema,
   shopShow: state.shopShow,
+  components: state.components,
 }));
 
 type Props = ConnectedProps<typeof connector>;
@@ -60,7 +59,7 @@ class Shop extends React.Component<Props> {
   };
 
   render() {
-    const { shopShow } = this.props;
+    const { shopShow, components } = this.props;
     return (
       <div
         className="shop"
@@ -69,15 +68,15 @@ class Shop extends React.Component<Props> {
           transition: shopShow ? 'transform .3s' : '',
         }}
       >
-        {lsit.map((type) => (
+        {components.map((component) => (
           <Button
             className="component-card"
-            key={type}
+            key={component.name}
             onClick={() => {
-              this.addComp(type);
+              this.addComp(component.name);
             }}
           >
-            {type.toUpperCase()}
+            {component.name.toUpperCase()}
           </Button>
         ))}
       </div>

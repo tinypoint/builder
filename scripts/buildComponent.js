@@ -1,24 +1,32 @@
 const webpack = require('webpack')
-const fs = require('fs');
 const path = require('path');
 const webpackConfig = require('./webpack.components.config');
-const root = path.dirname(__dirname);
-const componentDirPath = path.resolve(root, './src/components/')
 const axios = require('axios');
+const yargs = require('yargs/yargs')
+const { hideBin } = require('yargs/helpers')
+const argv = yargs(hideBin(process.argv)).argv
 
-const dirs = fs.readdirSync(componentDirPath)
-// const dirs = ['button']
-dirs.forEach(componentName => {
+const entrys = argv._.map(entry => {
+  const index = entry.split(path.sep).join('/').lastIndexOf("\/");
+  const name = entry.substring(index + 1, entry.length);
+
+  return {
+    name,
+    path: path.resolve(process.cwd(), entry)
+  }
+})
+
+entrys.forEach(entry => {
 
   const compiler = webpack({
     ...webpackConfig,
     stats: 'summary',
     entry: {
-      [componentName]: path.resolve(componentDirPath, componentName)
+      [entry.name]: entry.path
     }
   })
 
-  console.log('bundle start')
+  console.log(`[${entry.name}] bundle start`)
   compiler.run((err, stats) => {
     if (err) {
       console.error(err.stack || err);
@@ -43,12 +51,13 @@ dirs.forEach(componentName => {
     }
 
     compiler.close(() => {
-      console.log('bundle end')
+      console.log(`[${entry.name}] bundle end`)
       axios.put('http://localhost:8082/api/component/', {
-        name: componentName,
-        path: 'assets/' + stats.toJson().assetsByChunkName[componentName][0]
-      }).then(() =>{
-        console.log('put success')
+        name: entry.name,
+        path: 'assets/' + stats.toJson().assetsByChunkName[entry.name][0]
+      }).then(() => {
+
+        console.log(`[${entry.name}] put success`)
       })
     });
   })

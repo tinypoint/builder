@@ -1,0 +1,6 @@
+.form {
+  width: 100vw;
+  height: 100vw;
+  outline: 2px dashed #00c4cc;
+  /* outline-offset: -1; */
+}

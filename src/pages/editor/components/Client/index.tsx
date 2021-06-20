@@ -25,8 +25,8 @@ class Runtime extends React.Component<Props> {
         className="client"
         title="client"
         style={{
-          width: 750,
-          height: 1552,
+          width: 375,
+          height: 776,
           transform: `scale(${baseScale})`,
         }}
         src="http://localhost:8080/client"

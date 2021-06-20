@@ -1,14 +1,15 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import Popper from '@material-ui/core/Popper';
+// import Popper from '@material-ui/core/Popper';
 import { State } from '../../store';
 import Anchor from '../Anchor';
-import Toolbox from '../Toolbox';
+// import Toolbox from '../Toolbox';
 import './index.css';
 
 const connecter = connect((state: State) => ({
   select: state.select,
   hover: state.hover,
+  baseScale: state.baseScale,
 }));
 
 type IProps = ConnectedProps<typeof connecter>;
@@ -25,8 +26,6 @@ interface IState {
   select: typeof initState,
   hover: typeof initState
 }
-
-const scale = 0.5;
 
 class Tracker extends React.Component<IProps, IState> {
   _working = false;
@@ -66,6 +65,7 @@ class Tracker extends React.Component<IProps, IState> {
   };
 
   render() {
+    const { baseScale } = this.props;
     const { select, hover } = this.state;
     return (
       <div className="tracker-layer" data-builder-tracker>
@@ -73,11 +73,11 @@ class Tracker extends React.Component<IProps, IState> {
           className="tracker-box hover"
           style={{
             display: hover.visible ? 'block' : 'none',
-            transform: `translate3d(${hover.x * scale}px,${
-              hover.y * scale
+            transform: `translate3d(${hover.x * baseScale}px,${
+              hover.y * baseScale
             }px,0px)`,
-            width: hover.width * scale,
-            height: hover.height * scale,
+            width: hover.width * baseScale,
+            height: hover.height * baseScale,
           }}
         >
           <Anchor type="hover" />
@@ -89,16 +89,16 @@ class Tracker extends React.Component<IProps, IState> {
           }}
           style={{
             visibility: select.visible ? 'visible' : 'hidden',
-            transform: `translate3d(${select.x * scale}px,${
-              select.y * scale
+            transform: `translate3d(${select.x * baseScale}px,${
+              select.y * baseScale
             }px,0px)`,
-            width: select.width * scale,
-            height: select.height * scale,
+            width: select.width * baseScale,
+            height: select.height * baseScale,
           }}
         >
           <Anchor type="select" />
         </div>
-        <Popper
+        {/* <Popper
           open={select.visible}
           anchorEl={() => this.ref!}
           popperOptions={{
@@ -106,7 +106,7 @@ class Tracker extends React.Component<IProps, IState> {
           }}
         >
           <Toolbox />
-        </Popper>
+        </Popper> */}
       </div>
     );
   }
