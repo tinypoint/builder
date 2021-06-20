@@ -5,6 +5,7 @@ import './index.css';
 
 const connecter = connect((state: State) => ({
   baseScale: state.baseScale,
+  components: state.components,
 }));
 
 type Props = ConnectedProps<typeof connecter>;
@@ -13,7 +14,12 @@ class Runtime extends React.Component<Props> {
   iframe: HTMLIFrameElement | null = null;
 
   render() {
-    const { baseScale } = this.props;
+    const { baseScale, components } = this.props;
+
+    if (!components || !components.length) {
+      return null;
+    }
+
     return (
       <iframe
         className="client"

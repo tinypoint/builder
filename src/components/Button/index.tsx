@@ -10,6 +10,7 @@ const Button: React.FC<IButtonProps> = ({ id, text }: IButtonProps) => (
     className="button"
   >
     {text}
+    123
   </div>
 );
 

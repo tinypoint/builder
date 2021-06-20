@@ -40,6 +40,11 @@ export enum DIR {
   OTHER = 0 << 0,
 }
 
+export interface Components {
+  name: string;
+  path: string;
+}
+
 const initState = {
   shopShow: true,
   sid: 0,
@@ -69,6 +74,7 @@ const initState = {
     page: ({} as Page),
     records: ([] as PagesRecord[]),
   },
+  components: ([] as Components[]),
 };
 
 export type State = typeof initState;

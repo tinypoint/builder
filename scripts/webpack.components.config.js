@@ -21,7 +21,9 @@ module.exports = {
   output: {
     library: {
       name: '[name]',
-      type: 'amd',
+      type: 'umd',
+      umdNamedDefine: true,
+      export: 'default',
     },
     filename: '[name].[contenthash].js',
     path: path.resolve(root, 'public', 'assets'),
@@ -30,6 +32,9 @@ module.exports = {
     {
       // 字符串
       react: 'react',
+      'react-dom': 'react-dom',
+      redux: 'redux',
+      'react-redux': 'react-redux',
     },
     // 函数
     // function ({ context, request }, callback) {

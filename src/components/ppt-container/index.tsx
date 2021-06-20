@@ -1,14 +1,14 @@
 import React from 'react';
 import './index.css';
 
-type IContainerProps = any;
+type IPptContainerProps = any;
 
-const PptContainer: React.FC<IContainerProps> = ({ id, children }: IContainerProps) => (
+const PptContainer: React.FC<IPptContainerProps> = ({ id, children }: IPptContainerProps) => (
   <div id={id} className="ppt-container" data-builder-type="ppt-container" data-builder-block>
     {children}
   </div>
 );
 
-PptContainer.displayName = 'Scroller';
+PptContainer.displayName = 'PptContainer';
 
 export default PptContainer;

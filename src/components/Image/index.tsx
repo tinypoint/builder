@@ -7,7 +7,7 @@ const Image: React.FC<IImageProps> = ({ id, alt = 'img', src = '//img1.baidu.com
   <img
     id={id}
     className="image"
-    data-builder-type="img"
+    data-builder-type="image"
     alt={alt}
     src={src}
   />

@@ -26,12 +26,23 @@ interface PagesRecord {
 
 class Editor extends React.Component {
   componentDidMount() {
+    this.fetchComponents();
     if (store.getState().create) {
       this.createData();
     } else {
       this.fetchData();
     }
   }
+
+  fetchComponents = async () => {
+    const {
+      data: { data: components },
+    } = await axios.get('/api/component/list');
+    store.dispatch({
+      type: 'CHANGE_VALUE',
+      payload: [{ key: 'components', value: components }],
+    });
+  };
 
   createData = () => {
     historyer.push({
