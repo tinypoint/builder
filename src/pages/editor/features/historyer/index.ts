@@ -14,7 +14,7 @@ class Historyer {
     this._id = _id;
     const { select } = store.getState();
     const schema = this.current;
-    const [selectSchema] = schemaParser.searchById(schema, select);
+    const [selectSchema] = schemaParser.searchById(schema, select[0]);
 
     store.dispatch({
       type: 'CHANGE_VALUE',
@@ -24,7 +24,7 @@ class Historyer {
         { key: 'hundo', value: this._undo },
         { key: 'hsctack', value: this.stack },
         { key: 'schema', value: schema },
-        { key: 'select', value: selectSchema ? select : '' },
+        { key: 'select', value: selectSchema ? [selectSchema.id] : [] },
       ],
     });
   }

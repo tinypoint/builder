@@ -90,7 +90,7 @@ class Controller extends React.Component<Props> {
     document.body.removeEventListener('dblclick', this.onDoubleClick);
   }
 
-  select = (list: HTMLElement[]) => {
+  select = (list: HTMLElement[], ctrlKey: boolean) => {
     for (let i = 0, len = list.length; i < len; i += 1) {
       const dom = list[i];
       if (dom.hasAttribute('data-builder-tracker')) {
@@ -100,10 +100,19 @@ class Controller extends React.Component<Props> {
       if (type) {
         const id = dom.getAttribute('id');
 
-        (window as any).store.dispatch({
-          type: 'CHANGE_VALUE',
-          payload: [{ key: 'select', value: id }],
-        });
+        const { select } = (window as any).store.getState();
+
+        if (ctrlKey) {
+          (window as any).store.dispatch({
+            type: 'CHANGE_VALUE',
+            payload: [{ key: 'select', value: [id, ...(select || [])] }],
+          });
+        } else {
+          (window as any).store.dispatch({
+            type: 'CHANGE_VALUE',
+            payload: [{ key: 'select', value: [id] }],
+          });
+        }
 
         return;
       }
@@ -111,18 +120,19 @@ class Controller extends React.Component<Props> {
 
     (window as any).store.dispatch({
       type: 'CHANGE_VALUE',
-      payload: [{ key: 'select', value: '' }],
+      payload: [{ key: 'select', value: [] }],
     });
   };
 
   onClick = (e: MouseEvent) => {
     const list = e.composedPath().slice(0, -2) as HTMLElement[];
+    const { ctrlKey } = e;
     if (this.clickTimer) {
       clearTimeout(this.clickTimer);
       this.clickTimer = 0;
     }
     this.clickTimer = setTimeout(() => {
-      this.select(list);
+      this.select(list, ctrlKey);
     }, 300);
   };
 
@@ -182,7 +192,7 @@ class Controller extends React.Component<Props> {
           payload: [
             {
               key: 'select',
-              value: (window as any).store.getState().hover,
+              value: [(window as any).store.getState().hover],
             },
           ],
         });
@@ -199,7 +209,7 @@ class Controller extends React.Component<Props> {
       return;
     }
     // drag
-    this.select(e.composedPath().slice(0, -2) as HTMLElement[]);
+    this.select(e.composedPath().slice(0, -2) as HTMLElement[], false);
     dragger.start(e);
     this._mousehasmove = true;
   };
@@ -225,45 +235,49 @@ class Controller extends React.Component<Props> {
 
   _track = () => {
     const { select } = this.props;
-    if (select) {
-      const element = document.getElementById(select);
+    if (select && select.length) {
+      const _select = select.map((id) => {
+        const element = document.getElementById(id);
 
-      if (element) {
-        if (this._element !== element) {
-          (window.parent as any)._styler(window.getComputedStyle(element));
-          this._element = element;
-        }
-        const elementRect = element.getBoundingClientRect();
-        const {
-          x: sx,
-          y: sy,
-          width: swidth,
-          height: sheight,
-          visible,
-        } = this._state.select;
-        const {
-          x, y, width, height,
-        } = elementRect;
-        if (
-          sx !== x
-          || sy !== y
-          || swidth !== width
-          || sheight !== height
-          || !visible
-        ) {
-          this._setState({
-            select: {
-              visible: true,
+        if (element) {
+          if (this._element !== element) {
+            (window.parent as any)._styler(window.getComputedStyle(element));
+            this._element = element;
+          }
+          const elementRect = element.getBoundingClientRect();
+          const {
+            x: sx,
+            y: sy,
+            width: swidth,
+            height: sheight,
+            visible,
+          } = this._state.select;
+          const {
+            x, y, width, height,
+          } = elementRect;
+          if (
+            sx !== x
+            || sy !== y
+            || swidth !== width
+            || sheight !== height
+            || !visible
+          ) {
+            return {
+              id,
               x,
               y,
               width,
               height,
-            },
-          });
+            };
+          }
         }
-      } else {
-        this.clearSelect();
-      }
+
+        return null;
+      });
+
+      this._setState({
+        select: _select,
+      });
     } else {
       this.clearSelect();
     }
@@ -321,25 +335,9 @@ class Controller extends React.Component<Props> {
   };
 
   clearSelect = () => {
-    const {
-      x: sx, y: sy, width: swidth, height: sheight,
-    } = initState;
-    const {
-      x, y, width, height, visible,
-    } = this._state.select;
-    (window.parent as any)._styler(null);
-    this._element = null;
-    if (
-      sx !== x
-      || sy !== y
-      || swidth !== width
-      || sheight !== height
-      || visible
-    ) {
-      this._setState({
-        select: initState,
-      });
-    }
+    this._setState({
+      select: [],
+    });
   };
 
   clearHover = () => {

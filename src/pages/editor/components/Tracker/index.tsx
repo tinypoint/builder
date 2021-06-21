@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-// import Popper from '@material-ui/core/Popper';
 import { State } from '../../store';
 import Anchor from '../Anchor';
-// import Toolbox from '../Toolbox';
 import './index.css';
 
 const connecter = connect((state: State) => ({
@@ -22,21 +20,27 @@ const initState = {
   height: 0,
 };
 
+interface SelectItem {
+  id: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 interface IState {
-  select: typeof initState,
+  select: SelectItem[],
   hover: typeof initState
 }
 
 class Tracker extends React.Component<IProps, IState> {
   _working = false;
 
-  ref: HTMLDivElement | null = null;
-
   constructor(props: IProps) {
     super(props);
 
     this.state = {
-      select: initState,
+      select: ([] as SelectItem[]),
       hover: initState,
     };
   }
@@ -56,7 +60,7 @@ class Tracker extends React.Component<IProps, IState> {
     delete (window as any)._track;
   }
 
-  listen = (state: { select: typeof initState; hover: typeof initState }) => {
+  listen = (state: { select: SelectItem[]; hover: typeof initState }) => {
     if (!this._working) {
       return;
     }
@@ -82,31 +86,29 @@ class Tracker extends React.Component<IProps, IState> {
         >
           <Anchor type="hover" />
         </div>
-        <div
-          className="tracker-box select"
-          ref={(ref) => {
-            this.ref = ref;
-          }}
-          style={{
-            visibility: select.visible ? 'visible' : 'hidden',
-            transform: `translate3d(${select.x * baseScale}px,${
-              select.y * baseScale
-            }px,0px)`,
-            width: select.width * baseScale,
-            height: select.height * baseScale,
-          }}
-        >
-          <Anchor type="select" />
-        </div>
-        {/* <Popper
-          open={select.visible}
-          anchorEl={() => this.ref!}
-          popperOptions={{
-            offsets: { x: 20, y: 20 },
-          }}
-        >
-          <Toolbox />
-        </Popper> */}
+        {
+          select.map((item) => {
+            if (item) {
+              return (
+                <div
+                  key={item.id}
+                  className="tracker-box select"
+                  style={{
+                    transform: `translate3d(${item.x * baseScale}px,${
+                      item.y * baseScale
+                    }px,0px)`,
+                    width: item.width * baseScale,
+                    height: item.height * baseScale,
+                  }}
+                >
+                  <Anchor type="select" />
+                </div>
+              );
+            }
+
+            return null;
+          })
+        }
       </div>
     );
   }

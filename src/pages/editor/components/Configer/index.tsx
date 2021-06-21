@@ -51,11 +51,11 @@ class Configer extends React.Component<Props> {
   render() {
     const { select, schema } = this.props;
 
-    if (!select) {
+    if (!select || !select.length) {
       return null;
     }
 
-    const [targetSchema] = schemaParser.searchById(schema, select);
+    const [targetSchema] = schemaParser.searchById(schema, select[0]);
 
     const props = map[targetSchema.type];
 

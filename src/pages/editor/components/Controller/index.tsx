@@ -34,7 +34,7 @@ class Controller extends React.Component<Props> {
     historyer.push(_schema);
     store.dispatch({
       type: 'CHANGE_VALUE',
-      payload: [{ key: 'select', value: pageSchema.id }],
+      payload: [{ key: 'select', value: [pageSchema.id] }],
     });
   };
 

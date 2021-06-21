@@ -27,6 +27,7 @@ interface PagesRecord {
 class Editor extends React.Component {
   componentDidMount() {
     this.fetchComponents();
+    this.fetchTemplates();
     if (store.getState().create) {
       this.createData();
     } else {
@@ -41,6 +42,16 @@ class Editor extends React.Component {
     store.dispatch({
       type: 'CHANGE_VALUE',
       payload: [{ key: 'components', value: components }],
+    });
+  };
+
+  fetchTemplates = async () => {
+    const {
+      data: { data: templates },
+    } = await axios.get('/api/template/list');
+    store.dispatch({
+      type: 'CHANGE_VALUE',
+      payload: [{ key: 'templates', value: templates }],
     });
   };
 

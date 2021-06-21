@@ -20,10 +20,10 @@ class Dragger {
 
   start = (e: MouseEvent) => {
     const { select, schema, threshold } = (window as any).store.getState();
-    if (!select) {
+    if (!select || !select.length) {
       return;
     }
-    const target = document.getElementById(select);
+    const target = document.getElementById(select[0]);
     if (!target) {
       return;
     }
@@ -43,7 +43,7 @@ class Dragger {
       return;
     }
 
-    const _parentSchema = schemaParser.searchById(schema, select)[1];
+    const _parentSchema = schemaParser.searchById(schema, select[0])[1];
     const siblings = (_parentSchema.children || []).filter((child) => child.id !== select);
     siblings.unshift(_parentSchema);
     const bounds: Bound[] = siblings.map((sib) => {
@@ -199,9 +199,9 @@ class Dragger {
     _left = res.x;
     _top = res.y;
 
-    const [_targetSchema] = schemaParser.searchById(schema, select);
+    const [_targetSchema] = schemaParser.searchById(schema, select[0]);
     const styles = get(_targetSchema, `styles.#${_targetSchema.id}`, {});
-    const _schema = schemaParser.update(schema, select, `styles.#${_targetSchema.id}`, {
+    const _schema = schemaParser.update(schema, select[0], `styles.#${_targetSchema.id}`, {
       ...styles,
       'margin-left': `${_left}px`,
       'margin-top': `${_top}px`,

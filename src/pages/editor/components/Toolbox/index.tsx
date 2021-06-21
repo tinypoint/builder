@@ -32,18 +32,18 @@ class Toolbox extends React.Component<Props> {
 
   delComp = () => {
     const { select, schema } = this.props;
-    if (!select) {
+    if (!select || !select.length) {
       return;
     }
-    const [_target] = schemaParser.searchById(schema, select);
+    const [_target] = schemaParser.searchById(schema, select[0]);
     if (_target.type === 'page') {
       return;
     }
-    const _schema = schemaParser.remove(schema, select);
+    const _schema = schemaParser.remove(schema, select[0]);
     historyer.push(_schema);
     store.dispatch({
       type: 'CHANGE_VALUE',
-      payload: [{ key: 'select', value: '' }],
+      payload: [{ key: 'select', value: [] }],
     });
   };
 

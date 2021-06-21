@@ -39,13 +39,13 @@ class Resizer {
     const {
       select, scale, baseScale, precision, schema, threshold,
     } = store.getState();
-    if (!select) {
+    if (!select || !select.length) {
       return;
     }
     const iframe = document.getElementById('runtime') as HTMLIFrameElement;
     const iframeWindow = iframe.contentWindow!;
     const iframeDocument = iframeWindow.document;
-    const target = iframeDocument.getElementById(select);
+    const target = iframeDocument.getElementById(select[0]);
 
     if (!target) {
       return;
@@ -68,8 +68,8 @@ class Resizer {
       return DIR.OTHER;
     }).reduce((prevValue, currentValue) => prevValue ^ currentValue, DIR.OTHER);
 
-    const _parentSchema = schemaParser.searchById(schema, select)[1];
-    const siblings = (_parentSchema.children || []).filter((child) => child.id !== select);
+    const _parentSchema = schemaParser.searchById(schema, select[0])[1];
+    const siblings = (_parentSchema.children || []).filter((child) => child.id !== select[0]);
     siblings.unshift(_parentSchema);
     const bounds: Bound[] = siblings.map((sib) => {
       const element = iframeDocument.getElementById(sib.id);
@@ -288,7 +288,7 @@ class Resizer {
       this._target.style.marginTop = `${_top}px`;
     }
 
-    const [_targetSchema] = schemaParser.searchById(schema, select);
+    const [_targetSchema] = schemaParser.searchById(schema, select[0]);
     const styles = get(_targetSchema, `styles.#${_targetSchema.id}`, {});
 
     const newStyle: { width?: string; height?: string; 'margin-left'?: string; 'margin-top'?: string } = {};
@@ -306,7 +306,7 @@ class Resizer {
       newStyle['margin-top'] = `${_top}px`;
     }
 
-    const _schema = schemaParser.update(schema, select, `styles.#${_targetSchema.id}`, {
+    const _schema = schemaParser.update(schema, select[0], `styles.#${_targetSchema.id}`, {
       ...styles,
       ...newStyle,
     });

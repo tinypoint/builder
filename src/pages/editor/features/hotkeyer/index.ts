@@ -1,3 +1,4 @@
+import axios from 'axios';
 import hotkeys from 'hotkeys-js';
 import { cloneDeep } from 'lodash-es';
 import store from '../../store';
@@ -31,34 +32,38 @@ class Hotkeyer {
     hotkeys('ctrl + v', this.pasteComp);
 
     iframehotkeys('ctrl + v', this.pasteComp);
+
+    hotkeys('ctrl + g', this.saveTemplate);
+
+    iframehotkeys('ctrl + g', this.saveTemplate);
   };
 
   delComp = () => {
     const { select, schema } = store.getState();
-    if (!select) {
+    if (!select || !select.length) {
       return;
     }
-    const [_target] = schemaParser.searchById(schema, select);
+    const [_target] = schemaParser.searchById(schema, select[0]);
     if (_target.type === 'page') {
       return;
     }
-    const _schema = schemaParser.remove(schema, select);
+    const _schema = schemaParser.remove(schema, select[0]);
     historyer.push(_schema);
     store.dispatch({
       type: 'CHANGE_VALUE',
-      payload: [{ key: 'select', value: '' }],
+      payload: [{ key: 'select', value: [] }],
     });
   };
 
   duplicateComp = (e: KeyboardEvent) => {
     const { select, schema } = store.getState();
-    if (!select) {
+    if (!select || !select.length) {
       return;
     }
-    const [_target] = schemaParser.searchById(schema, select);
+    const [_target] = schemaParser.searchById(schema, select[0]);
     const _fock = schemaParser.copySchema(_target);
 
-    const _schema = schemaParser.insertAfter(schema, select, _fock);
+    const _schema = schemaParser.insertAfter(schema, select[0], _fock);
     historyer.push(_schema);
     store.dispatch({
       type: 'CHANGE_VALUE',
@@ -69,10 +74,10 @@ class Hotkeyer {
 
   copyComp = (e: KeyboardEvent) => {
     const { select, schema } = store.getState();
-    if (!select) {
+    if (!select || !select.length) {
       return;
     }
-    const [_target] = schemaParser.searchById(schema, select);
+    const [_target] = schemaParser.searchById(schema, select[0]);
 
     store.dispatch({
       type: 'CHANGE_VALUE',
@@ -84,7 +89,7 @@ class Hotkeyer {
   pasteComp = (e: KeyboardEvent) => {
     const { select, schema, clipsdata } = store.getState();
 
-    if (!select || !clipsdata) {
+    if (!select || !select.length || !clipsdata) {
       return;
     }
 
@@ -94,13 +99,13 @@ class Hotkeyer {
       clipsdata.payload.forEach((item) => {
         const _fock = schemaParser.copySchema(item);
 
-        _schema = schemaParser.appendChild(schema, select, _fock);
+        _schema = schemaParser.appendChild(schema, select[0], _fock);
       });
 
       historyer.push(_schema);
     } else if (clipsdata.type === 'cut') {
       clipsdata.payload.forEach((item) => {
-        _schema = schemaParser.appendChild(schema, select, item);
+        _schema = schemaParser.appendChild(schema, select[0], item);
       });
 
       historyer.push(_schema);
@@ -115,24 +120,44 @@ class Hotkeyer {
 
   cutComp = (e: KeyboardEvent) => {
     const { select, schema } = store.getState();
-    if (!select) {
+    if (!select || !select.length) {
       return;
     }
 
-    const [_target] = schemaParser.searchById(schema, select);
+    const [_target] = schemaParser.searchById(schema, select[0]);
     if (_target.type === 'page') {
       return;
     }
-    const _schema = schemaParser.remove(schema, select);
+    const _schema = schemaParser.remove(schema, select[0]);
     historyer.push(_schema);
 
     store.dispatch({
       type: 'CHANGE_VALUE',
       payload: [
-        { key: 'select', value: '' },
+        { key: 'select', value: [] },
         { key: 'clipsdata', value: { type: 'cut', payload: [cloneDeep(_target)] } },
       ],
     });
+    e.preventDefault();
+  };
+
+  saveTemplate = (e: KeyboardEvent) => {
+    const { select, schema } = store.getState();
+    if (!select || !select.length || select.length < 2) {
+      return;
+    }
+
+    const template = select.map((id) => {
+      const [_target] = schemaParser.searchById(schema, id);
+      return _target;
+    });
+
+    axios.put('/api/template', {
+      template,
+    }).then((response) => {
+      console.log(response);
+    });
+
     e.preventDefault();
   };
 }

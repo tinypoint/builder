@@ -40,9 +40,14 @@ export enum DIR {
   OTHER = 0b00000000,
 }
 
-export interface Components {
+export interface Component {
   name: string;
   path: string;
+}
+
+export interface Template {
+  template: Schema[];
+  _id: string;
 }
 
 export interface Clipsdata {
@@ -57,7 +62,7 @@ const initState = {
   hredo: false,
   hundo: false,
   hsctack: ([] as any[]),
-  select: '',
+  select: ([] as string[]),
   selectQueen: [],
   hover: '',
   hoverQueen: [],
@@ -79,7 +84,8 @@ const initState = {
     page: ({} as Page),
     records: ([] as PagesRecord[]),
   },
-  components: ([] as Components[]),
+  components: ([] as Component[]),
+  templates: ([] as Template[]),
   clipsdata: (null as Clipsdata | null),
 };
 

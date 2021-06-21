@@ -77,11 +77,15 @@ class Configer extends React.Component<IProps, IStates> {
 
     const { cssDefination } = this.state;
 
-    if (!select || !cssDefination) {
+    if (!select || !select.length || !cssDefination) {
       return null;
     }
 
-    const [targetSchema] = schemaParser.searchById(schema, select);
+    const [targetSchema] = schemaParser.searchById(schema, select[0]);
+
+    if (!targetSchema) {
+      return null;
+    }
 
     const styles = get(targetSchema, `styles.#${targetSchema.id}`, {});
 
