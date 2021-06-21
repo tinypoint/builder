@@ -9,8 +9,6 @@
     "server": "http-server ./public -p 8002",
     "build": "webpack",
     "start": "webpack serve --config ./scripts/webpack.config.js",
-    "start:publish": "webpack serve --config ./scripts/webpack.publish.config.js",
-    "start:components": "webpack --config ./scripts/webpack.components.config.js",
     "eslint": "eslint -c ./.eslintrc.js . --ext .js,.jsx,.ts,.tsx",
     "eslint:fix": "eslint -c ./.eslintrc.js . --ext .js,.jsx,.ts,.tsx --fix",
     "component:test": "node ./scripts/buildComponent.js"
