@@ -45,6 +45,11 @@ export interface Components {
   path: string;
 }
 
+export interface Clipsdata {
+  type: string;
+  payload: Schema[];
+}
+
 const initState = {
   shopShow: true,
   sid: 0,
@@ -75,6 +80,7 @@ const initState = {
     records: ([] as PagesRecord[]),
   },
   components: ([] as Components[]),
+  clipsdata: (null as Clipsdata | null),
 };
 
 export type State = typeof initState;

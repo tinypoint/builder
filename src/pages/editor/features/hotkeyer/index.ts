@@ -1,4 +1,5 @@
 import hotkeys from 'hotkeys-js';
+import { cloneDeep } from 'lodash-es';
 import store from '../../store';
 import historyer from '../historyer';
 import schemaParser from '../schemaParser';
@@ -15,9 +16,21 @@ class Hotkeyer {
 
     iframehotkeys('Backspace', this.delComp);
 
-    hotkeys('ctrl + d', this.copyComp);
+    hotkeys('ctrl + d', this.duplicateComp);
 
-    iframehotkeys('ctrl + d', this.copyComp);
+    iframehotkeys('ctrl + d', this.duplicateComp);
+
+    hotkeys('ctrl + c', this.copyComp);
+
+    iframehotkeys('ctrl + c', this.copyComp);
+
+    hotkeys('ctrl + x', this.cutComp);
+
+    iframehotkeys('ctrl + x', this.cutComp);
+
+    hotkeys('ctrl + v', this.pasteComp);
+
+    iframehotkeys('ctrl + v', this.pasteComp);
   };
 
   delComp = () => {
@@ -37,19 +50,88 @@ class Hotkeyer {
     });
   };
 
+  duplicateComp = (e: KeyboardEvent) => {
+    const { select, schema } = store.getState();
+    if (!select) {
+      return;
+    }
+    const [_target] = schemaParser.searchById(schema, select);
+    const _fock = schemaParser.copySchema(_target);
+
+    const _schema = schemaParser.insertAfter(schema, select, _fock);
+    historyer.push(_schema);
+    store.dispatch({
+      type: 'CHANGE_VALUE',
+      payload: [{ key: 'select', value: _fock.id }],
+    });
+    e.preventDefault();
+  };
+
   copyComp = (e: KeyboardEvent) => {
     const { select, schema } = store.getState();
     if (!select) {
       return;
     }
     const [_target] = schemaParser.searchById(schema, select);
-    const _copy = schemaParser.copySchema(_target);
 
-    const _schema = schemaParser.insertAfter(schema, select, _copy);
-    historyer.push(_schema);
     store.dispatch({
       type: 'CHANGE_VALUE',
-      payload: [{ key: 'select', value: _copy.id }],
+      payload: [{ key: 'clipsdata', value: { type: 'copy', payload: [cloneDeep(_target)] } }],
+    });
+    e.preventDefault();
+  };
+
+  pasteComp = (e: KeyboardEvent) => {
+    const { select, schema, clipsdata } = store.getState();
+
+    if (!select || !clipsdata) {
+      return;
+    }
+
+    let _schema = cloneDeep(schema);
+
+    if (clipsdata.type === 'copy') {
+      clipsdata.payload.forEach((item) => {
+        const _fock = schemaParser.copySchema(item);
+
+        _schema = schemaParser.appendChild(schema, select, _fock);
+      });
+
+      historyer.push(_schema);
+    } else if (clipsdata.type === 'cut') {
+      clipsdata.payload.forEach((item) => {
+        _schema = schemaParser.appendChild(schema, select, item);
+      });
+
+      historyer.push(_schema);
+      store.dispatch({
+        type: 'CHANGE_VALUE',
+        payload: [{ key: 'clipsdata', value: null }],
+      });
+    }
+
+    e.preventDefault();
+  };
+
+  cutComp = (e: KeyboardEvent) => {
+    const { select, schema } = store.getState();
+    if (!select) {
+      return;
+    }
+
+    const [_target] = schemaParser.searchById(schema, select);
+    if (_target.type === 'page') {
+      return;
+    }
+    const _schema = schemaParser.remove(schema, select);
+    historyer.push(_schema);
+
+    store.dispatch({
+      type: 'CHANGE_VALUE',
+      payload: [
+        { key: 'select', value: '' },
+        { key: 'clipsdata', value: { type: 'cut', payload: [cloneDeep(_target)] } },
+      ],
     });
     e.preventDefault();
   };
