@@ -1,17 +1,31 @@
 import React from 'react';
 import { Unsubscribe } from 'redux';
+import { Application, Graphics, utils } from 'pixi.js';
 import store, { Bound } from '../../store';
 import './index.css';
+
+utils.skipHello();
 
 class ReferenceLine extends React.Component {
   ref: HTMLCanvasElement | null = null;
 
-  ctx: CanvasRenderingContext2D | null = null;
-
   unsubscribe: Unsubscribe | null = null;
 
+  app: Application | null = null;
+
+  graphics: Graphics | null = null;
+
   componentDidMount() {
-    this.ctx = this.ref!.getContext('2d')!;
+    this.app = new Application({
+      view: this.ref!,
+      antialias: true,
+      width: 375,
+      height: 776,
+      backgroundAlpha: 0,
+    });
+
+    this.graphics = new Graphics();
+    this.app.stage.addChild(this.graphics);
 
     this.unsubscribe = store.subscribe(() => {
       const { currentBound, bounds, threshold } = store.getState();
@@ -28,15 +42,16 @@ class ReferenceLine extends React.Component {
   }
 
   clear = () => {
-    this.ctx!.clearRect(0, 0, 375, 776);
+    this.graphics?.clear();
   };
 
   draw = (currentBound: Bound, bounds: Bound[], threshold: number) => {
     this.clear();
-    const ctx = this.ctx!;
 
-    ctx.strokeStyle = 'red';
-    ctx.lineWidth = 1;
+    const graphics = this.graphics!;
+
+    graphics.lineStyle(2, 0xFEEB77, 0.5);
+
     bounds.forEach((bound) => {
       if (
         /* sibling left vs current left | current right */ Math.abs(
@@ -44,7 +59,7 @@ class ReferenceLine extends React.Component {
         ) <= threshold
         || Math.abs(bound.x - (currentBound.x + currentBound.width)) <= threshold
       ) {
-        /* left */ ctx.strokeRect(bound.x, 0, 1, 776);
+        /* left */ graphics.drawRect(bound.x, 0, 1, 776);
       }
 
       if (
@@ -55,7 +70,7 @@ class ReferenceLine extends React.Component {
           bound.x + bound.width - (currentBound.x + currentBound.width),
         ) <= threshold
       ) {
-        /* right */ ctx.strokeRect(bound.x + bound.width, 0, 1, 776);
+        /* right */ graphics.drawRect(bound.x + bound.width, 0, 1, 776);
       }
 
       if (
@@ -63,7 +78,7 @@ class ReferenceLine extends React.Component {
         Math.abs(bound.y - currentBound.y) <= threshold
         || Math.abs(bound.y - (currentBound.y + currentBound.height)) <= threshold
       ) {
-        /* top */ ctx.strokeRect(0, bound.y, 375, 1);
+        /* top */ graphics.drawRect(0, bound.y, 375, 1);
       }
 
       if (
@@ -73,7 +88,7 @@ class ReferenceLine extends React.Component {
           bound.y + bound.height - (currentBound.y + currentBound.height),
         ) <= threshold
       ) {
-        /* bottom */ ctx.strokeRect(0, bound.y + bound.height, 375, 1);
+        /* bottom */ graphics.drawRect(0, bound.y + bound.height, 375, 1);
       }
     });
   };
@@ -82,8 +97,6 @@ class ReferenceLine extends React.Component {
     return (
       <canvas
         className="referenceLine"
-        width="375px"
-        height="776px"
         ref={(ref) => {
           this.ref = ref;
         }}

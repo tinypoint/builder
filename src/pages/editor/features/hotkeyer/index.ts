@@ -43,12 +43,13 @@ class Hotkeyer {
       return;
     }
     const [_target] = schemaParser.searchById(schema, select);
+    const _copy = schemaParser.copySchema(_target);
 
-    const _schema = schemaParser.insertAfter(schema, select, schemaParser.copySchema(_target));
+    const _schema = schemaParser.insertAfter(schema, select, _copy);
     historyer.push(_schema);
     store.dispatch({
       type: 'CHANGE_VALUE',
-      payload: [{ key: 'select', value: '' }],
+      payload: [{ key: 'select', value: _copy.id }],
     });
     e.preventDefault();
   };
