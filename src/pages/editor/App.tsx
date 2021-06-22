@@ -9,7 +9,7 @@ import './App.css';
 import Shop from './components/Shop';
 import Styler from './components/Styler';
 import historyer from './features/historyer';
-// import Configer from './components/Configer';
+import Configer from './components/Configer';
 import Loading from './components/Loading';
 import SettingsPanel from './components/SettingsPanel';
 
@@ -94,7 +94,7 @@ class Editor extends React.Component {
         <div className="content">
           <Shop />
           <Controller />
-          {/* <Configer /> */}
+          <Configer />
           <Styler />
         </div>
         <Header />

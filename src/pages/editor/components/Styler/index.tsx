@@ -3,9 +3,22 @@ import { connect, ConnectedProps } from 'react-redux';
 import './index.css';
 import { get } from 'lodash-es';
 import TextField from '@material-ui/core/TextField';
+import Upload from '../Configer/Upload';
 import schemaParser from '../../features/schemaParser';
 import historyer from '../../features/historyer';
 import { Schema, State } from '../../store';
+
+const parseBackgroundImage = (url: string) => {
+  if (url === 'none') {
+    return '';
+  }
+  const matcher = /^url\((.*)\)$/.exec(url);
+  if (matcher && matcher[1]) {
+    return matcher[1];
+  }
+
+  return url;
+};
 
 const connecter = connect((state: State) => ({
   select: state.select,
@@ -306,46 +319,24 @@ class Configer extends React.Component<IProps, IStates> {
             historyer.push(_schema);
           }}
         />
-        <TextField
-          id="backgroundImage-styles"
-          label="backgroundImage"
-          style={{
-            display: 'flex',
-          }}
+        <Upload
           key="backgroundImage-styles"
           value={
-            styles['background-image'] || cssDefination.backgroundImage || ''
+            parseBackgroundImage(styles['background-image'] || cssDefination.backgroundImage || '')
           }
-          disabled={!styles['background-image']}
-          onChange={(e) => {
-            if (!styles['background-image']) {
-              return;
-            }
-            const { value } = e.target as HTMLInputElement;
+          onChange={(url?:string) => {
+            // if (!styles['background-image']) {
+            //   return;
+            // }
             const _schema = schemaParser.update(
               schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.background-image`,
-              value,
-            );
-            historyer.push(_schema);
-          }}
-          onDoubleClick={() => {
-            if (styles['background-image']) {
-              return;
-            }
-            const _schema = schemaParser.update(
-              schema,
-              targetSchema.id,
-              `styles.#${targetSchema.id}.background-image`,
-              cssDefination.backgroundImage,
+              url ? `url(${url})` : 'none',
             );
             historyer.push(_schema);
           }}
         />
-        {/* <div>
-          <img src={cssDefination.backgroundImage.match(/url\((.*)\)/)![1]} alt="" />
-        </div> */}
       </div>
     );
   }

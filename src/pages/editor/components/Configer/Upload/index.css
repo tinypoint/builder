@@ -1,0 +1,32 @@
+.upload-preview {
+  width: 100%;
+  position: relative;
+}
+
+.upload-preview-content {
+  width: 100%;
+}
+
+.upload-preview-img {
+  width: 100%;
+}
+
+.upload-preview-button {
+  width: 100%;
+}
+
+.upload-preview-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  z-index: -1;
+}
+
+.upload-preview .upload-preview-clear {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+}
