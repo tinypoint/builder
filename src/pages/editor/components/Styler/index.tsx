@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import './index.css';
 import { get } from 'lodash-es';
 import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
 import Upload from '../Configer/Upload';
 import schemaParser from '../../features/schemaParser';
 import historyer from '../../features/historyer';
@@ -325,14 +326,268 @@ class Configer extends React.Component<IProps, IStates> {
             parseBackgroundImage(styles['background-image'] || cssDefination.backgroundImage || '')
           }
           onChange={(url?:string) => {
-            // if (!styles['background-image']) {
-            //   return;
-            // }
             const _schema = schemaParser.update(
               schema,
               targetSchema.id,
               `styles.#${targetSchema.id}.background-image`,
               url ? `url(${url})` : 'none',
+            );
+            historyer.push(_schema);
+          }}
+        />
+        <TextField
+          id="background-size-styles"
+          label="background-size"
+          select
+          key="background-size-styles"
+          value={styles['background-size'] || cssDefination.backgroundSize || ''}
+          disabled={!styles['background-size']}
+          style={{
+            width: '100%',
+          }}
+          onChange={(e) => {
+            if (!styles['background-size']) {
+              return;
+            }
+            const { value } = e.target;
+
+            const _schema = schemaParser.update(
+              schema,
+              targetSchema.id,
+              `styles.#${targetSchema.id}.background-size`,
+              value,
+            );
+            historyer.push(_schema);
+          }}
+          onDoubleClick={() => {
+            if (styles['background-size']) {
+              return;
+            }
+            const _schema = schemaParser.update(
+              schema,
+              targetSchema.id,
+              `styles.#${targetSchema.id}.background-size`,
+              cssDefination.backgroundSize,
+            );
+            historyer.push(_schema);
+          }}
+        >
+          <MenuItem value="auto">auto</MenuItem>
+          <MenuItem value="cover">cover</MenuItem>
+          <MenuItem value="contain">contain</MenuItem>
+        </TextField>
+        <TextField
+          id="font-family-styles"
+          label="font-family"
+          key="font-family-styles"
+          value={
+            styles['font-family']
+            || cssDefination.getPropertyValue('font-family')
+            || ''
+          }
+          disabled={!styles['font-family']}
+          onChange={(e) => {
+            if (!styles['font-family']) {
+              return;
+            }
+            const { value } = e.target as HTMLInputElement;
+            const _schema = schemaParser.update(
+              schema,
+              targetSchema.id,
+              `styles.#${targetSchema.id}.font-family`,
+              value,
+            );
+            historyer.push(_schema);
+          }}
+          onDoubleClick={() => {
+            if (styles['font-family']) {
+              return;
+            }
+            const _schema = schemaParser.update(
+              schema,
+              targetSchema.id,
+              `styles.#${targetSchema.id}.font-family`,
+              cssDefination.getPropertyValue('font-family'),
+            );
+            historyer.push(_schema);
+          }}
+        />
+        <TextField
+          id="font-size-styles"
+          label="font-size"
+          key="font-size-styles"
+          value={
+            styles['font-size']
+            || cssDefination.getPropertyValue('font-size')
+            || ''
+          }
+          disabled={!styles['font-size']}
+          onChange={(e) => {
+            if (!styles['font-size']) {
+              return;
+            }
+            const { value } = e.target as HTMLInputElement;
+            const _schema = schemaParser.update(
+              schema,
+              targetSchema.id,
+              `styles.#${targetSchema.id}.font-size`,
+              value,
+            );
+            historyer.push(_schema);
+          }}
+          onDoubleClick={() => {
+            if (styles['font-size']) {
+              return;
+            }
+            const _schema = schemaParser.update(
+              schema,
+              targetSchema.id,
+              `styles.#${targetSchema.id}.font-size`,
+              cssDefination.getPropertyValue('font-size'),
+            );
+            historyer.push(_schema);
+          }}
+        />
+        <TextField
+          id="font-weight-styles"
+          label="font-weight"
+          key="font-weight-styles"
+          value={
+            styles['font-weight']
+            || cssDefination.getPropertyValue('font-weight')
+            || ''
+          }
+          disabled={!styles['font-weight']}
+          onChange={(e) => {
+            if (!styles['font-weight']) {
+              return;
+            }
+            const { value } = e.target as HTMLInputElement;
+            const _schema = schemaParser.update(
+              schema,
+              targetSchema.id,
+              `styles.#${targetSchema.id}.font-weight`,
+              value,
+            );
+            historyer.push(_schema);
+          }}
+          onDoubleClick={() => {
+            if (styles['font-weight']) {
+              return;
+            }
+            const _schema = schemaParser.update(
+              schema,
+              targetSchema.id,
+              `styles.#${targetSchema.id}.font-weight`,
+              cssDefination.getPropertyValue('font-weight'),
+            );
+            historyer.push(_schema);
+          }}
+        />
+        <TextField
+          id="font-style-styles"
+          label="font-style"
+          key="font-style-styles"
+          value={
+            styles['font-style']
+            || cssDefination.getPropertyValue('font-style')
+            || ''
+          }
+          disabled={!styles['font-style']}
+          onChange={(e) => {
+            if (!styles['font-style']) {
+              return;
+            }
+            const { value } = e.target as HTMLInputElement;
+            const _schema = schemaParser.update(
+              schema,
+              targetSchema.id,
+              `styles.#${targetSchema.id}.font-style`,
+              value,
+            );
+            historyer.push(_schema);
+          }}
+          onDoubleClick={() => {
+            if (styles['font-style']) {
+              return;
+            }
+            const _schema = schemaParser.update(
+              schema,
+              targetSchema.id,
+              `styles.#${targetSchema.id}.font-style`,
+              cssDefination.getPropertyValue('font-style'),
+            );
+            historyer.push(_schema);
+          }}
+        />
+        <TextField
+          id="line-height-styles"
+          label="line-height"
+          key="line-height-styles"
+          value={
+            styles['line-height']
+            || cssDefination.getPropertyValue('line-height')
+            || ''
+          }
+          disabled={!styles['line-height']}
+          onChange={(e) => {
+            if (!styles['line-height']) {
+              return;
+            }
+            const { value } = e.target as HTMLInputElement;
+            const _schema = schemaParser.update(
+              schema,
+              targetSchema.id,
+              `styles.#${targetSchema.id}.line-height`,
+              value,
+            );
+            historyer.push(_schema);
+          }}
+          onDoubleClick={() => {
+            if (styles['line-height']) {
+              return;
+            }
+            const _schema = schemaParser.update(
+              schema,
+              targetSchema.id,
+              `styles.#${targetSchema.id}.line-height`,
+              cssDefination.getPropertyValue('line-height'),
+            );
+            historyer.push(_schema);
+          }}
+        />
+        <TextField
+          id="letter-spacing-styles"
+          label="letter-spacing"
+          key="letter-spacing-styles"
+          value={
+            styles['letter-spacing']
+            || cssDefination.getPropertyValue('letter-spacing')
+            || ''
+          }
+          disabled={!styles['letter-spacing']}
+          onChange={(e) => {
+            if (!styles['letter-spacing']) {
+              return;
+            }
+            const { value } = e.target as HTMLInputElement;
+            const _schema = schemaParser.update(
+              schema,
+              targetSchema.id,
+              `styles.#${targetSchema.id}.letter-spacing`,
+              value,
+            );
+            historyer.push(_schema);
+          }}
+          onDoubleClick={() => {
+            if (styles['letter-spacing']) {
+              return;
+            }
+            const _schema = schemaParser.update(
+              schema,
+              targetSchema.id,
+              `styles.#${targetSchema.id}.letter-spacing`,
+              cssDefination.getPropertyValue('letter-spacing'),
             );
             historyer.push(_schema);
           }}

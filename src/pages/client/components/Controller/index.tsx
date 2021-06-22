@@ -57,7 +57,7 @@ class Controller extends React.Component<Props> {
 
     document.body.addEventListener('mouseleave', this.onMouseLeave);
 
-    document.body.addEventListener('dblclick', this.onDoubleClick);
+    // document.body.addEventListener('dblclick', this.onDoubleClick);
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -87,7 +87,7 @@ class Controller extends React.Component<Props> {
 
     document.body.removeEventListener('mouseleave', this.onMouseLeave);
 
-    document.body.removeEventListener('dblclick', this.onDoubleClick);
+    // document.body.removeEventListener('dblclick', this.onDoubleClick);
   }
 
   select = (list: HTMLElement[], ctrlKey: boolean) => {
@@ -127,13 +127,14 @@ class Controller extends React.Component<Props> {
   onClick = (e: MouseEvent) => {
     const list = e.composedPath().slice(0, -2) as HTMLElement[];
     const { ctrlKey } = e;
-    if (this.clickTimer) {
-      clearTimeout(this.clickTimer);
-      this.clickTimer = 0;
-    }
-    this.clickTimer = setTimeout(() => {
-      this.select(list, ctrlKey);
-    }, 300);
+    // if (this.clickTimer) {
+    //   clearTimeout(this.clickTimer);
+    //   this.clickTimer = 0;
+    // }
+    // this.clickTimer = setTimeout(() => {
+    this.select(list, ctrlKey);
+    this.track();
+    // }, 300);
   };
 
   onDoubleClick = () => {
@@ -181,6 +182,13 @@ class Controller extends React.Component<Props> {
   };
 
   onMouseDown = (e: MouseEvent) => {
+    if (e.target && e.target instanceof HTMLElement) {
+      const tagName = e.target.tagName.toUpperCase();
+      const filterTags = ['SELECT', 'INPUT', 'TEXTAREA'];
+      if (filterTags.indexOf(tagName) > -1) {
+        e.preventDefault();
+      }
+    }
     if ((e.target as HTMLElement).getAttribute('data-builder-dotdir')) {
       const type = (
         e.target as HTMLElement
