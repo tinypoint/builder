@@ -9,6 +9,11 @@ module.exports = {
     dashboard: path.resolve(root, './src/pages/dashboard/index.ts'),
     editor: path.resolve(root, './src/pages/editor/index.ts'),
     client: path.resolve(root, './src/pages/client/index.ts'),
+		'editor.worker': path.resolve(root, 'node_modules', 'monaco-editor/esm/vs/editor/editor.worker.js'),
+		'json.worker': path.resolve(root, 'node_modules', 'monaco-editor/esm/vs/language/json/json.worker'),
+		'css.worker': path.resolve(root, 'node_modules', 'monaco-editor/esm/vs/language/css/css.worker'),
+		'html.worker': path.resolve(root, 'node_modules', 'monaco-editor/esm/vs/language/html/html.worker'),
+		'ts.worker': path.resolve(root, 'node_modules', 'monaco-editor/esm/vs/language/typescript/ts.worker')
   },
   devtool: 'inline-source-map',
   devServer: {
@@ -19,7 +24,10 @@ module.exports = {
     },
   },
   output: {
-    filename: '[name].[contenthash].js',
+    globalObject: 'self',
+    filename: (pathData) => {
+      return pathData.chunk.name.match(/\.worker$/)? '[name].bundle.js' : '[name].[contenthash].js';
+    },
     path: path.resolve(root, 'dist'),
     clean: true,
   },

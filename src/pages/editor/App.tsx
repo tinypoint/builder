@@ -12,6 +12,7 @@ import historyer from './features/historyer';
 import Configer from './components/Configer';
 import Loading from './components/Loading';
 import SettingsPanel from './components/SettingsPanel';
+import MonacaEditor from './components/MonacaEditor';
 
 (window as any).store = store;
 (window as any).changePosition = (_schema: Schema) => {
@@ -96,6 +97,7 @@ class Editor extends React.Component {
           <Controller />
           <Configer />
           <Styler />
+          <MonacaEditor />
         </div>
         <Header />
         <SettingsPanel />

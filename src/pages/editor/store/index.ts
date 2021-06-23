@@ -87,6 +87,8 @@ const initState = {
   components: ([] as Component[]),
   templates: ([] as Template[]),
   clipsdata: (null as Clipsdata | null),
+  scriptEditorVisible: false,
+  scriptText: '',
 };
 
 export type State = typeof initState;

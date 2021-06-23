@@ -4181,6 +4181,11 @@ mkdirp@^0.5.1, mkdirp@^0.5.5:
   dependencies:
     minimist "^1.2.5"
 
+monaco-editor@^0.25.2:
+  version "0.25.2"
+  resolved "https://registry.nlark.com/monaco-editor/download/monaco-editor-0.25.2.tgz#119e2b15bbd968a1a99c03cac9c329316d7c37e9"
+  integrity sha1-EZ4rFbvZaKGpnAPKycMpMW18N+k=
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/ms/download/ms-2.0.0.tgz?cache=0&sync_timestamp=1607433926553&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fms%2Fdownload%2Fms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"

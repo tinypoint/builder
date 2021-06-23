@@ -26,8 +26,10 @@ const connector = connect((state: State) => ({
   hredo: state.hredo,
   hundo: state.hundo,
   schema: state.schema,
+  scriptText: state.scriptText,
   scale: state.scale,
   create: state.create,
+  scriptEditorVisible: state.scriptEditorVisible,
   editing: state.meta.records.filter(
     (record) => record.status === 'editing',
   )[0],
@@ -49,13 +51,14 @@ class Header extends React.Component<Props> {
       type: 'CHANGE_VALUE',
       payload: [{ key: 'loading', value: { creating: true } }],
     });
-    const { schema } = this.props;
+    const { schema, scriptText = '' } = this.props;
     const {
       data: {
         data: { pageid },
       },
     } = await axios.post('/api/page/create', {
       schema,
+      scriptText,
     });
 
     window.location.replace(`/editor/index.html?id=${pageid}`);
@@ -66,9 +69,10 @@ class Header extends React.Component<Props> {
       type: 'CHANGE_VALUE',
       payload: [{ key: 'loading', value: { saving: true } }],
     });
-    const { schema, editing } = this.props;
+    const { schema, editing, scriptText } = this.props;
     await axios.post('/api/page/save', {
       schema,
+      scriptText,
       _id: editing._id,
     });
     store.dispatch({
@@ -108,7 +112,7 @@ class Header extends React.Component<Props> {
 
   render() {
     const {
-      shopShow, scale, hundo, hredo, sid, hid,
+      shopShow, scale, hundo, hredo, sid, hid, scriptEditorVisible,
     } = this.props;
 
     return (
@@ -132,6 +136,19 @@ class Header extends React.Component<Props> {
             }}
           >
             add
+          </Button>
+          <Button
+            color={scriptEditorVisible ? 'primary' : 'default'}
+            variant={scriptEditorVisible ? 'contained' : 'text'}
+            disableElevation
+            onClick={() => {
+              store.dispatch({
+                type: 'CHANGE_VALUE',
+                payload: [{ key: 'scriptEditorVisible', value: !scriptEditorVisible }],
+              });
+            }}
+          >
+            script
           </Button>
           <Button>shortcut</Button>
           <Button>help</Button>
