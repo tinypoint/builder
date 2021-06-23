@@ -5,6 +5,7 @@ import Drawer from '@material-ui/core/Drawer';
 import { connect, ConnectedProps } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import store, { State } from '../../store';
+import historyer from '../../features/historyer';
 
 // @ts-ignore
 // eslint-disable-next-line no-restricted-globals
@@ -70,10 +71,7 @@ const ScriptEditor: React.FC<IProps> = (props: IProps) => {
     >
       <div>
         <Button onClick={() => {
-          store.dispatch({
-            type: 'CHANGE_VALUE',
-            payload: [{ key: 'scriptText', value: editor.getValue() }],
-          });
+          historyer.pushScriptText(editor.getValue());
         }}
         >
           save

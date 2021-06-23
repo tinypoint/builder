@@ -12,11 +12,11 @@ import historyer from './features/historyer';
 import Configer from './components/Configer';
 import Loading from './components/Loading';
 import SettingsPanel from './components/SettingsPanel';
-import MonacaEditor from './components/MonacaEditor';
+import ScriptEditor from './components/ScriptEditor';
 
 (window as any).store = store;
 (window as any).changePosition = (_schema: Schema) => {
-  historyer.push(_schema);
+  historyer.pushSchema(_schema);
 };
 
 interface PagesRecord {
@@ -58,9 +58,14 @@ class Editor extends React.Component {
 
   createData = () => {
     historyer.push({
-      type: 'container',
-      id: 'container0001',
-      children: [],
+      scriptText: '' as State['scriptText'],
+      schema: {
+        type: 'container',
+        id: 'container0001',
+        children: [],
+        props: {},
+        styles: {},
+      },
     });
   };
 
@@ -86,7 +91,10 @@ class Editor extends React.Component {
       payload: [{ key: 'meta', value: meta }],
     });
 
-    historyer.push(editing.schema);
+    historyer.push({
+      scriptText: editing.scriptText as State['scriptText'],
+      schema: editing.schema as Schema,
+    });
   };
 
   render() {
@@ -97,7 +105,7 @@ class Editor extends React.Component {
           <Controller />
           <Configer />
           <Styler />
-          <MonacaEditor />
+          <ScriptEditor />
         </div>
         <Header />
         <SettingsPanel />

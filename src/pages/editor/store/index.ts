@@ -89,6 +89,7 @@ const initState = {
   clipsdata: (null as Clipsdata | null),
   scriptEditorVisible: false,
   scriptText: '',
+  scriptUrl: '',
 };
 
 export type State = typeof initState;

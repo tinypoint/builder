@@ -47,7 +47,7 @@ class Configer extends React.Component<Props> {
               value,
             );
 
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
         />
       );
@@ -64,7 +64,7 @@ class Configer extends React.Component<Props> {
               url,
             );
 
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
         />
       );

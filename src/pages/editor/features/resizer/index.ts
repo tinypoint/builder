@@ -311,7 +311,7 @@ class Resizer {
       ...newStyle,
     });
 
-    historyer.push(_schema);
+    historyer.pushSchema(_schema);
 
     store.dispatch({
       type: 'CHANGE_VALUE',

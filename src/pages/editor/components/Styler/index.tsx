@@ -77,7 +77,7 @@ class Configer extends React.Component<IProps, IStates> {
               value,
             );
 
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
         />
       );
@@ -122,7 +122,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.width`,
               value,
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
           onDoubleClick={() => {
             if (styles.width) {
@@ -134,7 +134,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.width`,
               cssDefination.width,
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
         />
         <TextField
@@ -154,7 +154,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.height`,
               value,
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
           onDoubleClick={() => {
             if (styles.height) {
@@ -166,7 +166,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.height`,
               cssDefination.height,
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
         />
         {/* <TextField
@@ -188,7 +188,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.position`,
               value
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
           onDoubleClick={() => {
             if (styles.position) {
@@ -200,7 +200,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.position`,
               cssDefination.position
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
         >
           <MenuItem value="static">static</MenuItem>
@@ -229,7 +229,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.margin-left`,
               value,
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
           onDoubleClick={() => {
             if (styles['margin-left']) {
@@ -241,7 +241,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.margin-left`,
               cssDefination.getPropertyValue('margin-left'),
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
         />
         <TextField
@@ -265,7 +265,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.margin-top`,
               value,
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
           onDoubleClick={() => {
             if (styles['margin-top']) {
@@ -277,7 +277,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.margin-top`,
               cssDefination.getPropertyValue('margin-top'),
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
         />
         <TextField
@@ -305,7 +305,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.background-color`,
               value,
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
           onDoubleClick={() => {
             if (styles['background-color']) {
@@ -317,7 +317,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.background-color`,
               cssDefination.backgroundColor,
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
         />
         <Upload
@@ -332,7 +332,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.background-image`,
               url ? `url(${url})` : 'none',
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
         />
         <TextField
@@ -357,7 +357,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.background-size`,
               value,
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
           onDoubleClick={() => {
             if (styles['background-size']) {
@@ -369,7 +369,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.background-size`,
               cssDefination.backgroundSize,
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
         >
           <MenuItem value="auto">auto</MenuItem>
@@ -397,7 +397,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.font-family`,
               value,
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
           onDoubleClick={() => {
             if (styles['font-family']) {
@@ -409,7 +409,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.font-family`,
               cssDefination.getPropertyValue('font-family'),
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
         />
         <TextField
@@ -433,7 +433,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.font-size`,
               value,
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
           onDoubleClick={() => {
             if (styles['font-size']) {
@@ -445,7 +445,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.font-size`,
               cssDefination.getPropertyValue('font-size'),
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
         />
         <TextField
@@ -469,7 +469,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.font-weight`,
               value,
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
           onDoubleClick={() => {
             if (styles['font-weight']) {
@@ -481,7 +481,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.font-weight`,
               cssDefination.getPropertyValue('font-weight'),
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
         />
         <TextField
@@ -505,7 +505,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.font-style`,
               value,
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
           onDoubleClick={() => {
             if (styles['font-style']) {
@@ -517,7 +517,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.font-style`,
               cssDefination.getPropertyValue('font-style'),
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
         />
         <TextField
@@ -541,7 +541,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.line-height`,
               value,
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
           onDoubleClick={() => {
             if (styles['line-height']) {
@@ -553,7 +553,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.line-height`,
               cssDefination.getPropertyValue('line-height'),
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
         />
         <TextField
@@ -577,7 +577,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.letter-spacing`,
               value,
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
           onDoubleClick={() => {
             if (styles['letter-spacing']) {
@@ -589,7 +589,7 @@ class Configer extends React.Component<IProps, IStates> {
               `styles.#${targetSchema.id}.letter-spacing`,
               cssDefination.getPropertyValue('letter-spacing'),
             );
-            historyer.push(_schema);
+            historyer.pushSchema(_schema);
           }}
         />
       </div>

@@ -3,18 +3,28 @@ import './index.css';
 
 type IButtonProps = any;
 
-const Button: React.FC<IButtonProps> = ({ id, text }: IButtonProps) => (
-  <button
-    id={id}
-    type="submit"
-    data-builder-type="button"
-    className="button"
-  >
-    {text}
-    123
-  </button>
-);
+class Button extends React.Component<IButtonProps> {
+  onClick = () => {
+    const name = 'customEvent';
+    requirejs([name], (func: any) => { func(); });
+  };
 
-Button.displayName = 'Button';
+  render() {
+    const { id, text } = this.props;
+
+    return (
+      <button
+        id={id}
+        type="submit"
+        data-builder-type="button"
+        className="button"
+        onClick={this.onClick}
+      >
+        {text}
+        123
+      </button>
+    );
+  }
+}
 
 export default Button;

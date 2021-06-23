@@ -48,7 +48,7 @@ class Hotkeyer {
       return;
     }
     const _schema = schemaParser.remove(schema, select[0]);
-    historyer.push(_schema);
+    historyer.pushSchema(_schema);
     store.dispatch({
       type: 'CHANGE_VALUE',
       payload: [{ key: 'select', value: [] }],
@@ -64,7 +64,7 @@ class Hotkeyer {
     const _fock = schemaParser.copySchema(_target);
 
     const _schema = schemaParser.insertAfter(schema, select[0], _fock);
-    historyer.push(_schema);
+    historyer.pushSchema(_schema);
     store.dispatch({
       type: 'CHANGE_VALUE',
       payload: [{ key: 'select', value: _fock.id }],
@@ -102,13 +102,13 @@ class Hotkeyer {
         _schema = schemaParser.appendChild(schema, select[0], _fock);
       });
 
-      historyer.push(_schema);
+      historyer.pushSchema(_schema);
     } else if (clipsdata.type === 'cut') {
       clipsdata.payload.forEach((item) => {
         _schema = schemaParser.appendChild(schema, select[0], item);
       });
 
-      historyer.push(_schema);
+      historyer.pushSchema(_schema);
       store.dispatch({
         type: 'CHANGE_VALUE',
         payload: [{ key: 'clipsdata', value: null }],
@@ -129,7 +129,7 @@ class Hotkeyer {
       return;
     }
     const _schema = schemaParser.remove(schema, select[0]);
-    historyer.push(_schema);
+    historyer.pushSchema(_schema);
 
     store.dispatch({
       type: 'CHANGE_VALUE',

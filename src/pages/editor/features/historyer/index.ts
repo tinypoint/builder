@@ -1,5 +1,11 @@
-import store from '../../store';
+import store, { Schema, State } from '../../store';
 import schemaParser from '../schemaParser';
+
+interface HistoryStackItem {
+  schema: Schema,
+  scriptText: State['scriptText'],
+  scriptUrl: State['scriptUrl']
+}
 
 class Historyer {
   Historyer = Historyer;
@@ -13,7 +19,8 @@ class Historyer {
   set id(_id) {
     this._id = _id;
     const { select } = store.getState();
-    const schema = this.current;
+    const { schema, scriptText, scriptUrl } = this.current;
+
     const [selectSchema] = schemaParser.searchById(schema, select[0]);
 
     store.dispatch({
@@ -24,6 +31,8 @@ class Historyer {
         { key: 'hundo', value: this._undo },
         { key: 'hsctack', value: this.stack },
         { key: 'schema', value: schema },
+        { key: 'scriptText', value: scriptText },
+        { key: 'scriptUrl', value: scriptUrl },
         { key: 'select', value: selectSchema ? [selectSchema.id] : [] },
       ],
     });
@@ -46,13 +55,53 @@ class Historyer {
     return this.stack[this.id];
   }
 
-  push(obj: any) {
+  pushScriptText(scriptText: State['scriptText']) {
+    const { scriptUrl } = store.getState();
+    if (scriptUrl) {
+      window.URL.revokeObjectURL(scriptUrl);
+    }
+
+    const _scriptUrl = window.URL.createObjectURL(new File([scriptText], './script.js', {
+      type: 'text/javascript',
+    }));
+
+    const historyStackItem: HistoryStackItem = {
+      scriptText,
+      scriptUrl: _scriptUrl,
+      schema: store.getState().schema,
+    };
+
+    this._push(historyStackItem);
+
+    (document.getElementById('runtime') as HTMLIFrameElement).contentWindow?.location.reload();
+  }
+
+  pushSchema(schema: Schema) {
+    const historyStackItem: HistoryStackItem = {
+      scriptText: store.getState().scriptText,
+      scriptUrl: store.getState().scriptUrl,
+      schema,
+    };
+
+    this._push(historyStackItem);
+  }
+
+  private _push(historyStackItem: HistoryStackItem) {
     if (this.stack.length > this.id + 1) {
-      this.stack = this.stack.slice(0, this.id + 1).concat(obj);
+      this.stack = this.stack.slice(0, this.id + 1).concat(historyStackItem);
     } else {
-      this.stack = [...this.stack, obj];
+      this.stack = [...this.stack, historyStackItem];
     }
     this.id += 1;
+  }
+
+  public push(obj: any) {
+    this._push({
+      ...obj,
+      scriptUrl: obj.scriptText ? window.URL.createObjectURL(new File([obj.scriptText], './script.js', {
+        type: 'text/javascript',
+      })) : '',
+    });
   }
 
   undo() {

@@ -34,7 +34,7 @@ class Shop extends React.Component<Props> {
     if (!select || !select.length) {
       const [page] = schemaParser.search(schema, 'type', 'page');
       const _schema = schemaParser.appendChild(schema, page.id, newScheam);
-      historyer.push(_schema);
+      historyer.pushSchema(_schema);
       store.dispatch({
         type: 'CHANGE_VALUE',
         payload: [{ key: 'select', value: [newScheam.id] }],
@@ -45,14 +45,14 @@ class Shop extends React.Component<Props> {
 
     if (hasBlock) {
       const _schema = schemaParser.appendChild(schema, select[0], newScheam);
-      historyer.push(_schema);
+      historyer.pushSchema(_schema);
       store.dispatch({
         type: 'CHANGE_VALUE',
         payload: [{ key: 'select', value: [newScheam.id] }],
       });
     } else {
       const _schema = schemaParser.insertAfter(schema, select[0], newScheam);
-      historyer.push(_schema);
+      historyer.pushSchema(_schema);
       store.dispatch({
         type: 'CHANGE_VALUE',
         payload: [{ key: 'select', value: [newScheam.id] }],
@@ -70,7 +70,7 @@ class Shop extends React.Component<Props> {
       _template.forEach((item) => {
         _schema = schemaParser.appendChild(_schema, page.id, item);
       });
-      historyer.push(_schema);
+      historyer.pushSchema(_schema);
       store.dispatch({
         type: 'CHANGE_VALUE',
         payload: [{ key: 'select', value: _template.map((item) => item.id) }],
@@ -85,7 +85,7 @@ class Shop extends React.Component<Props> {
         _schema = schemaParser.appendChild(_schema, select[0], item);
       });
 
-      historyer.push(_schema);
+      historyer.pushSchema(_schema);
       store.dispatch({
         type: 'CHANGE_VALUE',
         payload: [{ key: 'select', value: _template.map((item) => item.id) }],
@@ -97,7 +97,7 @@ class Shop extends React.Component<Props> {
         _schema = schemaParser.appendChild(_schema, prev, item);
         prev = item.id;
       });
-      historyer.push(_schema);
+      historyer.pushSchema(_schema);
       store.dispatch({
         type: 'CHANGE_VALUE',
         payload: [{ key: 'select', value: _template.map((item) => item.id) }],

@@ -40,7 +40,7 @@ class Toolbox extends React.Component<Props> {
       return;
     }
     const _schema = schemaParser.remove(schema, select[0]);
-    historyer.push(_schema);
+    historyer.pushSchema(_schema);
     store.dispatch({
       type: 'CHANGE_VALUE',
       payload: [{ key: 'select', value: [] }],
