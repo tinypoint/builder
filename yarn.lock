@@ -246,6 +246,17 @@
   dependencies:
     "@babel/runtime" "^7.4.4"
 
+"@material-ui/lab@^4.0.0-alpha.58":
+  version "4.0.0-alpha.58"
+  resolved "https://registry.nlark.com/@material-ui/lab/download/@material-ui/lab-4.0.0-alpha.58.tgz?cache=0&sync_timestamp=1624506850999&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40material-ui%2Flab%2Fdownload%2F%40material-ui%2Flab-4.0.0-alpha.58.tgz#c7ebb66f49863c5acbb20817163737caa299fafc"
+  integrity sha1-x+u2b0mGPFrLsggXFjc3yqKZ+vw=
+  dependencies:
+    "@babel/runtime" "^7.4.4"
+    "@material-ui/utils" "^4.11.2"
+    clsx "^1.0.4"
+    prop-types "^15.7.2"
+    react-is "^16.8.0 || ^17.0.0"
+
 "@material-ui/styles@^4.11.4":
   version "4.11.4"
   resolved "https://registry.nlark.com/@material-ui/styles/download/@material-ui/styles-4.11.4.tgz#eb9dfccfcc2d208243d986457dff025497afa00d"

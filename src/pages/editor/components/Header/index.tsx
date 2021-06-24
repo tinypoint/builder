@@ -14,10 +14,9 @@ import SaveIcon from '@material-ui/icons/Save';
 import LocalSeeIcon from '@material-ui/icons/LocalSee';
 import PublishIcon from '@material-ui/icons/Publish';
 import Divider from '@material-ui/core/Divider';
-import axios from 'axios';
-import historyer from '../../features/historyer';
 import EditorButton from './EditorButton';
 import store, { State } from '../../store';
+import eventer from '../../features/eventer';
 
 const connector = connect((state: State) => ({
   shopShow: state.shopShow,
@@ -25,14 +24,8 @@ const connector = connect((state: State) => ({
   hid: state.hid,
   hredo: state.hredo,
   hundo: state.hundo,
-  schema: state.schema,
-  scriptText: state.scriptText,
   scale: state.scale,
-  create: state.create,
   scriptEditorVisible: state.scriptEditorVisible,
-  editing: state.meta.records.filter(
-    (record) => record.status === 'editing',
-  )[0],
 }));
 
 type Props = ConnectedProps<typeof connector>;
@@ -44,61 +37,6 @@ class Header extends React.Component<Props> {
     } else {
       window.location.replace('/');
     }
-  };
-
-  _create = async () => {
-    store.dispatch({
-      type: 'CHANGE_VALUE',
-      payload: [{ key: 'loading', value: { creating: true } }],
-    });
-    const { schema, scriptText = '' } = this.props;
-    const {
-      data: {
-        data: { pageid },
-      },
-    } = await axios.post('/api/page/create', {
-      schema,
-      scriptText,
-    });
-
-    window.location.replace(`/editor/index.html?id=${pageid}`);
-  };
-
-  _save = async () => {
-    store.dispatch({
-      type: 'CHANGE_VALUE',
-      payload: [{ key: 'loading', value: { saving: true } }],
-    });
-    const { schema, editing, scriptText } = this.props;
-    await axios.post('/api/page/save', {
-      schema,
-      scriptText,
-      _id: editing._id,
-    });
-    store.dispatch({
-      type: 'CHANGE_VALUE',
-      payload: [
-        { key: 'loading', value: { saving: false } },
-        { key: 'sid', value: historyer.id },
-      ],
-    });
-  };
-
-  save = async () => {
-    const { create } = this.props;
-    if (create) {
-      this._create();
-    } else {
-      this._save();
-    }
-  };
-
-  undo = async () => {
-    historyer.undo();
-  };
-
-  redo = async () => {
-    historyer.redo();
   };
 
   onScaleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -123,7 +61,7 @@ class Header extends React.Component<Props> {
           </IconButton>
           <Divider orientation="vertical" />
           {/* <Button>editor</Button> */}
-          <EditorButton undo={this.undo} redo={this.redo} save={this.save} />
+          <EditorButton save={eventer.save} />
           <Button
             color={shopShow ? 'primary' : 'default'}
             variant={shopShow ? 'contained' : 'text'}
@@ -168,16 +106,16 @@ class Header extends React.Component<Props> {
           />
         </Grid>
         <Grid item>
-          <IconButton disabled={!hundo} aria-label="undo" onClick={this.undo}>
+          <IconButton disabled={!hundo} aria-label="undo" onClick={eventer.undo}>
             <UndoIcon />
           </IconButton>
-          <IconButton disabled={!hredo} aria-label="redo" onClick={this.redo}>
+          <IconButton disabled={!hredo} aria-label="redo" onClick={eventer.redo}>
             <RedoIcon />
           </IconButton>
           <IconButton
             disabled={sid === hid}
             aria-label="save"
-            onClick={this.save}
+            onClick={eventer.save}
           >
             <SaveIcon />
           </IconButton>

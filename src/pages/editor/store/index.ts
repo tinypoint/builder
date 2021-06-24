@@ -90,6 +90,8 @@ const initState = {
   scriptEditorVisible: false,
   scriptText: '',
   scriptUrl: '',
+  showContextMenu: false,
+  contextMenuPosition: { x: 0, y: 0 },
 };
 
 export type State = typeof initState;

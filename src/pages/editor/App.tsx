@@ -9,10 +9,12 @@ import './App.css';
 import Shop from './components/Shop';
 import Styler from './components/Styler';
 import historyer from './features/historyer';
+import Tree from './components/Tree';
 import Configer from './components/Configer';
 import Loading from './components/Loading';
 import SettingsPanel from './components/SettingsPanel';
 import ScriptEditor from './components/ScriptEditor';
+import ContextMenu from './components/ContextMenu';
 
 (window as any).store = store;
 (window as any).changePosition = (_schema: Schema) => {
@@ -102,10 +104,12 @@ class Editor extends React.Component {
       <Provider store={store}>
         <div className="content">
           <Shop />
+          <Tree />
           <Controller />
           <Configer />
           <Styler />
           <ScriptEditor />
+          <ContextMenu />
         </div>
         <Header />
         <SettingsPanel />

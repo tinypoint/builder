@@ -51,6 +51,8 @@ class Controller extends React.Component<Props> {
 
     document.body.addEventListener('mousedown', this.onMouseDown);
 
+    document.body.addEventListener('contextmenu', this.onContextMenu);
+
     document.body.addEventListener('mouseup', this.onMouseUp);
 
     document.body.addEventListener('mouseover', this.onMouseOver);
@@ -80,6 +82,8 @@ class Controller extends React.Component<Props> {
     document.body.removeEventListener('dragstart', this.onDragStart);
 
     document.body.removeEventListener('mousedown', this.onMouseDown);
+
+    document.body.removeEventListener('contextmenu', this.onContextMenu);
 
     document.body.removeEventListener('mouseup', this.onMouseUp);
 
@@ -209,6 +213,14 @@ class Controller extends React.Component<Props> {
     }
     this._mousehasdown = true;
     window.addEventListener('mousemove', this.onMouseMove, true);
+  };
+
+  onContextMenu = (e: MouseEvent) => {
+    this.onClick(e);
+    e.preventDefault();
+    if ((window.parent as any).showContextMenu) {
+      (window.parent as any).showContextMenu({ x: e.pageX, y: e.pageY });
+    }
   };
 
   onMouseMove = (e: MouseEvent) => {

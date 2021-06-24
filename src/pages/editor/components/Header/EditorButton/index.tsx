@@ -14,6 +14,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { connect, ConnectedProps } from 'react-redux';
 import store, { State } from '../../../store';
+import eventer from '../../../features/eventer';
 
 const connector = connect((state: State) => ({
   sid: state.sid,
@@ -29,8 +30,6 @@ const connector = connect((state: State) => ({
 }));
 
 type Prop = ConnectedProps<typeof connector> & {
-  undo: () => void;
-  redo: () => void;
   save: () => void;
 };
 
@@ -115,13 +114,13 @@ function EditorButton(props: Prop) {
                   id="menu-list-grow"
                   onKeyDown={handleListKeyDown}
                 >
-                  <MenuItem disabled={!props.hundo} onClick={props.undo}>
+                  <MenuItem disabled={!props.hundo} onClick={eventer.undo}>
                     <ListItemIcon>
                       <UndoIcon />
                     </ListItemIcon>
                     <ListItemText primary="Undo" />
                   </MenuItem>
-                  <MenuItem disabled={!props.hredo} onClick={props.redo}>
+                  <MenuItem disabled={!props.hredo} onClick={eventer.redo}>
                     <ListItemIcon>
                       <RedoIcon />
                     </ListItemIcon>
