@@ -56,16 +56,13 @@ export interface Clipsdata {
 }
 
 const initState = {
-  shopShow: true,
   sid: 0,
   hid: -1,
   hredo: false,
   hundo: false,
   hsctack: ([] as any[]),
   select: ([] as string[]),
-  selectQueen: [],
   hover: '',
-  hoverQueen: [],
   schema: ({
     type: 'container',
     id: 'container0001',
@@ -92,6 +89,9 @@ const initState = {
   scriptUrl: '',
   showContextMenu: false,
   contextMenuPosition: { x: 0, y: 0 },
+  sidebar: {
+    lib: true,
+  } as { [index: string]: boolean },
 };
 
 export type State = typeof initState;

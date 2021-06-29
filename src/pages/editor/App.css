@@ -1,18 +1,29 @@
 html {
   height: 100%;
   overflow-y: hidden;
+  --primary-color: #d7ccc8;
+  --primary-light-color: #fffffb;
+  --primary-dark-color: #a69b97;
+  --secondary-color: #616161;
+  --secondary-light-color: #8e8e8e;
+  --secondary-dark-color: #373737;
+  --primary-text-color: #000000;
+  --secondary-text-color: #ffffff;
 }
 
 body {
   margin: 0;
 }
 
-.content {
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.main {
   display: flex;
   position: relative;
-  width: 100%;
-  min-height: 100vh;
-  box-sizing: border-box;
-  padding-top: 48px;
+  flex-grow: 1;
 }
 

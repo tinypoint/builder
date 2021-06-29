@@ -28,7 +28,9 @@ module.exports = {
 		'react/jsx-props-no-spreading': 'off',
 		'@typescript-eslint/naming-convention': 'off',
 		'react/no-unescaped-entities': 'off',
-    'no-param-reassign': 'off'
+    'no-param-reassign': 'off',
+    'jsx-a11y/no-static-element-interactions': 'off',
+    'jsx-a11y/click-events-have-key-events': 'off'
   },
   settings: {
     'import/resolver': {

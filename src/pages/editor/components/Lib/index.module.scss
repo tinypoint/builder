@@ -1,0 +1,26 @@
+.lib {
+  width: 100%;
+  display: flex;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+
+.card {
+  box-sizing: border-box;
+  width: 100px;
+  height: 96px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+  user-select: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #303f9f;
+  }
+}

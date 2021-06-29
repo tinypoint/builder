@@ -1,65 +1,22 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import './index.css';
 import Button from '@material-ui/core/Button';
 import { cloneDeep } from 'lodash-es';
 import schemaParser from '../../features/schemaParser';
 import historyer from '../../features/historyer';
 import store, { Schema, State } from '../../store';
+import styles from './index.module.scss';
 
 const connector = connect((state: State) => ({
   select: state.select,
   schema: state.schema,
-  shopShow: state.shopShow,
-  components: state.components,
+  show: state.sidebar.template,
   templates: state.templates,
 }));
 
 type Props = ConnectedProps<typeof connector>;
 
-class Shop extends React.Component<Props> {
-  addComponent = (type: string) => {
-    const { select, schema } = this.props;
-    const newScheam = schemaParser.createSchema(type);
-
-    if (type === 'ppt') {
-      const children = [
-        schemaParser.createSchema('ppt-container'),
-        schemaParser.createSchema('ppt-container'),
-        schemaParser.createSchema('ppt-container'),
-      ];
-      newScheam.children = children;
-    }
-
-    if (!select || !select.length) {
-      const [page] = schemaParser.search(schema, 'type', 'page');
-      const _schema = schemaParser.appendChild(schema, page.id, newScheam);
-      historyer.pushSchema(_schema);
-      store.dispatch({
-        type: 'CHANGE_VALUE',
-        payload: [{ key: 'select', value: [newScheam.id] }],
-      });
-      return;
-    }
-    const hasBlock = (window as any)._hasBlock && (window as any)._hasBlock(select);
-
-    if (hasBlock) {
-      const _schema = schemaParser.appendChild(schema, select[0], newScheam);
-      historyer.pushSchema(_schema);
-      store.dispatch({
-        type: 'CHANGE_VALUE',
-        payload: [{ key: 'select', value: [newScheam.id] }],
-      });
-    } else {
-      const _schema = schemaParser.insertAfter(schema, select[0], newScheam);
-      historyer.pushSchema(_schema);
-      store.dispatch({
-        type: 'CHANGE_VALUE',
-        payload: [{ key: 'select', value: [newScheam.id] }],
-      });
-    }
-  };
-
+class Template extends React.Component<Props> {
   addTemplate = (template: Schema[]) => {
     const { select, schema } = this.props;
     const _template = template.map(schemaParser.copySchema);
@@ -106,37 +63,25 @@ class Shop extends React.Component<Props> {
   };
 
   render() {
-    const { shopShow, components, templates } = this.props;
+    const { show, templates } = this.props;
+
+    if (!show) {
+      return null;
+    }
+
     return (
       <div
-        className="shop"
-        style={{
-          transform: shopShow ? '' : 'translateX(-100%)',
-          transition: shopShow ? 'transform .3s' : '',
-        }}
+        className={styles.template}
       >
-        <h1>COMPONENTS</h1>
-        {components.map((component) => (
-          <Button
-            className="component-card"
-            key={component.name}
-            onClick={() => {
-              this.addComponent(component.name);
-            }}
-          >
-            {component.name.toUpperCase()}
-          </Button>
-        ))}
-        <h1>TEMPLATES</h1>
         {templates.map((template) => (
           <Button
-            className="component-card"
+            className={styles.card}
             key={template._id}
             onClick={() => {
               this.addTemplate(template.template);
             }}
           >
-            {template._id}
+            {template._id.slice(0, 4)}
           </Button>
         ))}
       </div>
@@ -144,4 +89,4 @@ class Shop extends React.Component<Props> {
   }
 }
 
-export default connector(Shop);
+export default connector(Template);

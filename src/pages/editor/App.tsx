@@ -2,19 +2,20 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import queryString from 'query-string';
 import axios from 'axios';
-import Header from './components/Header';
 import Controller from './components/Controller';
 import store, { Schema, State } from './store';
-import './App.css';
-import Shop from './components/Shop';
+import Header from './components/Header';
 import Styler from './components/Styler';
 import historyer from './features/historyer';
-import Tree from './components/Tree';
 import Configer from './components/Configer';
 import Loading from './components/Loading';
 import SettingsPanel from './components/SettingsPanel';
 import ScriptEditor from './components/ScriptEditor';
 import ContextMenu from './components/ContextMenu';
+import ActivityBar from './components/ActivityBar';
+import SideBar from './components/SideBar';
+import './App.css';
+import styles from './index.module.scss';
 
 (window as any).store = store;
 (window as any).changePosition = (_schema: Schema) => {
@@ -102,16 +103,22 @@ class Editor extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <div className="content">
-          <Shop />
-          <Tree />
-          <Controller />
-          <Configer />
-          <Styler />
-          <ScriptEditor />
-          <ContextMenu />
-        </div>
         <Header />
+        <div className="main">
+          <ActivityBar />
+          <SideBar />
+          <div className={styles.split}>
+            <div className={styles.left}>
+              <Controller />
+            </div>
+            <div className={styles.right}>
+              <Configer />
+              <Styler />
+            </div>
+          </div>
+        </div>
+        <ScriptEditor />
+        <ContextMenu />
         <SettingsPanel />
         <Loading />
       </Provider>

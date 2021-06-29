@@ -10,6 +10,7 @@ import './index.css';
 const connnector = connect((state: State) => ({
   select: state.select,
   schema: state.schema,
+  show: state.sidebar.tree,
 }));
 
 type IProps = ConnectedProps<typeof connnector>;
@@ -45,7 +46,12 @@ class Tree extends React.Component<IProps> {
   );
 
   render() {
-    const { schema, select } = this.props;
+    const { schema, select, show } = this.props;
+
+    if (!show) {
+      return null;
+    }
+
     return (
       <TreeView
         className="tree"

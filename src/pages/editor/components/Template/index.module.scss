@@ -1,13 +1,11 @@
-.shop {
-  width: 300px;
-  background-color: #3f51b5;
+.template {
   display: flex;
   align-content: flex-start;
   flex-wrap: wrap;
   box-sizing: border-box;
 }
 
-.component-card {
+.card {
   box-sizing: border-box;
   width: 100px;
   height: 96px;
@@ -20,8 +18,8 @@
   color: #fff;
   user-select: none;
   cursor: pointer;
-}
 
-.component-card:hover {
-  background-color: #303f9f;
+  &:hover {
+    background-color: #303f9f;
+  }
 }
