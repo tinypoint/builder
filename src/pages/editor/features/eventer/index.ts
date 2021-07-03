@@ -207,5 +207,19 @@ class Eventer {
   runScript = () => {
 
   };
+
+  toggleNodeExpand = (id: string) => {
+    const { nodeExpandMaps } = store.getState();
+
+    if (!nodeExpandMaps[id]) {
+      nodeExpandMaps[id] = true;
+    } else {
+      delete nodeExpandMaps[id];
+    }
+    store.dispatch({
+      type: 'CHANGE_VALUE',
+      payload: [{ key: 'nodeExpandMaps', value: { ...nodeExpandMaps } }],
+    });
+  };
 }
 export default new Eventer();

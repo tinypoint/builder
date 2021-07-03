@@ -92,6 +92,7 @@ const initState = {
   sidebar: {
     widget: true,
   } as { [index: string]: boolean },
+  nodeExpandMaps: {} as { [index: string]: boolean },
 };
 
 export type State = typeof initState;

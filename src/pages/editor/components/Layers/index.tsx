@@ -1,22 +1,21 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import TreeView from '@material-ui/lab/TreeView';
-import TreeItem from '@material-ui/lab/TreeItem';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import { Tree, TreeNodeInfo } from '@blueprintjs/core';
+import eventer from '../../features/eventer';
 import store, { Schema, State } from '../../store';
 import './index.css';
 
 const connnector = connect((state: State) => ({
   select: state.select,
   schema: state.schema,
+  nodeExpandMaps: state.nodeExpandMaps,
   show: state.sidebar.layers,
 }));
 
 type IProps = ConnectedProps<typeof connnector>;
 
 class Layers extends React.Component<IProps> {
-  onClick = (e: React.MouseEvent, node: Schema) => {
+  onClick = (node: TreeNodeInfo, nodePath: number[], e: React.MouseEvent) => {
     const { select } = this.props;
 
     if (e.ctrlKey) {
@@ -32,36 +31,45 @@ class Layers extends React.Component<IProps> {
     }
   };
 
-  renderTree = (node: Schema) => (
-    <TreeItem
-      onClick={(e) => {
-        this.onClick(e, node);
-      }}
-      key={node.id}
-      nodeId={node.id}
-      label={node.type}
-    >
-      {Array.isArray(node.children) ? node.children.map((child) => this.renderTree(child)) : null}
-    </TreeItem>
-  );
+  renderNode = (node: Schema) => {
+    const { nodeExpandMaps, select } = this.props;
+
+    const childNodes: TreeNodeInfo[] = Array.isArray(node.children)
+      ? node.children.map((child) => this.renderNode(child)) : [];
+
+    return {
+      id: node.id,
+      label: node.type,
+      childNodes,
+      isExpanded: nodeExpandMaps[node.id],
+      hasCaret: childNodes.length > 0,
+      isSelected: select.indexOf(node.id) > -1,
+      nodeData: node,
+    } as TreeNodeInfo;
+  };
+
+  onNodeExpand = (node: TreeNodeInfo) => {
+    eventer.toggleNodeExpand(node.id as string);
+  };
+
+  onNodeCollapse = (node: TreeNodeInfo) => {
+    eventer.toggleNodeExpand(node.id as string);
+  };
 
   render() {
-    const { schema, select, show } = this.props;
+    const { schema, show } = this.props;
 
     if (!show) {
       return null;
     }
 
     return (
-      <TreeView
-        className="tree"
-        defaultCollapseIcon={<ExpandMoreIcon fontSize="large" />}
-        defaultExpanded={['root']}
-        defaultExpandIcon={<ChevronRightIcon fontSize="large" />}
-        selected={select}
-      >
-        {this.renderTree(schema)}
-      </TreeView>
+      <Tree
+        contents={[this.renderNode(schema)]}
+        onNodeExpand={this.onNodeExpand}
+        onNodeCollapse={this.onNodeCollapse}
+        onNodeClick={this.onClick}
+      />
     );
   }
 }

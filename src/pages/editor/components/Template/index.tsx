@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import Button from '@material-ui/core/Button';
 import { cloneDeep } from 'lodash-es';
+import { Card, H5 } from '@blueprintjs/core';
 import schemaParser from '../../features/schemaParser';
 import historyer from '../../features/historyer';
 import store, { Schema, State } from '../../store';
@@ -74,15 +74,19 @@ class Template extends React.Component<Props> {
         className={styles.template}
       >
         {templates.map((template) => (
-          <Button
-            className={styles.card}
+          <Card
+            elevation={0}
+            interactive
             key={template._id}
+            className={styles.card}
             onClick={() => {
               this.addTemplate(template.template);
             }}
           >
-            {template._id.slice(0, 4)}
-          </Button>
+            <H5>
+              {template._id.slice(0, 4)}
+            </H5>
+          </Card>
         ))}
       </div>
     );
