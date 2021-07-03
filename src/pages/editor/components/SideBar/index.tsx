@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import Tree from '../Tree';
-import Lib from '../Lib';
+import classnames from 'classnames';
+import { Classes } from '@blueprintjs/core';
+import Layers from '../Layers';
+import Widget from '../Widget';
 import Template from '../Template';
 import { State } from '../../store';
 import styles from './index.module.scss';
@@ -23,9 +25,9 @@ class ActivityBar extends React.Component<Props> {
 
   render() {
     return (
-      <nav className={styles.avtivityBar}>
-        <Tree />
-        <Lib />
+      <nav className={classnames(styles.sideBar, Classes.ELEVATION_1)}>
+        <Widget />
+        <Layers />
         <Template />
       </nav>
     );

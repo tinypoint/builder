@@ -90,7 +90,7 @@ const initState = {
   showContextMenu: false,
   contextMenuPosition: { x: 0, y: 0 },
   sidebar: {
-    lib: true,
+    widget: true,
   } as { [index: string]: boolean },
 };
 

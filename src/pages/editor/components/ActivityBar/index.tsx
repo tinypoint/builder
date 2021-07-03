@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import {
+  Classes, Icon, MaybeElement, Menu, MenuItem, IconName,
+} from '@blueprintjs/core';
+import classnames from 'classnames';
 import store, { State } from '../../store';
 import styles from './index.module.scss';
 
@@ -13,29 +16,29 @@ type Props = ConnectedProps<typeof connector>;
 interface Item {
   title: string;
   value: string;
-  icon: React.ReactNode;
+  icon: IconName | MaybeElement;
 }
 
 const list: Item[] = [
   {
-    title: 'Lib',
-    value: 'lib',
-    icon: <ArrowBackIcon />,
+    title: 'widget',
+    value: 'widget',
+    icon: 'widget',
   },
   {
-    title: 'Tree',
-    value: 'tree',
-    icon: <ArrowBackIcon />,
+    title: 'layers',
+    value: 'layers',
+    icon: 'layers',
   },
   {
-    title: 'Temp',
+    title: 'template',
     value: 'template',
-    icon: <ArrowBackIcon />,
+    icon: <Icon icon="cube" htmlTitle="template" />,
   },
   {
-    title: 'Search',
+    title: 'search',
     value: 'search',
-    icon: <ArrowBackIcon />,
+    icon: 'search',
   },
 ];
 
@@ -57,26 +60,21 @@ class ActivityBar extends React.Component<Props> {
     } = this.props;
 
     return (
-      <nav className={styles.avtivityBar}>
+      <Menu className={classnames(styles.avtivityBar)}>
         {
           list.map((item) => (
-            <div
-              className={styles.button}
-              style={{
-                backgroundColor: sidebar[item.value] ? 'var(--secondary-dark-color)' : '',
-                color: sidebar[item.value] ? 'var(--secondary-text-color)' : '',
-              }}
+            <MenuItem
+              className={sidebar[item.value] ? Classes.ACTIVE : ''}
               key={item.value}
+              icon={item.icon}
+              htmlTitle={item.title}
               onClick={() => {
                 this.toggle(item);
               }}
-            >
-              <ArrowBackIcon />
-              <span className={styles.text}>{item.title}</span>
-            </div>
+            />
           ))
         }
-      </nav>
+      </Menu>
     );
   }
 }

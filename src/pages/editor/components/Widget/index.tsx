@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import Button from '@material-ui/core/Button';
+import { Card, H5 } from '@blueprintjs/core';
 import schemaParser from '../../features/schemaParser';
 import historyer from '../../features/historyer';
 import store, { State } from '../../store';
@@ -9,13 +9,13 @@ import styles from './index.module.scss';
 const connector = connect((state: State) => ({
   select: state.select,
   schema: state.schema,
-  show: state.sidebar.lib,
+  show: state.sidebar.widget,
   components: state.components,
 }));
 
 type Props = ConnectedProps<typeof connector>;
 
-class Shop extends React.Component<Props> {
+class Widget extends React.Component<Props> {
   addComponent = (type: string) => {
     const { select, schema } = this.props;
     const newScheam = schemaParser.createSchema(type);
@@ -67,22 +67,26 @@ class Shop extends React.Component<Props> {
 
     return (
       <div
-        className={styles.lib}
+        className={styles.widget}
       >
         {components.map((component) => (
-          <Button
-            className={styles.card}
+          <Card
+            elevation={0}
+            interactive
             key={component.name}
+            className={styles.card}
             onClick={() => {
               this.addComponent(component.name);
             }}
           >
-            {component.name.toUpperCase()}
-          </Button>
+            <H5>
+              {component.name}
+            </H5>
+          </Card>
         ))}
       </div>
     );
   }
 }
 
-export default connector(Shop);
+export default connector(Widget);

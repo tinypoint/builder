@@ -6,6 +6,9 @@ const root = path.dirname(__dirname);
 module.exports = {
   mode: 'development',
   entry: {
+    'normalize.css': path.resolve(root, 'node_modules', 'normalize.css/normalize.css'),
+    'blueprint.core.css': path.resolve(root, 'node_modules', '@blueprintjs/core/lib/css/blueprint.css'),
+    'blueprint.icon.css': path.resolve(root, 'node_modules', '@blueprintjs/icons/lib/css/blueprint-icons.css'),
     dashboard: path.resolve(root, './src/pages/dashboard/index.ts'),
     editor: path.resolve(root, './src/pages/editor/index.ts'),
     client: path.resolve(root, './src/pages/client/index.ts'),
@@ -47,7 +50,7 @@ module.exports = {
       title: 'editor',
       template: path.resolve(root, './src/pages/editor/index.ejs'),
       filename: './editor/index.html',
-      chunks: ['editor'],
+      chunks: ['normalize.css', 'blueprint.core.css', 'blueprint.icon.css', 'editor'],
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(root, './src/pages/client/index.html'),

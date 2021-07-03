@@ -1,21 +1,2 @@
-.header {
-  flex-shrink: 0;
-  display: flex;
-  height: 24px;
-  background-color: var(--primary-color);
-}
 
-.button {
-  height: 24px;
-  font-size: 12px;
-  padding: 0 8px;
-  line-height: 24px;
-  user-select: none;
-  cursor: pointer;
-  color: var(--primary-text-color);
-
-  &:hover {
-    background-color: var(--primary-dark-color);
-  }
-}
 

@@ -7,6 +7,14 @@ import schemaParser from '../schemaParser';
 class Eventer {
   Eventer = Eventer;
 
+  goBack = () => {
+    if (window.history.length >= 3) {
+      window.history.back();
+    } else {
+      window.location.replace('/');
+    }
+  };
+
   delComp = () => {
     const { select, schema } = store.getState();
     if (!select || !select.length) {
@@ -186,6 +194,18 @@ class Eventer {
     } else {
       this._save();
     }
+  };
+
+  toggleIde = () => {
+    const { scriptEditorVisible } = store.getState();
+    store.dispatch({
+      type: 'CHANGE_VALUE',
+      payload: [{ key: 'scriptEditorVisible', value: !scriptEditorVisible }],
+    });
+  };
+
+  runScript = () => {
+
   };
 }
 export default new Eventer();

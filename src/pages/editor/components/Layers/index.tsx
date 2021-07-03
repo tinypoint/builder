@@ -10,12 +10,12 @@ import './index.css';
 const connnector = connect((state: State) => ({
   select: state.select,
   schema: state.schema,
-  show: state.sidebar.tree,
+  show: state.sidebar.layers,
 }));
 
 type IProps = ConnectedProps<typeof connnector>;
 
-class Tree extends React.Component<IProps> {
+class Layers extends React.Component<IProps> {
   onClick = (e: React.MouseEvent, node: Schema) => {
     const { select } = this.props;
 
@@ -66,4 +66,4 @@ class Tree extends React.Component<IProps> {
   }
 }
 
-export default connnector(Tree);
+export default connnector(Layers);
