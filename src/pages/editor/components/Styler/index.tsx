@@ -2,6 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import './index.css';
 import { get } from 'lodash-es';
+import { Button, Classes, InputGroup } from '@blueprintjs/core';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Upload from '../Configer/Upload';
@@ -105,9 +106,7 @@ class Configer extends React.Component<IProps, IStates> {
 
     return (
       <div className="styler">
-        <TextField
-          id="width-styles"
-          label="width"
+        <InputGroup
           key="width-styles"
           value={styles.width || cssDefination.width || ''}
           disabled={!styles.width}
@@ -124,22 +123,31 @@ class Configer extends React.Component<IProps, IStates> {
             );
             historyer.pushSchema(_schema);
           }}
-          onDoubleClick={() => {
-            if (styles.width) {
-              return;
-            }
-            const _schema = schemaParser.update(
-              schema,
-              targetSchema.id,
-              `styles.#${targetSchema.id}.width`,
-              cssDefination.width,
-            );
-            historyer.pushSchema(_schema);
-          }}
+          leftIcon={(
+            <span className={Classes.ICON} title="width">
+              <span className="textIcon">w</span>
+            </span>
+          )}
+          rightElement={(
+            <Button
+              icon={!styles.width ? 'lock' : 'unlock'}
+              minimal
+              onClick={() => {
+                if (styles.width) {
+                  return;
+                }
+                const _schema = schemaParser.update(
+                  schema,
+                  targetSchema.id,
+                  `styles.#${targetSchema.id}.width`,
+                  cssDefination.width,
+                );
+                historyer.pushSchema(_schema);
+              }}
+            />
+          )}
         />
-        <TextField
-          id="height-styles"
-          label="height"
+        <InputGroup
           key="height-styles"
           value={styles.height || cssDefination.height || ''}
           disabled={!styles.height}
@@ -156,18 +164,152 @@ class Configer extends React.Component<IProps, IStates> {
             );
             historyer.pushSchema(_schema);
           }}
-          onDoubleClick={() => {
-            if (styles.height) {
+          leftIcon={(
+            <span className={Classes.ICON} title="height">
+              <span className="textIcon">h</span>
+            </span>
+          )}
+          rightElement={(
+            <Button
+              icon={!styles.height ? 'lock' : 'unlock'}
+              minimal
+              onClick={() => {
+                if (styles.height) {
+                  return;
+                }
+                const _schema = schemaParser.update(
+                  schema,
+                  targetSchema.id,
+                  `styles.#${targetSchema.id}.height`,
+                  cssDefination.height,
+                );
+                historyer.pushSchema(_schema);
+              }}
+            />
+          )}
+        />
+        <InputGroup
+          key="left-styles"
+          value={styles.left || cssDefination.left || ''}
+          disabled={!styles.left}
+          onChange={(e) => {
+            if (!styles.left) {
               return;
             }
+            const { value } = e.target as HTMLInputElement;
             const _schema = schemaParser.update(
               schema,
               targetSchema.id,
-              `styles.#${targetSchema.id}.height`,
-              cssDefination.height,
+              `styles.#${targetSchema.id}.left`,
+              value,
             );
             historyer.pushSchema(_schema);
           }}
+          leftIcon={(
+            <span className={Classes.ICON} title="left">
+              <span className="textIcon">x</span>
+            </span>
+          )}
+          rightElement={(
+            <Button
+              icon={!styles.left ? 'lock' : 'unlock'}
+              minimal
+              onClick={() => {
+                if (styles.left) {
+                  return;
+                }
+                const _schema = schemaParser.update(
+                  schema,
+                  targetSchema.id,
+                  `styles.#${targetSchema.id}.left`,
+                  cssDefination.left,
+                );
+                historyer.pushSchema(_schema);
+              }}
+            />
+          )}
+        />
+        <InputGroup
+          key="top-styles"
+          value={styles.top || cssDefination.top || ''}
+          disabled={!styles.top}
+          onChange={(e) => {
+            if (!styles.top) {
+              return;
+            }
+            const { value } = e.target as HTMLInputElement;
+            const _schema = schemaParser.update(
+              schema,
+              targetSchema.id,
+              `styles.#${targetSchema.id}.top`,
+              value,
+            );
+            historyer.pushSchema(_schema);
+          }}
+          leftIcon={(
+            <span className={Classes.ICON} title="top">
+              <span className="textIcon">y</span>
+            </span>
+          )}
+          rightElement={(
+            <Button
+              icon={!styles.top ? 'lock' : 'unlock'}
+              minimal
+              onClick={() => {
+                if (styles.top) {
+                  return;
+                }
+                const _schema = schemaParser.update(
+                  schema,
+                  targetSchema.id,
+                  `styles.#${targetSchema.id}.top`,
+                  cssDefination.top,
+                );
+                historyer.pushSchema(_schema);
+              }}
+            />
+          )}
+        />
+        <InputGroup
+          key="backgroundColor-styles"
+          value={styles['background-color'] || cssDefination.backgroundColor || ''}
+          disabled={!styles['background-color']}
+          onChange={(e) => {
+            if (!styles['background-color']) {
+              return;
+            }
+            const { value } = e.target as HTMLInputElement;
+            const _schema = schemaParser.update(
+              schema,
+              targetSchema.id,
+              `styles.#${targetSchema.id}.background-color`,
+              value,
+            );
+            historyer.pushSchema(_schema);
+          }}
+          leftIcon={(
+            <span className={Classes.ICON} title="background color">
+              <span className="textIcon" style={{ backgroundColor: styles['background-color'] || cssDefination.backgroundColor || '' }} />
+            </span>
+          )}
+          rightElement={(
+            <Button
+              icon={!styles['background-color'] ? 'lock' : 'unlock'}
+              minimal
+              onClick={() => {
+                if (styles['background-color']) {
+                  return;
+                }
+                const _schema = schemaParser.update(
+                  schema,
+                  targetSchema.id,
+                  `styles.#${targetSchema.id}.background-color`,
+                  cssDefination.backgroundColor,
+                );
+                historyer.pushSchema(_schema);
+              }}
+            />
+          )}
         />
         {/* <TextField
           id="position-styles"
@@ -208,118 +350,6 @@ class Configer extends React.Component<IProps, IStates> {
           <MenuItem value="absolute">absolute</MenuItem>
           <MenuItem value="fixed">fixed</MenuItem>
         </TextField> */}
-        <TextField
-          id="margin-left-styles"
-          label="margin-left"
-          key="margin-left-styles"
-          value={
-            styles['margin-left']
-            || cssDefination.getPropertyValue('margin-left')
-            || ''
-          }
-          disabled={!styles['margin-left']}
-          onChange={(e) => {
-            if (!styles['margin-left']) {
-              return;
-            }
-            const { value } = e.target as HTMLInputElement;
-            const _schema = schemaParser.update(
-              schema,
-              targetSchema.id,
-              `styles.#${targetSchema.id}.margin-left`,
-              value,
-            );
-            historyer.pushSchema(_schema);
-          }}
-          onDoubleClick={() => {
-            if (styles['margin-left']) {
-              return;
-            }
-            const _schema = schemaParser.update(
-              schema,
-              targetSchema.id,
-              `styles.#${targetSchema.id}.margin-left`,
-              cssDefination.getPropertyValue('margin-left'),
-            );
-            historyer.pushSchema(_schema);
-          }}
-        />
-        <TextField
-          id="margin-top-styles"
-          label="margin-top"
-          key="margin-top-styles"
-          value={
-            styles['margin-top']
-            || cssDefination.getPropertyValue('margin-top')
-            || ''
-          }
-          disabled={!styles['margin-top']}
-          onChange={(e) => {
-            if (!styles['margin-top']) {
-              return;
-            }
-            const { value } = e.target as HTMLInputElement;
-            const _schema = schemaParser.update(
-              schema,
-              targetSchema.id,
-              `styles.#${targetSchema.id}.margin-top`,
-              value,
-            );
-            historyer.pushSchema(_schema);
-          }}
-          onDoubleClick={() => {
-            if (styles['margin-top']) {
-              return;
-            }
-            const _schema = schemaParser.update(
-              schema,
-              targetSchema.id,
-              `styles.#${targetSchema.id}.margin-top`,
-              cssDefination.getPropertyValue('margin-top'),
-            );
-            historyer.pushSchema(_schema);
-          }}
-        />
-        <TextField
-          id="backgroundColor-styles"
-          label="backgroundColor"
-          style={{
-            display: 'flex',
-          }}
-          inputProps={{
-            type: 'color',
-          }}
-          key="backgroundColor-styles"
-          value={
-            styles['background-color'] || cssDefination.backgroundColor || ''
-          }
-          disabled={!styles['background-color']}
-          onChange={(e) => {
-            if (!styles['background-color']) {
-              return;
-            }
-            const { value } = e.target as HTMLInputElement;
-            const _schema = schemaParser.update(
-              schema,
-              targetSchema.id,
-              `styles.#${targetSchema.id}.background-color`,
-              value,
-            );
-            historyer.pushSchema(_schema);
-          }}
-          onDoubleClick={() => {
-            if (styles['background-color']) {
-              return;
-            }
-            const _schema = schemaParser.update(
-              schema,
-              targetSchema.id,
-              `styles.#${targetSchema.id}.background-color`,
-              cssDefination.backgroundColor,
-            );
-            historyer.pushSchema(_schema);
-          }}
-        />
         <Upload
           key="backgroundImage-styles"
           value={

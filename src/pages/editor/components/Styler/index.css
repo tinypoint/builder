@@ -1,3 +1,11 @@
 .styler {
   width: 240px;
 }
+
+.textIcon {
+  display: block;
+  width: 16px;
+  line-height: 16px;
+  text-align: center;
+  height: 16px;
+}
