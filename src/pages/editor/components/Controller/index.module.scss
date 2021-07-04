@@ -1,0 +1,53 @@
+@import "~@blueprintjs/core/lib/scss/variables";
+
+.controller {
+  position: relative;
+  flex-shrink: 0;
+}
+
+:global .bp4-dark {
+  :local(.controller)  {
+    background: $dark-gray4;
+  }
+}
+
+.divice {
+  position: relative;
+  box-sizing: content-box;
+  border: 50px solid transparent;
+  transform: scale(1);
+  transform-origin: center top;
+}
+
+.divice *::-webkit-scrollbar {
+  display: none;
+}
+
+.webview {
+  background-color: #fff;
+  position: relative;
+  border-radius: 40px;
+  box-sizing: border-box;
+  padding-top: 36px;
+  overflow: hidden;
+}
+
+.webview * {
+  cursor: pointer;
+  user-select: none;
+}
+
+:global {
+  .add-a-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+}

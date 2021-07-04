@@ -93,6 +93,7 @@ const initState = {
     widget: true,
   } as { [index: string]: boolean },
   nodeExpandMaps: {} as { [index: string]: boolean },
+  theme: 'light' as 'light' | 'dark',
 };
 
 export type State = typeof initState;

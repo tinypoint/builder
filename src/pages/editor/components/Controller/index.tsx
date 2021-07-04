@@ -9,7 +9,7 @@ import MockPhone from '../MockPhone';
 import Client from '../Client';
 import Tracker from '../Tracker';
 import ReferenceLine from '../ReferenceLine';
-import './index.css';
+import styles from './index.module.scss';
 
 const connector = connect((state: State) => ({
   scale: state.scale,
@@ -47,16 +47,15 @@ class Controller extends React.Component<Props> {
   render() {
     const { scale, schema } = this.props;
     return (
-      <div className="controller">
+      <div className={styles.controller}>
         <div
-          className="divice"
+          className={styles.divice}
           style={{
             transform: `scale(${scale})`,
-            transformOrigin: 'top left',
           }}
         >
           <div
-            className="webview"
+            className={styles.webview}
             style={{
               width: 375,
               height: 812,

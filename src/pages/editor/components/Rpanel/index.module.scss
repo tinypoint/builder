@@ -1,0 +1,11 @@
+@import "~@blueprintjs/core/lib/scss/variables";
+
+.rpanel {
+  flex-grow: 1;
+}
+
+:global .bp4-dark {
+  :local(.rpanel)  {
+    background: $dark-gray4;
+  }
+}

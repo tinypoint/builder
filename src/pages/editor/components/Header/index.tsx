@@ -13,6 +13,7 @@ const connector = connect((state: State) => ({
   hredo: state.hredo,
   sid: state.sid,
   hid: state.hid,
+  theme: state.theme,
 }));
 
 type Props = ConnectedProps<typeof connector>;
@@ -94,6 +95,8 @@ class Header extends React.Component<Props> {
   };
 
   render() {
+    const { theme } = this.props;
+
     return (
 
       <Navbar>
@@ -114,6 +117,7 @@ class Header extends React.Component<Props> {
         </NavbarGroup>
 
         <NavbarGroup align={Alignment.RIGHT}>
+          <Button className={Classes.MINIMAL} icon={theme === 'dark' ? 'flash' : 'moon'} onClick={eventer.toggleTheme} />
           <Button className={Classes.MINIMAL} icon="user" />
           <Button className={Classes.MINIMAL} icon="notifications" />
           <Button className={Classes.MINIMAL} icon="cog" />

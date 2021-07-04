@@ -1,3 +1,4 @@
+import { Classes } from '@blueprintjs/core';
 import axios from 'axios';
 import { cloneDeep } from 'lodash-es';
 import store from '../../store';
@@ -220,6 +221,21 @@ class Eventer {
       type: 'CHANGE_VALUE',
       payload: [{ key: 'nodeExpandMaps', value: { ...nodeExpandMaps } }],
     });
+  };
+
+  toggleTheme = () => {
+    const { theme } = store.getState();
+
+    store.dispatch({
+      type: 'CHANGE_VALUE',
+      payload: [{ key: 'theme', value: theme === 'light' ? 'dark' : 'light' }],
+    });
+
+    if (theme === 'light') {
+      document.documentElement.classList.add(Classes.DARK);
+    } else {
+      document.documentElement.classList.remove(Classes.DARK);
+    }
   };
 }
 export default new Eventer();
