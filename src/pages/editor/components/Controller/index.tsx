@@ -1,6 +1,6 @@
-import Button from '@material-ui/core/Button';
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
+import { Button } from '@blueprintjs/core';
 import historyer from '../../features/historyer';
 import resizer from '../../features/resizer';
 import schemaParser from '../../features/schemaParser';
@@ -19,6 +19,8 @@ const connector = connect((state: State) => ({
 type Props = ConnectedProps<typeof connector>;
 
 class Controller extends React.Component<Props> {
+  controllerRef: HTMLDivElement | null = null;
+
   componentDidMount() {
     window.addEventListener('mousedown', this.onMouseDown);
   }
@@ -44,10 +46,26 @@ class Controller extends React.Component<Props> {
     }
   };
 
+  clearSelect = (e: React.MouseEvent) => {
+    const { target } = e.nativeEvent;
+    if (target === this.controllerRef) {
+      store.dispatch({
+        type: 'CHANGE_VALUE',
+        payload: [
+          { key: 'select', value: [] },
+        ],
+      });
+    }
+  };
+
   render() {
     const { scale, schema } = this.props;
     return (
-      <div className={styles.controller}>
+      <div
+        className={styles.controller}
+        onClick={this.clearSelect}
+        ref={(ref) => { this.controllerRef = ref; }}
+      >
         <div
           className={styles.divice}
           style={{
@@ -64,7 +82,7 @@ class Controller extends React.Component<Props> {
             <Client />
             {Boolean(!schema.children || !schema.children.length) && (
               <div className="add-a-page">
-                <Button color="primary" onClick={this.addBlankPage}>
+                <Button onClick={this.addBlankPage}>
                   Add a Blank Page
                 </Button>
               </div>

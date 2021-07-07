@@ -1,4 +1,16 @@
-.contextMenu {
-  /* width: 240px;
-  background-color: #ccc; */
+.contextMenuAnchor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0);
+  pointer-events: none;
+}
+
+.contextMenuSpan {
+  display: block;
+  width: 1px;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0);
 }

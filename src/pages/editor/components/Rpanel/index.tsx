@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { State } from '../../store';
-import Configer from '../Configer';
+// import Configer from '../Configer';
 import Styler from '../Styler';
 import styles from './index.module.scss';
 
@@ -25,7 +25,7 @@ class Rpanel extends React.Component<Props> {
   render() {
     return (
       <div className={classNames(styles.rpanel, Classes.ELEVATION_1)}>
-        <Configer />
+        {/* <Configer /> */}
         <Styler />
       </div>
     );

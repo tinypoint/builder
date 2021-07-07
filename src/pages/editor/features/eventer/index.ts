@@ -1,7 +1,7 @@
 import { Classes } from '@blueprintjs/core';
 import axios from 'axios';
 import { cloneDeep } from 'lodash-es';
-import store from '../../store';
+import store, { Schema } from '../../store';
 import historyer from '../historyer';
 import schemaParser from '../schemaParser';
 
@@ -16,7 +16,8 @@ class Eventer {
     }
   };
 
-  delComp = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  delComp = (e: Event) => {
     const { select, schema } = store.getState();
     if (!select || !select.length) {
       return;
@@ -33,7 +34,7 @@ class Eventer {
     });
   };
 
-  duplicateComp = (e: KeyboardEvent) => {
+  duplicateComp = (e: Event) => {
     const { select, schema } = store.getState();
     if (!select || !select.length) {
       return;
@@ -45,12 +46,12 @@ class Eventer {
     historyer.pushSchema(_schema);
     store.dispatch({
       type: 'CHANGE_VALUE',
-      payload: [{ key: 'select', value: _fock.id }],
+      payload: [{ key: 'select', value: [_fock.id] }],
     });
     e.preventDefault();
   };
 
-  copyComp = (e: KeyboardEvent) => {
+  copyComp = (e: Event) => {
     const { select, schema } = store.getState();
     if (!select || !select.length) {
       return;
@@ -64,7 +65,7 @@ class Eventer {
     e.preventDefault();
   };
 
-  pasteComp = (e: KeyboardEvent) => {
+  pasteComp = (e: Event) => {
     const { select, schema, clipsdata } = store.getState();
 
     if (!select || !select.length || !clipsdata) {
@@ -74,10 +75,19 @@ class Eventer {
     let _schema = cloneDeep(schema);
 
     if (clipsdata.type === 'copy') {
+      const targets: Schema[] = [];
       clipsdata.payload.forEach((item) => {
         const _fock = schemaParser.copySchema(item);
+        targets.push(_fock);
 
         _schema = schemaParser.appendChild(schema, select[0], _fock);
+      });
+
+      store.dispatch({
+        type: 'CHANGE_VALUE',
+        payload: [
+          { key: 'select', value: targets.map((_target) => _target.id) },
+        ],
       });
 
       historyer.pushSchema(_schema);
@@ -86,17 +96,21 @@ class Eventer {
         _schema = schemaParser.appendChild(schema, select[0], item);
       });
 
-      historyer.pushSchema(_schema);
       store.dispatch({
         type: 'CHANGE_VALUE',
-        payload: [{ key: 'clipsdata', value: null }],
+        payload: [
+          { key: 'clipsdata', value: null },
+          { key: 'select', value: clipsdata.payload.map((_target) => _target.id) },
+        ],
       });
+
+      historyer.pushSchema(_schema);
     }
 
     e.preventDefault();
   };
 
-  cutComp = (e: KeyboardEvent) => {
+  cutComp = (e: Event) => {
     const { select, schema } = store.getState();
     if (!select || !select.length) {
       return;

@@ -1,7 +1,9 @@
+import {
+  Menu, MenuDivider, MenuItem, Popover, Position,
+} from '@blueprintjs/core';
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import eventer from '../../features/eventer';
 import store, { State } from '../../store';
 import './index.css';
 
@@ -24,8 +26,6 @@ class ContextMenu extends React.Component<IProps> {
   componentWillUnmount() {
     delete (window as any).showContextMenu;
   }
-
-  click = () => {};
 
   handleClose = () => {
     store.dispatch({
@@ -73,28 +73,83 @@ class ContextMenu extends React.Component<IProps> {
   render() {
     const { showContextMenu, contextMenuPosition } = this.props;
     const { x, y } = contextMenuPosition;
+
     return (
-      <Menu
-        keepMounted
-        open={showContextMenu}
-        onClose={this.handleClose}
-        BackdropProps={{
-          invisible: true,
-          onContextMenu: (e) => {
-            e.preventDefault();
-          },
-        }}
-        anchorReference="anchorPosition"
-        anchorPosition={
-          { top: y, left: x }
-      }
-      >
-        <MenuItem onClick={this.handleClose}>Copy</MenuItem>
-        <MenuItem onClick={this.handleClose}>Cut</MenuItem>
-        <MenuItem onClick={this.handleClose}>Paste</MenuItem>
-        <MenuItem onClick={this.handleClose}>Delete</MenuItem>
-      </Menu>
+      <div className="contextMenuAnchor" key={`${x}${y}`} style={{ left: x, top: y }}>
+        <Popover
+          fill
+          isOpen={showContextMenu}
+          minimal
+          hasBackdrop
+          position={Position.BOTTOM_LEFT}
+          onClose={this.handleClose}
+          usePortal
+          content={(
+            <Menu>
+              <MenuItem
+                icon="cut"
+                text="Cut"
+                label="⌘X"
+                onClick={(e) => {
+                  eventer.cutComp(e.nativeEvent);
+                }}
+              />
+              <MenuItem
+                icon="duplicate"
+                text="Copy"
+                label="⌘C"
+                onClick={(e) => {
+                  eventer.copyComp(e.nativeEvent);
+                }}
+              />
+              <MenuItem
+                icon="clipboard"
+                text="Paste"
+                label="⌘V"
+                onClick={(e) => {
+                  eventer.pasteComp(e.nativeEvent);
+                }}
+              />
+              <MenuItem
+                icon="delete"
+                text="Delete"
+                label="DEL"
+                onClick={(e) => {
+                  eventer.delComp(e.nativeEvent);
+                }}
+              />
+              <MenuDivider />
+              <MenuItem disabled text={`Clicked at (${x}, ${y})`} />
+            </Menu>
+          )}
+        >
+          <span className="contextMenuSpan" />
+        </Popover>
+      </div>
     );
+
+    // return (
+    // <Menu
+    //   keepMounted
+    //   open={showContextMenu}
+    //   onClose={this.handleClose}
+    //   BackdropProps={{
+    //     invisible: true,
+    //     onContextMenu: (e) => {
+    //       e.preventDefault();
+    //     },
+    //   }}
+    //   anchorReference="anchorPosition"
+    //   anchorPosition={
+    //     { top: y, left: x }
+    // }
+    // >
+    //   <MenuItem onClick={this.handleClose}>Copy</MenuItem>
+    //   <MenuItem onClick={this.handleClose}>Cut</MenuItem>
+    //   <MenuItem onClick={this.handleClose}>Paste</MenuItem>
+    //   <MenuItem onClick={this.handleClose}>Delete</MenuItem>
+    // </Menu>
+    // );
   }
 }
 

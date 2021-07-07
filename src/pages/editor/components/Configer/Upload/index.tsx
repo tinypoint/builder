@@ -1,13 +1,13 @@
 import React from 'react';
 import axios from 'axios';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import './index.css';
-import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
+import { Button, Card } from '@blueprintjs/core';
+import classNames from 'classnames';
 
 interface IProps {
   value: string;
+  disabled?: boolean;
+  className?: string;
   onChange: (url?: string) => void;
 }
 
@@ -35,44 +35,41 @@ export default class Upload extends React.Component<IProps> {
   };
 
   render() {
-    const { value } = this.props;
+    const { value, className } = this.props;
 
     return (
-      <div className="upload-preview">
-        <input
-          ref={(ref) => {
-            this.ref = ref;
-          }}
-          className="upload-preview-input"
-          type="file"
-          onChange={this.onChange}
-        />
-        <div className="upload-preview-content" onClick={this.clickInput}>
-          {value ? <img className="upload-preview-img" src={value} alt="" /> : (
+      <Card className={classNames(className)}>
+        <div className="upload-preview">
+          <input
+            ref={(ref) => {
+              this.ref = ref;
+            }}
+            className="upload-preview-input"
+            type="file"
+            onChange={this.onChange}
+          />
+          <div className="upload-preview-content" onClick={this.clickInput}>
+            {value ? <img className="upload-preview-img" src={value} alt="" /> : (
 
-            <Button
-              className="upload-preview-button"
-              color="primary"
-              variant="contained"
-              size="large"
-              startIcon={<CloudUploadIcon />}
-            >
-              upload
-            </Button>
+              <Button
+                className="upload-preview-button"
+                icon="upload"
+              >
+                upload
+              </Button>
 
-          ) }
+            ) }
+          </div>
+
+          { value && (
+          <Button
+            className="upload-preview-clear"
+            icon="trash"
+            onClick={this.clear}
+          />
+          )}
         </div>
-
-        { value && (
-        <IconButton
-          className="upload-preview-clear"
-          color="secondary"
-          onClick={this.clear}
-        >
-          <HighlightOffIcon />
-        </IconButton>
-        )}
-      </div>
+      </Card>
     );
   }
 }

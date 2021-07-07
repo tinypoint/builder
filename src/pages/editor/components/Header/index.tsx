@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import {
   Alignment, Button,
-  Classes, Menu, MenuDivider, MenuItem, Navbar, NavbarDivider, NavbarGroup, NavbarHeading, Popover,
+  Classes, Menu, MenuItem, Navbar, NavbarDivider, NavbarGroup, NavbarHeading, Popover,
 } from '@blueprintjs/core';
 import eventer from '../../features/eventer';
 import store, { State } from '../../store';
@@ -14,6 +14,7 @@ const connector = connect((state: State) => ({
   sid: state.sid,
   hid: state.hid,
   theme: state.theme,
+  select: state.select || [],
 }));
 
 type Props = ConnectedProps<typeof connector>;
@@ -29,7 +30,7 @@ class Header extends React.Component<Props> {
   };
 
   renderHeadingMenu = () => (
-    <Menu className={Classes.ELEVATION_1}>
+    <Menu>
       <MenuItem icon="home" text="Back to Home" onClick={eventer.goBack} />
     </Menu>
   );
@@ -39,55 +40,64 @@ class Header extends React.Component<Props> {
       hundo, hredo, sid, hid,
     } = this.props;
     return (
-      <Menu className={Classes.ELEVATION_1}>
-        <MenuItem icon="undo" text="Undo" label="⌘Z" disabled={!hundo} onClick={eventer.undo} />
-        <MenuItem icon="redo" text="Redo" label="⌘⇧Z" disabled={!hredo} onClick={eventer.redo} />
-        <MenuItem icon="saved" text="Save" label="⌘S" disabled={sid === hid} onClick={eventer.save} />
+      <Menu>
+        <MenuItem icon="undo" text="Undo" label="⌘Z" shouldDismissPopover={false} disabled={!hundo} onClick={eventer.undo} />
+        <MenuItem icon="redo" text="Redo" label="⌘⇧Z" shouldDismissPopover={false} disabled={!hredo} onClick={eventer.redo} />
+        <MenuItem icon="saved" text="Save" label="⌘S" shouldDismissPopover={false} disabled={sid === hid} onClick={eventer.save} />
       </Menu>
     );
   };
 
-  renderEditMenu = () => (
-    <Menu className={Classes.ELEVATION_1}>
-      <MenuItem icon="cut" text="Cut" label="⌘X" />
-      <MenuItem icon="duplicate" text="Copy" label="⌘C" />
-      <MenuItem icon="clipboard" text="Paste" label="⌘V" disabled />
-      <MenuDivider title="Text" />
-      <MenuItem disabled icon="align-left" text="Alignment">
-        <MenuItem icon="align-left" text="Left" />
-        <MenuItem icon="align-center" text="Center" />
-        <MenuItem icon="align-right" text="Right" />
-        <MenuItem icon="align-justify" text="Justify" />
-      </MenuItem>
-      <MenuItem icon="style" text="Style">
-        <MenuItem icon="bold" text="Bold" />
-        <MenuItem icon="italic" text="Italic" />
-        <MenuItem icon="underline" text="Underline" />
-      </MenuItem>
-      <MenuItem icon="asterisk" text="Miscellaneous">
-        <MenuItem icon="badge" text="Badge" />
-        <MenuItem icon="book" text="Long items will truncate when they reach max-width" />
-        <MenuItem icon="more" text="Look in here for even more items">
-          <MenuItem icon="briefcase" text="Briefcase" />
-          <MenuItem icon="calculator" text="Calculator" />
-          <MenuItem icon="dollar" text="Dollar" />
-          <MenuItem icon="dot" text="Shapes">
-            <MenuItem icon="full-circle" text="Full circle" />
-            <MenuItem icon="heart" text="Heart" />
-            <MenuItem icon="ring" text="Ring" />
-            <MenuItem icon="square" text="Square" />
-          </MenuItem>
-        </MenuItem>
-      </MenuItem>
-    </Menu>
-  );
+  renderEditMenu = () => {
+    const { select } = this.props;
+    return (
+      <Menu>
+        <MenuItem
+          icon="cut"
+          text="Cut"
+          label="⌘X"
+          disabled={!select.length}
+          onClick={(e) => {
+            eventer.cutComp(e.nativeEvent);
+          }}
+        />
+        <MenuItem
+          icon="duplicate"
+          text="Copy"
+          label="⌘C"
+          disabled={!select.length}
+          onClick={(e) => {
+            eventer.copyComp(e.nativeEvent);
+          }}
+        />
+        <MenuItem
+          icon="clipboard"
+          text="Paste"
+          label="⌘V"
+          disabled={!select.length}
+          onClick={(e) => {
+            eventer.pasteComp(e.nativeEvent);
+          }}
+        />
+        <MenuItem
+          icon="delete"
+          text="Delete"
+          label="DEL"
+          disabled={!select.length}
+          onClick={(e) => {
+            eventer.delComp(e.nativeEvent);
+          }}
+        />
+      </Menu>
+    );
+  };
 
   renderScriptMenu = () => {
     const {
       scriptEditorVisible,
     } = this.props;
     return (
-      <Menu className={Classes.ELEVATION_1}>
+      <Menu>
         <MenuItem icon="code" text={`${scriptEditorVisible ? 'Close' : 'Open'} IDE`} onClick={eventer.toggleIde} />
         <MenuItem icon="play" text="Run" onClick={eventer.runScript} />
       </Menu>

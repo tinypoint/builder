@@ -1,3 +1,6 @@
+import {
+  Button, ButtonGroup, Popover, Position,
+} from '@blueprintjs/core';
 import React from 'react';
 import './index.css';
 
@@ -33,9 +36,33 @@ const dots = (
 
 const Anchor: React.FC<IProps> = (props: IProps) => {
   const { type, children = null } = props;
+
+  if (type === 'select') {
+    return (
+      <Popover
+        className="anchor-popover-content"
+        position={Position.LEFT_TOP}
+        isOpen
+        fill
+        usePortal
+        content={(
+          <ButtonGroup minimal>
+            <Button
+              icon="edit"
+            />
+          </ButtonGroup>
+        )}
+      >
+        <div data-builder-anchor={type} className="anchor">
+          {dots}
+          {children}
+        </div>
+      </Popover>
+    );
+  }
+
   return (
     <div data-builder-anchor={type} className="anchor">
-      {type === 'select' && (dots)}
       {children}
     </div>
   );

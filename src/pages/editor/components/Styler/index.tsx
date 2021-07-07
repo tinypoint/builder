@@ -2,9 +2,9 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import './index.css';
 import { get } from 'lodash-es';
-import { Button, Classes, InputGroup } from '@blueprintjs/core';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
+import {
+  Button, Classes, InputGroup,
+} from '@blueprintjs/core';
 import Upload from '../Configer/Upload';
 import schemaParser from '../../features/schemaParser';
 import historyer from '../../features/historyer';
@@ -110,6 +110,7 @@ class Configer extends React.Component<IProps, IStates> {
           key="width-styles"
           value={styles.width || cssDefination.width || ''}
           disabled={!styles.width}
+          className="styler-row"
           onChange={(e) => {
             if (!styles.width) {
               return;
@@ -125,7 +126,7 @@ class Configer extends React.Component<IProps, IStates> {
           }}
           leftIcon={(
             <span className={Classes.ICON} title="width">
-              <span className="textIcon">w</span>
+              <span className="textIcon">W</span>
             </span>
           )}
           rightElement={(
@@ -151,6 +152,7 @@ class Configer extends React.Component<IProps, IStates> {
           key="height-styles"
           value={styles.height || cssDefination.height || ''}
           disabled={!styles.height}
+          className="styler-row"
           onChange={(e) => {
             if (!styles.height) {
               return;
@@ -166,7 +168,7 @@ class Configer extends React.Component<IProps, IStates> {
           }}
           leftIcon={(
             <span className={Classes.ICON} title="height">
-              <span className="textIcon">h</span>
+              <span className="textIcon">H</span>
             </span>
           )}
           rightElement={(
@@ -192,6 +194,7 @@ class Configer extends React.Component<IProps, IStates> {
           key="left-styles"
           value={styles.left || cssDefination.left || ''}
           disabled={!styles.left}
+          className="styler-row"
           onChange={(e) => {
             if (!styles.left) {
               return;
@@ -207,7 +210,7 @@ class Configer extends React.Component<IProps, IStates> {
           }}
           leftIcon={(
             <span className={Classes.ICON} title="left">
-              <span className="textIcon">x</span>
+              <span className="textIcon">X</span>
             </span>
           )}
           rightElement={(
@@ -233,6 +236,7 @@ class Configer extends React.Component<IProps, IStates> {
           key="top-styles"
           value={styles.top || cssDefination.top || ''}
           disabled={!styles.top}
+          className="styler-row"
           onChange={(e) => {
             if (!styles.top) {
               return;
@@ -248,7 +252,7 @@ class Configer extends React.Component<IProps, IStates> {
           }}
           leftIcon={(
             <span className={Classes.ICON} title="top">
-              <span className="textIcon">y</span>
+              <span className="textIcon">Y</span>
             </span>
           )}
           rightElement={(
@@ -274,6 +278,7 @@ class Configer extends React.Component<IProps, IStates> {
           key="backgroundColor-styles"
           value={styles['background-color'] || cssDefination.backgroundColor || ''}
           disabled={!styles['background-color']}
+          className="styler-row"
           onChange={(e) => {
             if (!styles['background-color']) {
               return;
@@ -355,6 +360,8 @@ class Configer extends React.Component<IProps, IStates> {
           value={
             parseBackgroundImage(styles['background-image'] || cssDefination.backgroundImage || '')
           }
+          disabled={!styles['background-image']}
+          className="styler-row"
           onChange={(url?:string) => {
             const _schema = schemaParser.update(
               schema,
@@ -365,57 +372,11 @@ class Configer extends React.Component<IProps, IStates> {
             historyer.pushSchema(_schema);
           }}
         />
-        <TextField
-          id="background-size-styles"
-          label="background-size"
-          select
-          key="background-size-styles"
-          value={styles['background-size'] || cssDefination.backgroundSize || ''}
-          disabled={!styles['background-size']}
-          style={{
-            width: '100%',
-          }}
-          onChange={(e) => {
-            if (!styles['background-size']) {
-              return;
-            }
-            const { value } = e.target;
-
-            const _schema = schemaParser.update(
-              schema,
-              targetSchema.id,
-              `styles.#${targetSchema.id}.background-size`,
-              value,
-            );
-            historyer.pushSchema(_schema);
-          }}
-          onDoubleClick={() => {
-            if (styles['background-size']) {
-              return;
-            }
-            const _schema = schemaParser.update(
-              schema,
-              targetSchema.id,
-              `styles.#${targetSchema.id}.background-size`,
-              cssDefination.backgroundSize,
-            );
-            historyer.pushSchema(_schema);
-          }}
-        >
-          <MenuItem value="auto">auto</MenuItem>
-          <MenuItem value="cover">cover</MenuItem>
-          <MenuItem value="contain">contain</MenuItem>
-        </TextField>
-        <TextField
-          id="font-family-styles"
-          label="font-family"
+        <InputGroup
           key="font-family-styles"
-          value={
-            styles['font-family']
-            || cssDefination.getPropertyValue('font-family')
-            || ''
-          }
+          value={styles['font-family'] || cssDefination.getPropertyValue('font-family') || ''}
           disabled={!styles['font-family']}
+          className="styler-row"
           onChange={(e) => {
             if (!styles['font-family']) {
               return;
@@ -429,29 +390,35 @@ class Configer extends React.Component<IProps, IStates> {
             );
             historyer.pushSchema(_schema);
           }}
-          onDoubleClick={() => {
-            if (styles['font-family']) {
-              return;
-            }
-            const _schema = schemaParser.update(
-              schema,
-              targetSchema.id,
-              `styles.#${targetSchema.id}.font-family`,
-              cssDefination.getPropertyValue('font-family'),
-            );
-            historyer.pushSchema(_schema);
-          }}
+          leftIcon={(
+            <span className={Classes.ICON} title="font family">
+              <span className="textIcon">A</span>
+            </span>
+          )}
+          rightElement={(
+            <Button
+              icon={!styles['font-family'] ? 'lock' : 'unlock'}
+              minimal
+              onClick={() => {
+                if (styles['font-family']) {
+                  return;
+                }
+                const _schema = schemaParser.update(
+                  schema,
+                  targetSchema.id,
+                  `styles.#${targetSchema.id}.font-family`,
+                  cssDefination.getPropertyValue('font-family'),
+                );
+                historyer.pushSchema(_schema);
+              }}
+            />
+          )}
         />
-        <TextField
-          id="font-size-styles"
-          label="font-size"
+        <InputGroup
           key="font-size-styles"
-          value={
-            styles['font-size']
-            || cssDefination.getPropertyValue('font-size')
-            || ''
-          }
+          value={styles['font-size'] || cssDefination.getPropertyValue('font-size') || ''}
           disabled={!styles['font-size']}
+          className="styler-row"
           onChange={(e) => {
             if (!styles['font-size']) {
               return;
@@ -465,162 +432,29 @@ class Configer extends React.Component<IProps, IStates> {
             );
             historyer.pushSchema(_schema);
           }}
-          onDoubleClick={() => {
-            if (styles['font-size']) {
-              return;
-            }
-            const _schema = schemaParser.update(
-              schema,
-              targetSchema.id,
-              `styles.#${targetSchema.id}.font-size`,
-              cssDefination.getPropertyValue('font-size'),
-            );
-            historyer.pushSchema(_schema);
-          }}
-        />
-        <TextField
-          id="font-weight-styles"
-          label="font-weight"
-          key="font-weight-styles"
-          value={
-            styles['font-weight']
-            || cssDefination.getPropertyValue('font-weight')
-            || ''
-          }
-          disabled={!styles['font-weight']}
-          onChange={(e) => {
-            if (!styles['font-weight']) {
-              return;
-            }
-            const { value } = e.target as HTMLInputElement;
-            const _schema = schemaParser.update(
-              schema,
-              targetSchema.id,
-              `styles.#${targetSchema.id}.font-weight`,
-              value,
-            );
-            historyer.pushSchema(_schema);
-          }}
-          onDoubleClick={() => {
-            if (styles['font-weight']) {
-              return;
-            }
-            const _schema = schemaParser.update(
-              schema,
-              targetSchema.id,
-              `styles.#${targetSchema.id}.font-weight`,
-              cssDefination.getPropertyValue('font-weight'),
-            );
-            historyer.pushSchema(_schema);
-          }}
-        />
-        <TextField
-          id="font-style-styles"
-          label="font-style"
-          key="font-style-styles"
-          value={
-            styles['font-style']
-            || cssDefination.getPropertyValue('font-style')
-            || ''
-          }
-          disabled={!styles['font-style']}
-          onChange={(e) => {
-            if (!styles['font-style']) {
-              return;
-            }
-            const { value } = e.target as HTMLInputElement;
-            const _schema = schemaParser.update(
-              schema,
-              targetSchema.id,
-              `styles.#${targetSchema.id}.font-style`,
-              value,
-            );
-            historyer.pushSchema(_schema);
-          }}
-          onDoubleClick={() => {
-            if (styles['font-style']) {
-              return;
-            }
-            const _schema = schemaParser.update(
-              schema,
-              targetSchema.id,
-              `styles.#${targetSchema.id}.font-style`,
-              cssDefination.getPropertyValue('font-style'),
-            );
-            historyer.pushSchema(_schema);
-          }}
-        />
-        <TextField
-          id="line-height-styles"
-          label="line-height"
-          key="line-height-styles"
-          value={
-            styles['line-height']
-            || cssDefination.getPropertyValue('line-height')
-            || ''
-          }
-          disabled={!styles['line-height']}
-          onChange={(e) => {
-            if (!styles['line-height']) {
-              return;
-            }
-            const { value } = e.target as HTMLInputElement;
-            const _schema = schemaParser.update(
-              schema,
-              targetSchema.id,
-              `styles.#${targetSchema.id}.line-height`,
-              value,
-            );
-            historyer.pushSchema(_schema);
-          }}
-          onDoubleClick={() => {
-            if (styles['line-height']) {
-              return;
-            }
-            const _schema = schemaParser.update(
-              schema,
-              targetSchema.id,
-              `styles.#${targetSchema.id}.line-height`,
-              cssDefination.getPropertyValue('line-height'),
-            );
-            historyer.pushSchema(_schema);
-          }}
-        />
-        <TextField
-          id="letter-spacing-styles"
-          label="letter-spacing"
-          key="letter-spacing-styles"
-          value={
-            styles['letter-spacing']
-            || cssDefination.getPropertyValue('letter-spacing')
-            || ''
-          }
-          disabled={!styles['letter-spacing']}
-          onChange={(e) => {
-            if (!styles['letter-spacing']) {
-              return;
-            }
-            const { value } = e.target as HTMLInputElement;
-            const _schema = schemaParser.update(
-              schema,
-              targetSchema.id,
-              `styles.#${targetSchema.id}.letter-spacing`,
-              value,
-            );
-            historyer.pushSchema(_schema);
-          }}
-          onDoubleClick={() => {
-            if (styles['letter-spacing']) {
-              return;
-            }
-            const _schema = schemaParser.update(
-              schema,
-              targetSchema.id,
-              `styles.#${targetSchema.id}.letter-spacing`,
-              cssDefination.getPropertyValue('letter-spacing'),
-            );
-            historyer.pushSchema(_schema);
-          }}
+          leftIcon={(
+            <span className={Classes.ICON} title="font family">
+              <span className="textIcon">A</span>
+            </span>
+          )}
+          rightElement={(
+            <Button
+              icon={!styles['font-size'] ? 'lock' : 'unlock'}
+              minimal
+              onClick={() => {
+                if (styles['font-size']) {
+                  return;
+                }
+                const _schema = schemaParser.update(
+                  schema,
+                  targetSchema.id,
+                  `styles.#${targetSchema.id}.font-size`,
+                  cssDefination.getPropertyValue('font-size'),
+                );
+                historyer.pushSchema(_schema);
+              }}
+            />
+          )}
         />
       </div>
     );
