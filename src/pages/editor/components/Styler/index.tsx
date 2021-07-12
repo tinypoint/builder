@@ -191,19 +191,19 @@ class Configer extends React.Component<IProps, IStates> {
           )}
         />
         <InputGroup
-          key="left-styles"
-          value={styles.left || cssDefination.left || ''}
-          disabled={!styles.left}
+          key="margin-left-styles"
+          value={styles['margin-left'] || cssDefination.getPropertyValue('margin-left') || ''}
+          disabled={!styles['margin-left']}
           className="styler-row"
           onChange={(e) => {
-            if (!styles.left) {
+            if (!styles['margin-left']) {
               return;
             }
             const { value } = e.target as HTMLInputElement;
             const _schema = schemaParser.update(
               schema,
               targetSchema.id,
-              `styles.#${targetSchema.id}.left`,
+              `styles.#${targetSchema.id}.margin-left`,
               value,
             );
             historyer.pushSchema(_schema);
@@ -215,17 +215,17 @@ class Configer extends React.Component<IProps, IStates> {
           )}
           rightElement={(
             <Button
-              icon={!styles.left ? 'lock' : 'unlock'}
+              icon={!styles['margin-left'] ? 'lock' : 'unlock'}
               minimal
               onClick={() => {
-                if (styles.left) {
+                if (styles['margin-left']) {
                   return;
                 }
                 const _schema = schemaParser.update(
                   schema,
                   targetSchema.id,
-                  `styles.#${targetSchema.id}.left`,
-                  cssDefination.left,
+                  `styles.#${targetSchema.id}.margin-left`,
+                  cssDefination.getPropertyValue('margin-left'),
                 );
                 historyer.pushSchema(_schema);
               }}
@@ -233,19 +233,19 @@ class Configer extends React.Component<IProps, IStates> {
           )}
         />
         <InputGroup
-          key="top-styles"
-          value={styles.top || cssDefination.top || ''}
-          disabled={!styles.top}
+          key="margin-top-styles"
+          value={styles['margin-top'] || cssDefination.getPropertyValue('margin-top') || ''}
+          disabled={!styles['margin-top']}
           className="styler-row"
           onChange={(e) => {
-            if (!styles.top) {
+            if (!styles['margin-top']) {
               return;
             }
             const { value } = e.target as HTMLInputElement;
             const _schema = schemaParser.update(
               schema,
               targetSchema.id,
-              `styles.#${targetSchema.id}.top`,
+              `styles.#${targetSchema.id}.margin-top`,
               value,
             );
             historyer.pushSchema(_schema);
@@ -257,17 +257,17 @@ class Configer extends React.Component<IProps, IStates> {
           )}
           rightElement={(
             <Button
-              icon={!styles.top ? 'lock' : 'unlock'}
+              icon={!styles['margin-top'] ? 'lock' : 'unlock'}
               minimal
               onClick={() => {
-                if (styles.top) {
+                if (styles['margin-top']) {
                   return;
                 }
                 const _schema = schemaParser.update(
                   schema,
                   targetSchema.id,
-                  `styles.#${targetSchema.id}.top`,
-                  cssDefination.top,
+                  `styles.#${targetSchema.id}.margin-top`,
+                  cssDefination.getPropertyValue('margin-top'),
                 );
                 historyer.pushSchema(_schema);
               }}

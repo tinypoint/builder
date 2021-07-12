@@ -45,6 +45,8 @@ const Anchor: React.FC<IProps> = (props: IProps) => {
         isOpen
         fill
         usePortal
+        autoFocus={false}
+        enforceFocus={false}
         content={(
           <ButtonGroup minimal>
             <Button
