@@ -2,10 +2,15 @@
 
 .rpanel {
   flex-grow: 1;
+  display: flex;
 }
 
 :global .bp4-dark {
   :local(.rpanel)  {
     background: $dark-gray4;
   }
+}
+
+.item {
+  flex: 1;
 }

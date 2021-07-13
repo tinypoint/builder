@@ -64,7 +64,7 @@ class ActivityBar extends React.Component<Props> {
         {
           list.map((item) => (
             <MenuItem
-              className={sidebar[item.value] ? Classes.ACTIVE : ''}
+              className={classnames(styles.icon, { [Classes.ACTIVE]: sidebar[item.value] })}
               key={item.value}
               icon={item.icon}
               htmlTitle={item.title}

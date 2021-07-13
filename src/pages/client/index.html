@@ -5,6 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>runtime</title>
+    <!-- rem adaptor -->
+    <script type="text/javascript">
+      (function (doc, win) {
+          var docEl = doc.documentElement,
+          resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+              recalc = function () {
+                  var clientWidth = docEl.clientWidth;
+                  if (!clientWidth) return;
+                  // if(clientWidth >= 640){
+                  //     docEl.style.fontSize = '100px';
+                  // }else{
+                    //750 design, 1px with 1rem
+                      docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                  // }
+              };
+          if (!doc.addEventListener) return;
+          win.addEventListener(resizeEvt, recalc, false);
+          doc.addEventListener('DOMContentLoaded', recalc, false);
+      })(document, window);
+    </script>
     <style id="styles"></style>
     <script src="http://127.0.0.1:8002/assets/libs/require.js"></script>
     <script>
@@ -46,7 +66,7 @@
       }
     </script>
   </head>
-  <body>
+  <body style="font-size:12px;">
     <div id="root"></div>
   </body>
 </html>

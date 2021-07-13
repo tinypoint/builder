@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { InputGroup } from '@blueprintjs/core';
 import { Schema, State } from '../../store';
-import './index.css';
 import schemaParser from '../../features/schemaParser';
 import historyer from '../../features/historyer';
 import Upload from './Upload';
+import styles from './index.module.scss';
 
 const map: any = {
   button: [
@@ -33,9 +34,9 @@ class Configer extends React.Component<Props> {
 
     if (item.type === 'input') {
       return (
-        <input
+        <InputGroup
           key={item.key}
-          type="text"
+          className={styles.configerRow}
           value={props[item.key] || ''}
           onChange={(e) => {
             const { value } = e.target as HTMLInputElement;
