@@ -89,9 +89,7 @@ const initState = {
   scriptUrl: '',
   showContextMenu: false,
   contextMenuPosition: { x: 0, y: 0 },
-  sidebar: {
-    widget: true,
-  } as { [index: string]: boolean },
+  sidebar: {} as { [index: string]: boolean },
   nodeExpandMaps: {} as { [index: string]: boolean },
   theme: 'light' as 'light' | 'dark',
 };

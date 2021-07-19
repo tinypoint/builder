@@ -11,7 +11,7 @@
     "start": "webpack serve --config ./scripts/webpack.config.js",
     "eslint": "eslint -c ./.eslintrc.js . --ext .js,.jsx,.ts,.tsx",
     "eslint:fix": "eslint -c ./.eslintrc.js . --ext .js,.jsx,.ts,.tsx --fix",
-    "component:test": "node ./scripts/buildComponent.js"
+    "component": "node ./scripts/buildComponent.js"
   },
   "keywords": [],
   "author": "",

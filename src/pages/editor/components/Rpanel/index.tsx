@@ -9,6 +9,7 @@ import styles from './index.module.scss';
 
 const connector = connect((state: State) => ({
   hid: state.hid,
+  select: state.select,
 }));
 
 type Props = ConnectedProps<typeof connector>;
@@ -23,8 +24,18 @@ class Rpanel extends React.Component<Props> {
   };
 
   render() {
+    const { select } = this.props;
+
+    const hide = !select || !select.length;
+
     return (
-      <div className={classNames(styles.rpanel, Classes.ELEVATION_1)}>
+      <div
+        className={classNames(styles.rpanel, Classes.ELEVATION_1)}
+        style={{
+          width: hide ? 0 : undefined,
+          display: hide ? 'none' : undefined,
+        }}
+      >
         <div className={classNames(styles.item)}>
           <Styler />
         </div>

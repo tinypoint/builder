@@ -103,9 +103,9 @@ class Editor extends React.Component {
       <Provider store={store}>
         <Header />
         <div className="main">
+          <Controller />
           <ActivityBar />
           <SideBar />
-          <Controller />
           <Rpanel />
         </div>
         <ScriptEditor />

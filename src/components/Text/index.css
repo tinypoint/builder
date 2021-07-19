@@ -1,3 +1,7 @@
 .text {
 
 }
+
+.text .ql-container {
+  font-size: 40px;
+}
