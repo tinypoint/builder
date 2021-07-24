@@ -207,7 +207,7 @@ class Dragger {
       'margin-top': `${_top}px`,
     });
 
-    (window.parent as any).changePosition(_schema);
+    (window.parent as any).changePosition(_schema, select[0]);
 
     (window as any).store.dispatch({
       type: 'CHANGE_VALUE',

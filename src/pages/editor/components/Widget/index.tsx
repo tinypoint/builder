@@ -3,21 +3,23 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Card, H5 } from '@blueprintjs/core';
 import schemaParser from '../../features/schemaParser';
 import historyer from '../../features/historyer';
-import store, { State } from '../../store';
+import store, { Schema, State } from '../../store';
 import styles from './index.module.scss';
+import iframeManager from '../../features/iframeManager';
 
 const connector = connect((state: State) => ({
   select: state.select,
   schema: state.schema,
   show: state.sidebar.widget,
   components: state.components,
+  loading: state.loading,
 }));
 
 type Props = ConnectedProps<typeof connector>;
 
 class Widget extends React.Component<Props> {
   addComponent = (type: string) => {
-    const { select, schema } = this.props;
+    const { select, schema, loading } = this.props;
     const newScheam = schemaParser.createSchema(type);
 
     if (type === 'ppt') {
@@ -29,33 +31,50 @@ class Widget extends React.Component<Props> {
       newScheam.children = children;
     }
 
+    let _schema: Schema;
+
     if (!select || !select.length) {
       const [page] = schemaParser.search(schema, 'type', 'page');
-      const _schema = schemaParser.appendChild(schema, page.id, newScheam);
-      historyer.pushSchema(_schema);
-      store.dispatch({
-        type: 'CHANGE_VALUE',
-        payload: [{ key: 'select', value: [newScheam.id] }],
-      });
-      return;
-    }
-    const hasBlock = (window as any)._hasBlock && (window as any)._hasBlock(select);
-
-    if (hasBlock) {
-      const _schema = schemaParser.appendChild(schema, select[0], newScheam);
-      historyer.pushSchema(_schema);
-      store.dispatch({
-        type: 'CHANGE_VALUE',
-        payload: [{ key: 'select', value: [newScheam.id] }],
-      });
+      _schema = schemaParser.appendChild(schema, page.id, newScheam);
     } else {
-      const _schema = schemaParser.insertAfter(schema, select[0], newScheam);
+      const hasBlock = (window as any)._hasBlock && (window as any)._hasBlock(select);
+
+      if (hasBlock) {
+        _schema = schemaParser.appendChild(schema, select[0], newScheam);
+      } else {
+        _schema = schemaParser.insertAfter(schema, select[0], newScheam);
+      }
+    }
+
+    store.dispatch({
+      type: 'CHANGE_VALUE',
+      payload: [
+        { key: 'loading', value: { ...loading, addComponent: true } },
+        { key: 'schema', value: _schema },
+      ],
+    });
+
+    setTimeout(async () => {
+      const iframeDocument = await iframeManager.getDocument();
+      const elem = iframeDocument.getElementById(newScheam.id);
+      const bound = elem?.getBoundingClientRect()!;
+
+      newScheam.layout = {
+        x: bound.x,
+        y: bound.y,
+        width: bound.width,
+        height: bound.height,
+      };
+
       historyer.pushSchema(_schema);
       store.dispatch({
         type: 'CHANGE_VALUE',
-        payload: [{ key: 'select', value: [newScheam.id] }],
+        payload: [
+          { key: 'loading', value: { ...loading, addComponent: false } },
+          { key: 'select', value: [newScheam.id] },
+        ],
       });
-    }
+    }, 200);
   };
 
   render() {

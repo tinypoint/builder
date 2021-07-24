@@ -14,10 +14,44 @@ import ContextMenu from './components/ContextMenu';
 import SettingsPanel from './components/SettingsPanel';
 import Loading from './components/Loading';
 import './App.css';
+import iframeManager from './features/iframeManager';
+import schemaParser from './features/schemaParser';
 
 (window as any).store = store;
-(window as any).changePosition = (_schema: Schema) => {
-  historyer.pushSchema(_schema);
+(window as any).changePosition = (_schema: Schema, targetId: string) => {
+  // historyer.pushSchema(_schema);
+
+  const { loading } = store.getState();
+
+  store.dispatch({
+    type: 'CHANGE_VALUE',
+    payload: [
+      { key: 'loading', value: { ...loading, addComponent: true } },
+      { key: 'schema', value: _schema },
+    ],
+  });
+
+  setTimeout(async () => {
+    const iframeDocument = await iframeManager.getDocument();
+    const elem = iframeDocument.getElementById(targetId);
+    const bound = elem?.getBoundingClientRect()!;
+
+    _schema = schemaParser.update(_schema, targetId, 'layout', {
+      x: bound.x,
+      y: bound.y,
+      width: bound.width,
+      height: bound.height,
+    });
+
+    historyer.pushSchema(_schema);
+    store.dispatch({
+      type: 'CHANGE_VALUE',
+      payload: [
+        { key: 'loading', value: { ...loading, addComponent: false } },
+        { key: 'select', value: [targetId] },
+      ],
+    });
+  }, 200);
 };
 
 interface PagesRecord {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import hotkeyer from '../../features/hotkeyer';
+import iframeManager from '../../features/iframeManager';
 import store, { State } from '../../store';
 import './index.css';
 
@@ -15,6 +16,7 @@ class Runtime extends React.Component<Props> {
 
   componentDidMount() {
     this.iframe!.onload = () => {
+      iframeManager.bindIframe(this.iframe!);
       hotkeyer.init();
 
       const metas = this.iframe?.contentWindow!.document.getElementsByTagName('meta');

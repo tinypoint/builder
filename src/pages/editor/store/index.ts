@@ -1,11 +1,19 @@
 import { set } from 'lodash-es';
 import { AnyAction, createStore } from 'redux';
 
+export interface LayoutStruct {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 export interface Schema {
   type: string;
   id: string;
   props?: any;
   styles?: any;
+  layout?: LayoutStruct;
   children?: Schema[];
 }
 

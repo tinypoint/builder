@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=750, user-scalable=no" id="viewport">
+    <title>Document</title>
+    <script type="text/javascript">
+        (function(window, document) {
+            var viewport = document.getElementById("viewport");
+            function resize() {
+                function fn(t) {
+                    viewport.setAttribute("content", "width=750, user-scalable=no" + (t ? ", initial-scale=" + t : ""))
+                }
+                window.requestAnimationFrame(function() {
+                    fn(window.screen.width / 750);
+                    window.requestAnimationFrame(function() {
+                        fn();
+                    });
+                });
+            };
+            window.addEventListener('load', resize);
+            document.addEventListener('DOMContentLoad', resize);
+        })(window, document)
+    </script>
+    <link rel="stylesheet" href="//localhost:8002/assets/libs/normalize.css"></link>
+    <script src="//localhost:8002/assets/libs/require2.3.6.js"></script>
+    <style><%- css %></style>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        requirejs.config({
+            paths: <%- JSON.stringify(paths) %>
+        });
+        window["$$$schema$$$"] = <%- JSON.stringify(schema) %>;
+    </script>
+    <script>
+        requirejs(["main"], function() {});
+    </script>
+</body>
+</html>

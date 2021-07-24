@@ -3,6 +3,7 @@ import axios from 'axios';
 import { cloneDeep } from 'lodash-es';
 import store, { Schema } from '../../store';
 import historyer from '../historyer';
+import LayoutManager from '../layoutManager';
 import schemaParser from '../schemaParser';
 
 class Eventer {
@@ -185,14 +186,17 @@ class Eventer {
       payload: [{ key: 'loading', value: { saving: true } }],
     });
     const { schema, meta, scriptText } = store.getState();
+    let layoutManager: LayoutManager | null = new LayoutManager(schema);
     const editing = meta.records.filter(
       (record) => record.status === 'editing',
     )[0];
     await axios.post('/api/page/save', {
       schema,
+      layoutCss: layoutManager.getLayoutCss(),
       scriptText,
       _id: editing._id,
     });
+    layoutManager = null;
     store.dispatch({
       type: 'CHANGE_VALUE',
       payload: [

@@ -4,6 +4,7 @@ import historyer from '../historyer';
 import Overlayer from '../overlayer';
 import schemaParser from '../schemaParser';
 import adsorptioner from '../adsorptioner';
+import iframeManager from '../iframeManager';
 
 const CURSOR_MAP = {
   tl: 'nw-resize',
@@ -306,12 +307,42 @@ class Resizer {
       newStyle['margin-top'] = `${_top}px`;
     }
 
-    const _schema = schemaParser.update(schema, select[0], `styles.#${_targetSchema.id}`, {
+    let _schema = schemaParser.update(schema, select[0], `styles.#${_targetSchema.id}`, {
       ...styles,
       ...newStyle,
     });
 
-    historyer.pushSchema(_schema);
+    const { loading } = store.getState();
+
+    store.dispatch({
+      type: 'CHANGE_VALUE',
+      payload: [
+        { key: 'loading', value: { ...loading, addComponent: true } },
+        { key: 'schema', value: _schema },
+      ],
+    });
+
+    setTimeout(async () => {
+      const iframeDocument = await iframeManager.getDocument();
+      const elem = iframeDocument.getElementById(select[0]);
+      const bound = elem?.getBoundingClientRect()!;
+
+      _schema = schemaParser.update(_schema, select[0], 'layout', {
+        x: bound.x,
+        y: bound.y,
+        width: bound.width,
+        height: bound.height,
+      });
+
+      historyer.pushSchema(_schema);
+      store.dispatch({
+        type: 'CHANGE_VALUE',
+        payload: [
+          { key: 'loading', value: { ...loading, addComponent: false } },
+          { key: 'select', value: [select[0]] },
+        ],
+      });
+    }, 200);
 
     store.dispatch({
       type: 'CHANGE_VALUE',
