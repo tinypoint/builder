@@ -10,7 +10,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 interface Page {
   name: string;
-  _id: string;
+  id: string;
 }
 
 interface IStates {
@@ -48,7 +48,7 @@ class Cards extends React.Component<any, IStates> {
     await axios.delete(`/api/page/${id}`);
     const { pages } = this.state;
     this.setState({
-      pages: pages.filter((page) => page._id !== id),
+      pages: pages.filter((page) => page.id !== id),
     });
   };
 
@@ -78,7 +78,7 @@ class Cards extends React.Component<any, IStates> {
 
         {pages.map((page) => (
           <Card
-            key={page._id}
+            key={page.id}
             elevation={0}
             raised
             square
@@ -90,8 +90,8 @@ class Cards extends React.Component<any, IStates> {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button href={`/builder/editor?id=${page._id}`}>edit</Button>
-              <Button onClick={() => this.delete(page._id)}>delete</Button>
+              <Button href={`/builder/editor?id=${page.id}`}>edit</Button>
+              <Button onClick={() => this.delete(page.id)}>delete</Button>
             </CardActions>
           </Card>
         ))}

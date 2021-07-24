@@ -6,24 +6,26 @@ const router = new Router();
 router.get('/api/page/info/:id', async (ctx: Koa.Context) => {
   const { id } = ctx.params;
 
-  const page = await ctx.mongo.Pages.findById(id);
-  const records = await ctx.mongo.PagesRecords.find({
-    page: id,
+  const page = await ctx.sequelize.models.pages.findOne({
+    where: {
+      id,
+    },
+    include: 'pagesrecords',
   });
 
   ctx.body = {
     status: 0,
-    data: {
-      page,
-      records,
-    },
+    data: page,
   };
 });
 
 router.get('/api/page/list', async (ctx: Koa.Context) => {
   const { skip = 0, limit = 10 } = ctx.request.query;
 
-  const pages = await ctx.mongo.Pages.find({}).skip(skip).limit(limit);
+  const pages = await ctx.sequelize.models.pages.findAll({
+    offset: skip,
+    limit,
+  });
 
   ctx.body = {
     status: 0,
@@ -34,35 +36,29 @@ router.get('/api/page/list', async (ctx: Koa.Context) => {
 router.post('/api/page/create', async (ctx: Koa.Context) => {
   const { schema, scriptText = '' } = ctx.request.body;
 
-  const page = new ctx.mongo.Pages({
-    name: '',
-  });
+  const page = await ctx.sequelize.models.pages.create({});
 
-  await page.save();
-
-  if (page._id) {
-    const record = new ctx.mongo.PagesRecords({
-      page: page._id,
+  if (page.id) {
+    const record = await ctx.sequelize.models.pagesrecords.create({
+      pageId: page.id,
       schema,
       status: 'editing',
       scriptText,
     });
 
-    await record.save();
-
-    if (record._id) {
+    if (record.id) {
       ctx.body = {
         status: 0,
         data: {
-          pageid: page._id,
-          recordid: record._id,
+          pageid: page.id,
+          recordid: record.id,
         },
       };
     } else {
       ctx.body = {
         status: 1,
         data: {
-          pageid: page._id,
+          pageid: page.id,
         },
       };
     }
@@ -77,15 +73,18 @@ router.post('/api/page/create', async (ctx: Koa.Context) => {
 
 router.post('/api/page/save', async (ctx: Koa.Context) => {
   const {
-    schema, _id, scriptText = '', layoutCss,
+    schema, id, scriptText = '', layoutCss,
   } = ctx.request.body;
 
-  if (_id) {
-    await ctx.mongo.PagesRecords.updateOne({
-      _id,
+  if (id) {
+    await ctx.sequelize.models.pagesrecords.update({
       schema,
       scriptText,
       layoutCss,
+    }, {
+      where: {
+        id,
+      },
     });
 
     ctx.body = {

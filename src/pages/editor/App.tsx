@@ -107,7 +107,7 @@ class Editor extends React.Component {
   fetchData = async () => {
     const { id } = queryString.parse(window.location.search);
 
-    if (!id || !/^[0-9a-zA-Z]{24}$/.exec(id as string)) {
+    if (!id || !/^[0-9]*$/.exec(id as string)) {
       return;
     }
 
@@ -115,9 +115,9 @@ class Editor extends React.Component {
       data: { data: meta },
     } = await axios.get(`/api/page/info/${id}`);
 
-    const { records } = meta;
+    const { pagesrecords } = meta;
 
-    const editing = records.filter(
+    const editing = pagesrecords.filter(
       (record: PagesRecord) => record.status === 'editing',
     )[0];
 
@@ -125,7 +125,6 @@ class Editor extends React.Component {
       type: 'CHANGE_VALUE',
       payload: [{ key: 'meta', value: meta }],
     });
-
     historyer.push({
       scriptText: editing.scriptText as State['scriptText'],
       schema: editing.schema as Schema,

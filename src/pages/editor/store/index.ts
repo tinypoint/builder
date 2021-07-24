@@ -22,7 +22,7 @@ interface Loading {
 }
 
 export interface PagesRecord {
-  _id: string;
+  id: string;
   status: string;
   page: string;
   schema: State['schema'];
@@ -30,7 +30,8 @@ export interface PagesRecord {
 
 export interface Page {
   name: string;
-  _id: string
+  id: string;
+  pagesrecords: PagesRecord[];
 }
 
 export interface Bound {
@@ -82,13 +83,13 @@ const initState = {
   bounds: ([] as Bound[]),
   currentBound: (null as unknown as Bound),
   threshold: 10,
-  create: Boolean(window.location.pathname.match(/^\/create/)),
+  create: Boolean(window.location.pathname.match(/^\/builder\/create/)),
   loading: ({} as Loading),
   settingsPanelVisible: false,
   meta: {
-    page: ({} as Page),
-    records: ([] as PagesRecord[]),
-  },
+    name: '',
+    pagesrecords: ([] as PagesRecord[]),
+  } as Page,
   components: ([] as Component[]),
   templates: ([] as Template[]),
   clipsdata: (null as Clipsdata | null),

@@ -74,7 +74,7 @@ class Widget extends React.Component<Props> {
           { key: 'select', value: [newScheam.id] },
         ],
       });
-    }, 200);
+    }, 1000);
   };
 
   render() {

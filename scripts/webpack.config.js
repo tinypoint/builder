@@ -26,6 +26,7 @@ module.exports = {
     proxy: {
       '/api': 'http://localhost:8082',
       '/builder/static': 'http://localhost:8082',
+      '/builder/objectstorage': 'http://localhost:8082',
     },
   },
   output: {

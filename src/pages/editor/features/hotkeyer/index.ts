@@ -1,13 +1,12 @@
 import hotkeys from 'hotkeys-js';
 import eventer from '../eventer';
+import iframeManager from '../iframeManager';
 
 class Hotkeyer {
   Hotkeyer = Hotkeyer;
 
-  init = () => {
-    const iframe = document.getElementById('runtime')! as HTMLIFrameElement;
-
-    const iframehotkeys = ((iframe!.contentWindow as any).hotkeys as typeof hotkeys);
+  init = async () => {
+    const iframehotkeys = ((await iframeManager!.getWindow() as any).hotkeys as typeof hotkeys);
 
     hotkeys('Backspace', eventer.delComp);
 

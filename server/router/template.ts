@@ -4,14 +4,18 @@ import Router from 'koa-router';
 const router = new Router();
 
 router.get('/api/template/list', async (ctx: Koa.Context) => {
-  const { skip = 0, limit = 0 } = ctx.request.query;
-
-  const templates = await ctx.mongo.Templates.find({}).skip(skip).limit(limit);
-
   ctx.body = {
     status: 0,
-    data: templates,
+    data: [],
   };
+  // const { skip = 0, limit = 0 } = ctx.request.query;
+
+  // const templates = await ctx.mongo.Templates.find({}).skip(skip).limit(limit);
+
+  // ctx.body = {
+  //   status: 0,
+  //   data: templates,
+  // };
 });
 
 router.put(['/api/template/', '/api/template'], async (ctx: Koa.Context) => {

@@ -4,9 +4,12 @@ import Router from 'koa-router';
 const router = new Router();
 
 router.get('/api/component/list', async (ctx: Koa.Context) => {
-  const { skip = 0, limit = 0 } = ctx.request.query;
+  const { offset = undefined, limit = undefined } = ctx.request.query;
 
-  const components = await ctx.mongo.Components.find({}).skip(skip).limit(limit);
+  const components = await ctx.sequelize.models.components.findAll({
+    offset,
+    limit,
+  });
 
   ctx.body = {
     status: 0,
@@ -18,20 +21,21 @@ router.put(['/api/component/', '/api/component'], async (ctx: Koa.Context) => {
   const { name, path } = ctx.request.body;
 
   if (name && path) {
-    const prev = await ctx.mongo.Components.findOne({
-      name,
-    }).exec();
+    const prev = await ctx.sequelize.models.components.findOne({
+      where: {
+        name,
+      },
+    });
 
     if (!prev) {
-      await new ctx.mongo.Components({
-        name,
-        path,
-      }).save();
+      await ctx.sequelize.models.components.create({ name, path });
     } else {
-      await ctx.mongo.Components.updateOne({
-        name,
-      }, {
+      await ctx.sequelize.models.components.update({
         path,
+      }, {
+        where: {
+          name,
+        },
       });
     }
 

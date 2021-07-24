@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const root = path.dirname(__dirname);
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: {
     'normalize.css': path.resolve(root, 'node_modules', 'normalize.css/normalize.css'),
     'blueprint.core.css': path.resolve(root, 'node_modules', '@blueprintjs/core/lib/css/blueprint.css'),
@@ -18,7 +18,6 @@ module.exports = {
 		'html.worker': path.resolve(root, 'node_modules', 'monaco-editor/esm/vs/language/html/html.worker'),
 		'ts.worker': path.resolve(root, 'node_modules', 'monaco-editor/esm/vs/language/typescript/ts.worker')
   },
-  devtool: 'inline-source-map',
   output: {
     globalObject: 'self',
     filename: (pathData) => {
@@ -45,6 +44,11 @@ module.exports = {
       template: path.resolve(root, './src/pages/editor/index.ejs'),
       filename: './builder/editor/index.html',
       chunks: ['normalize.css', 'blueprint.core.css', 'blueprint.icon.css', 'editor'],
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(root, './src/pages/client/index.html'),
+      filename: './builder/client/index.html',
+      chunks: ['client'],
     }),
   ],
   optimization: {

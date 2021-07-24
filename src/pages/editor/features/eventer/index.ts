@@ -177,7 +177,7 @@ class Eventer {
       scriptText,
     });
 
-    window.location.replace(`/editor/index.html?id=${pageid}`);
+    window.location.replace(`/builder/editor?id=${pageid}`);
   };
 
   _save = async () => {
@@ -187,14 +187,14 @@ class Eventer {
     });
     const { schema, meta, scriptText } = store.getState();
     let layoutManager: LayoutManager | null = new LayoutManager(schema);
-    const editing = meta.records.filter(
+    const editing = meta.pagesrecords.filter(
       (record) => record.status === 'editing',
     )[0];
     await axios.post('/api/page/save', {
       schema,
       layoutCss: layoutManager.getLayoutCss(),
       scriptText,
-      _id: editing._id,
+      id: editing.id,
     });
     layoutManager = null;
     store.dispatch({

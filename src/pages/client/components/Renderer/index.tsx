@@ -8,9 +8,10 @@ interface IProps {
 }
 
 const { components } = (window as any).store.getState();
+console.log(components);
 
 const paths: { [index: string]: string } = {
-  react: '/builder/static/libs/react.development',
+  react: '/builder/objectstorage/libs/react.development',
 };
 
 components.forEach((component: any) => {

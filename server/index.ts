@@ -1,18 +1,18 @@
 import Koa from 'koa';
 import koaBody from 'koa-body';
 import serve from 'koa-static';
+import path from 'path';
 import dashboard from './router/dashboard';
 import component from './router/component';
 import form from './router/form';
 import preview from './router/preview';
 import template from './router/template';
 import file from './router/file';
-import mongoose from './mongoose';
+import sequelize from './sequelize';
 
 (async function main() {
-  const mods = [mongoose];
+  const mods = [sequelize];
   const app = new Koa();
-
   app.use(koaBody({
     multipart: true,
     formidable: {
@@ -31,9 +31,17 @@ import mongoose from './mongoose';
       .use(routes[i].allowedMethods());
   }
 
-  app.use(serve(`${__dirname}/static`));
-  app.use(serve(`${__dirname}/tos`));
+  app.use(serve(`${__dirname}/static`, {
+    maxage: 1000 * 60 * 60 * 24 * 90,
+  }));
+  app.use(serve(path.resolve(__dirname, '..', 'objectstorage'), {
+    maxage: 1000 * 60 * 60 * 24 * 90,
+  }));
 
-  app.listen(process.env.NODE_ENV === 'development' ? 8082 : undefined);
-  console.log('start');
+  const isDev = (process.env.NODE_ENV || '').trim().toLowerCase() === 'development';
+
+  const port = isDev ? 8082 : undefined;
+
+  app.listen(port);
+  console.log(`listen as ${port}`);
 }());
