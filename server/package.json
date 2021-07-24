@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --config ./nodemon.json"
+    "start": "set NODE_ENV=development && nodemon --config ./nodemon.json",
+    "tsc": "npx tsc --project tsconfig.production.json"
   },
   "keywords": [],
   "author": "",

@@ -34,6 +34,6 @@ import mongoose from './mongoose';
   app.use(serve(`${__dirname}/static`));
   app.use(serve(`${__dirname}/tos`));
 
-  app.listen(8082);
+  app.listen(process.env.NODE_ENV === 'development' ? 8082 : undefined);
   console.log('start');
 }());
