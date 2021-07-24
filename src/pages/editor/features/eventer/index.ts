@@ -13,7 +13,7 @@ class Eventer {
     if (window.history.length >= 3) {
       window.history.back();
     } else {
-      window.location.replace('/');
+      window.location.replace('/builder/dashboard');
     }
   };
 

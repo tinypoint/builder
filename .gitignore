@@ -1,3 +1,5 @@
 node_modules
 /dist/
 /public/
+# 存放编辑器的编译产物
+/server/static

@@ -9,14 +9,12 @@ interface IProps {
 
 const { components } = (window as any).store.getState();
 
-const host = 'http://127.0.0.1:8002';
-
 const paths: { [index: string]: string } = {
-  react: `${host}/assets/libs/react.development`,
+  react: '/builder/static/libs/react.development',
 };
 
 components.forEach((component: any) => {
-  paths[component.name] = `${host}/${component.path.replace(/\.js$/, '')}`;
+  paths[component.name] = `${component.path.replace(/\.js$/, '')}`;
 });
 
 (window as any).require.config({

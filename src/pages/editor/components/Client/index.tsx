@@ -57,7 +57,7 @@ class Runtime extends React.Component<Props> {
           height: 1552,
           transform: `scale(${baseScale})`,
         }}
-        src="/client"
+        src="/builder/client"
         ref={(ref) => {
           this.iframe = ref;
         }}

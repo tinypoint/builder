@@ -19,22 +19,13 @@ module.exports = {
 		'ts.worker': path.resolve(root, 'node_modules', 'monaco-editor/esm/vs/language/typescript/ts.worker')
   },
   devtool: 'inline-source-map',
-  devServer: {
-    contentBase: path.resolve(root, 'dist'),
-    openPage: 'builder/dashboard',
-    open: true,
-    proxy: {
-      '/api': 'http://localhost:8082',
-      '/builder/static': 'http://localhost:8082',
-    },
-  },
   output: {
     globalObject: 'self',
     filename: (pathData) => {
       return pathData.chunk.name.match(/\.worker$/)? './builder/[name].bundle.js' : './builder/[name].[contenthash].js';
     },
     assetModuleFilename: './builder/assets/[hash][ext][query]',
-    path: path.resolve(root, 'dist'),
+    path: path.resolve(root, 'server', 'static'),
     clean: true,
   },
   plugins: [
@@ -54,11 +45,6 @@ module.exports = {
       template: path.resolve(root, './src/pages/editor/index.ejs'),
       filename: './builder/editor/index.html',
       chunks: ['normalize.css', 'blueprint.core.css', 'blueprint.icon.css', 'editor'],
-    }),
-    new HtmlWebpackPlugin({
-      template: path.resolve(root, './src/pages/client/index.html'),
-      filename: './builder/client/index.html',
-      chunks: ['client'],
     }),
   ],
   optimization: {

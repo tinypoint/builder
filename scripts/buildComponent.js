@@ -54,7 +54,7 @@ entrys.forEach(entry => {
       console.log(`[${entry.name}] bundle end`)
       axios.put('http://localhost:8082/api/component/', {
         name: entry.name,
-        path: 'assets/' + stats.toJson().assetsByChunkName[entry.name][0]
+        path: '/builder/static/components/' + stats.toJson().assetsByChunkName[entry.name][0]
       }).then(() => {
 
         console.log(`[${entry.name}] put success`)

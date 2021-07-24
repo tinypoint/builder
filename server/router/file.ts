@@ -13,12 +13,11 @@ router.post('/api/file/upload', async (ctx: Koa.Context) => {
 
     const ext = mime.extension(file.type);
     const filename = `${file.hash}.${ext}`;
-    await moveFile(file.path, path.resolve(__dirname, '..', '..', '..', 'builder', 'public', 'assets', 'images', filename));
-    const host = 'http://localhost:8002';
+    await moveFile(file.path, path.resolve(__dirname, '..', '..', 'server', 'tos', 'builder', 'static', 'images', filename));
     ctx.body = {
       status: 0,
       data: {
-        path: `${host}/assets/images/${filename}`,
+        path: `/builder/static/images/${filename}`,
       },
     };
   } else {

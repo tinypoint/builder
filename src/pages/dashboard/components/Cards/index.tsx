@@ -72,7 +72,7 @@ class Cards extends React.Component<any, IStates> {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button href="/create">create</Button>
+            <Button href="/builder/create">create</Button>
           </CardActions>
         </Card>
 
@@ -90,7 +90,7 @@ class Cards extends React.Component<any, IStates> {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button href={`/editor/index.html?id=${page._id}`}>edit</Button>
+              <Button href={`/builder/editor?id=${page._id}`}>edit</Button>
               <Button onClick={() => this.delete(page._id)}>delete</Button>
             </CardActions>
           </Card>

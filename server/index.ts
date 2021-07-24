@@ -1,5 +1,6 @@
 import Koa from 'koa';
 import koaBody from 'koa-body';
+import serve from 'koa-static';
 import dashboard from './router/dashboard';
 import component from './router/component';
 import form from './router/form';
@@ -29,6 +30,9 @@ import mongoose from './mongoose';
     app.use(routes[i].routes())
       .use(routes[i].allowedMethods());
   }
+
+  app.use(serve(`${__dirname}/static`));
+  app.use(serve(`${__dirname}/tos`));
 
   app.listen(8082);
   console.log('start');

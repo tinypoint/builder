@@ -1,9 +1,11 @@
 {
     "watch": [
-        "src"
+      "."
     ],
     "ext": "ts,json,ejs",
     "ignore": [
+      "./tos",
+      "./static"
     ],
     "exec": "ts-node ./index.ts"
 }

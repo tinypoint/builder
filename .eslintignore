@@ -9,5 +9,6 @@ public
 commitlint.config.js
 #
 scripts
-# todo remove
-publish
+# static
+server/static
+server/tos

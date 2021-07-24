@@ -13,7 +13,7 @@ module.exports = {
       export: 'default',
     },
     filename: '[name].[contenthash].js',
-    path: path.resolve(root, 'public', 'assets'),
+    path: path.resolve(root, 'server', 'tos', 'builder', 'static', 'components'),
   },
   externals: [
     {
