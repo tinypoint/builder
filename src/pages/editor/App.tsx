@@ -74,7 +74,7 @@ class Editor extends React.Component {
   fetchComponents = async () => {
     const {
       data: { data: components },
-    } = await axios.get('/api/component/list');
+    } = await axios.get('/builder/api/component/list');
     store.dispatch({
       type: 'CHANGE_VALUE',
       payload: [{ key: 'components', value: components }],
@@ -84,7 +84,7 @@ class Editor extends React.Component {
   fetchTemplates = async () => {
     const {
       data: { data: templates },
-    } = await axios.get('/api/template/list');
+    } = await axios.get('/builder/api/template/list');
     store.dispatch({
       type: 'CHANGE_VALUE',
       payload: [{ key: 'templates', value: templates }],
@@ -113,7 +113,7 @@ class Editor extends React.Component {
 
     const {
       data: { data: meta },
-    } = await axios.get(`/api/page/info/${id}`);
+    } = await axios.get(`/builder/api/page/info/${id}`);
 
     const { pagesrecords } = meta;
 

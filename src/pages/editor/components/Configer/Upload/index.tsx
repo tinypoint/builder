@@ -24,7 +24,7 @@ export default class Upload extends React.Component<IProps> {
     if (file) {
       const formData = new FormData();
       formData.append('files', file);
-      const { data: { data: { path: url } } } = await axios.post('/api/file/upload', formData);
+      const { data: { data: { path: url } } } = await axios.post('/builder/api/file/upload', formData);
       onChange(url);
     }
   };

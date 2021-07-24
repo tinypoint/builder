@@ -3,7 +3,7 @@ import Router from 'koa-router';
 
 const router = new Router();
 
-router.get('/api/template/list', async (ctx: Koa.Context) => {
+router.get('/builder/api/template/list', async (ctx: Koa.Context) => {
   ctx.body = {
     status: 0,
     data: [],
@@ -18,7 +18,7 @@ router.get('/api/template/list', async (ctx: Koa.Context) => {
   // };
 });
 
-router.put(['/api/template/', '/api/template'], async (ctx: Koa.Context) => {
+router.put(['/builder/api/template/', '/builder/api/template'], async (ctx: Koa.Context) => {
   const { template } = ctx.request.body;
 
   if (template && template.length) {

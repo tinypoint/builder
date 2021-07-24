@@ -3,7 +3,7 @@ import Router from 'koa-router';
 
 const router = new Router();
 
-router.get('/api/page/info/:id', async (ctx: Koa.Context) => {
+router.get('/builder/api/page/info/:id', async (ctx: Koa.Context) => {
   const { id } = ctx.params;
 
   const page = await ctx.sequelize.models.pages.findOne({
@@ -19,7 +19,7 @@ router.get('/api/page/info/:id', async (ctx: Koa.Context) => {
   };
 });
 
-router.get('/api/page/list', async (ctx: Koa.Context) => {
+router.get('/builder/api/page/list', async (ctx: Koa.Context) => {
   const { skip = 0, limit = 10 } = ctx.request.query;
 
   const pages = await ctx.sequelize.models.pages.findAll({
@@ -33,7 +33,7 @@ router.get('/api/page/list', async (ctx: Koa.Context) => {
   };
 });
 
-router.post('/api/page/create', async (ctx: Koa.Context) => {
+router.post('/builder/api/page/create', async (ctx: Koa.Context) => {
   const { schema, scriptText = '' } = ctx.request.body;
 
   const page = await ctx.sequelize.models.pages.create({});
@@ -71,7 +71,7 @@ router.post('/api/page/create', async (ctx: Koa.Context) => {
   }
 });
 
-router.post('/api/page/save', async (ctx: Koa.Context) => {
+router.post('/builder/api/page/save', async (ctx: Koa.Context) => {
   const {
     schema, id, scriptText = '', layoutCss,
   } = ctx.request.body;
@@ -102,7 +102,7 @@ router.post('/api/page/save', async (ctx: Koa.Context) => {
   }
 });
 
-router.delete('/api/page/:id', async (ctx: Koa.Context) => {
+router.delete('/builder/api/page/:id', async (ctx: Koa.Context) => {
   const { id } = ctx.params;
   await ctx.mongo.Pages.deleteOne({ _id: id });
   await ctx.mongo.PagesRecords.deleteMany({ page: id });

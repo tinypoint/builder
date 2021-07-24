@@ -24,7 +24,7 @@ module.exports = {
     openPage: 'builder/dashboard',
     open: true,
     proxy: {
-      '/api': 'http://localhost:8082',
+      '/builder/api': 'http://localhost:8082',
       '/builder/static': 'http://localhost:8082',
       '/builder/objectstorage': 'http://localhost:8082',
     },

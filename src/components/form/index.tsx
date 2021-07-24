@@ -9,7 +9,7 @@ interface IFormProps {
 const Form: React.FC<IFormProps> = ({ id, children }: IFormProps) => (
   <form
     method="post"
-    action="/api/form/submit"
+    action="/builder/api/form/submit"
     id={id}
     className="form"
     data-builder-type="form"

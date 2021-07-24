@@ -3,7 +3,7 @@ import Router from 'koa-router';
 
 const router = new Router();
 
-router.get('/api/component/list', async (ctx: Koa.Context) => {
+router.get('/builder/api/component/list', async (ctx: Koa.Context) => {
   const { offset = undefined, limit = undefined } = ctx.request.query;
 
   const components = await ctx.sequelize.models.components.findAll({
@@ -17,7 +17,7 @@ router.get('/api/component/list', async (ctx: Koa.Context) => {
   };
 });
 
-router.put(['/api/component/', '/api/component'], async (ctx: Koa.Context) => {
+router.put(['/builder/api/component/', '/builder/api/component'], async (ctx: Koa.Context) => {
   const { name, path } = ctx.request.body;
 
   if (name && path) {

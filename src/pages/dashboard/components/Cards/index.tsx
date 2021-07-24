@@ -37,7 +37,7 @@ class Cards extends React.Component<any, IStates> {
     });
     const {
       data: { data },
-    } = await axios.get('/api/page/list');
+    } = await axios.get('/builder/api/page/list');
     this.setState({
       pages: data,
       loading: false,
@@ -45,7 +45,7 @@ class Cards extends React.Component<any, IStates> {
   };
 
   delete = async (id: string) => {
-    await axios.delete(`/api/page/${id}`);
+    await axios.delete(`/builder/api/page/${id}`);
     const { pages } = this.state;
     this.setState({
       pages: pages.filter((page) => page.id !== id),

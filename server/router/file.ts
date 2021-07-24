@@ -6,7 +6,7 @@ import mime from 'mime-types';
 
 const router = new Router();
 
-router.post('/api/file/upload', async (ctx: Koa.Context) => {
+router.post('/builder/api/file/upload', async (ctx: Koa.Context) => {
   const { files } = ctx.request;
   if (files && files.files) {
     const file = files.files as any;

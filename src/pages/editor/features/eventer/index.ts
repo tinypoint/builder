@@ -145,7 +145,7 @@ class Eventer {
       return _target;
     });
 
-    axios.put('/api/template', {
+    axios.put('/builder/api/template', {
       template,
     }).then((response) => {
       console.log(response);
@@ -172,7 +172,7 @@ class Eventer {
       data: {
         data: { pageid },
       },
-    } = await axios.post('/api/page/create', {
+    } = await axios.post('/builder/api/page/create', {
       schema,
       scriptText,
     });
@@ -190,7 +190,7 @@ class Eventer {
     const editing = meta.pagesrecords.filter(
       (record) => record.status === 'editing',
     )[0];
-    await axios.post('/api/page/save', {
+    await axios.post('/builder/api/page/save', {
       schema,
       layoutCss: layoutManager.getLayoutCss(),
       scriptText,

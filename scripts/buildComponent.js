@@ -52,7 +52,7 @@ entrys.forEach(entry => {
 
     compiler.close(() => {
       console.log(`[${entry.name}] bundle end`)
-      axios.put('http://localhost:8082/api/component/', {
+      axios.put('http://localhost:8082/builder/api/component/', {
         name: entry.name,
         path: '/builder/objectstorage/components/' + stats.toJson().assetsByChunkName[entry.name][0]
       }).then(() => {
